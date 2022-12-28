@@ -19,14 +19,14 @@ public final class Constants {
 
     public static final class DriveConstants {
         // left-to-right distance between the drivetrain wheels, should be measured from center to center AND IN METERS
-        public static final double kTrackWidth = Units.inchesToMeters(27); 
+        public static final double kTrackWidth = 0.52; 
         // front-back distance between drivetrain wheels, should be measured from center to center AND IN METERS 
-        public static final double kWheelBase = Units.inchesToMeters(32.375);
+        public static final double kWheelBase = 0.625;
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-                new Translation2d(kWheelBase / 2, -kTrackWidth / 2), //front left
-                new Translation2d(kWheelBase / 2, kTrackWidth / 2), //front right
-                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2), //back left
-                new Translation2d(-kWheelBase / 2, kTrackWidth / 2)); //backright
+                new Translation2d(kWheelBase / 2, kTrackWidth / 2), //front left
+                new Translation2d(kWheelBase / 2, -kTrackWidth / 2), //front right
+                new Translation2d(-kWheelBase / 2, kTrackWidth / 2), //back left
+                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); //backright
 
         // REPLACE ALL PORTS
         public static final int kFrontLeftDriveMotorPort = 0;
@@ -45,6 +45,7 @@ public final class Constants {
         public static final boolean kFrontRightTurningEncoderReversed = true;
         public static final boolean kBackRightTurningEncoderReversed = true;
 
+        // TODO review reversal constants.
         public static final boolean kFrontLeftDriveEncoderReversed = true;
         public static final boolean kBackLeftDriveEncoderReversed = true;
         public static final boolean kFrontRightDriveEncoderReversed = false;
@@ -71,6 +72,7 @@ public final class Constants {
 
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
+        // TODO specify units.
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3; // REPLACE and test?
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3; // REPLACE and test?
     }
