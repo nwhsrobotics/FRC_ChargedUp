@@ -26,8 +26,9 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(m_joy0, 7).whenPressed(() -> swerveSubsystem.zeroHeading()); //back button zeroes gyro to reset if robot drifts
+        new JoystickButton(m_joy0, 9).whenPressed(() -> swerveSubsystem.zeroHeading()); //back button zeroes gyro to reset if robot drifts
         new JoystickButton(m_joy0, 8).whenPressed(() -> swerveSubsystem.switchTank()); //MENU/start toggles between tank and swerve
+        new JoystickButton(m_joy0, 7).whenPressed(() -> swerveSubsystem.switchCar());
         new JoystickButton(m_joy0, 5).whileHeld(new SwerveJoystickCornerCmd(swerveSubsystem, m_joy0)); // hold left bumper to drift around a corner
         // choose corner with left joystick, rotate with right
     }

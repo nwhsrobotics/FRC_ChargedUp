@@ -20,6 +20,7 @@ import frc.robot.Constants.DriveConstants;
 public class SwerveSubsystem extends SubsystemBase {
     public static final double MAX_VOLTAGE = 12.0; // cap to reduce speed (RIP REDLINE)
     public boolean isTank = false;
+    public boolean isCar = false;
     public List<String> offsetList;
     //CREATE SwerveModules
     public final SwerveModule frontLeft;
@@ -83,9 +84,11 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void switchTank() {
-        // TODO put shuffleboard indicator here.
         isTank = !isTank;
-        //System.out.println("switched");
+    }
+
+    public void switchCar() {
+        isCar = !isCar;
     }
 
     public double getHeading() {
