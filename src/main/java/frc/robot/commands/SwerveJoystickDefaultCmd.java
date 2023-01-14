@@ -4,13 +4,16 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -19,6 +22,7 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
     private final SwerveSubsystem swerveSubsystem;
     private final XboxController controller;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+    private final PIDController carPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
 
     public SwerveJoystickDefaultCmd(SwerveSubsystem swerveSubsystem, XboxController controller) {
         this.swerveSubsystem = swerveSubsystem;
@@ -68,6 +72,24 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
             SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
             swerveSubsystem.setModuleStates(moduleStates);
+        }
+        else if (swerveSubsystem.isCar) {
+            carPidController.enableContinuousInput(-Math.PI/4, Math.PI/4);
+            double fwdSpeed = controller.getRightTriggerAxis() > OIConstants.kDeadband ? controller.getRightTriggerAxis() : 0.0;
+            double bwdSpeed = controller.getLeftTriggerAxis() > OIConstants.kDeadband ? -controller.getLeftTriggerAxis() : 0.0;
+            double driveSpd = fwdSpeed + bwdSpeed;
+            double turn = Math.abs(controller.getLeftX()) > OIConstants.kDeadband ? controller.getLeftX() : 0.0;
+            Rotation2d turnAngle = new Rotation2d((Math.PI / 4) * turn );
+
+            swerveSubsystem.backLeft.driveMotor.set(driveSpd);
+            swerveSubsystem.backRight.driveMotor.set(driveSpd);
+            swerveSubsystem.frontLeft.driveMotor.set(driveSpd);
+            swerveSubsystem.frontRight.driveMotor.set(driveSpd); 
+
+            swerveSubsystem.frontLeft.turningMotor.set(carPidController.calculate(swerveSubsystem.frontLeft.getTurningPosition(), turnAngle.getRadians()));
+            swerveSubsystem.frontRight.turningMotor.set(carPidController.calculate(swerveSubsystem.frontRight.getTurningPosition(), turnAngle.getRadians()));
+            swerveSubsystem.backLeft.turningMotor.set(carPidController.calculate(swerveSubsystem.backLeft.getTurningPosition(), new Rotation2d(0).getRadians()));
+            swerveSubsystem.backRight.turningMotor.set(carPidController.calculate(swerveSubsystem.backRight.getTurningPosition(), new Rotation2d(0).getRadians()));
         }
         else {
             System.out.println("tank");
