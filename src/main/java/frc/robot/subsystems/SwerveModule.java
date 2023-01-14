@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import com.ctre.phoenix.sensors.CANCoder;
 
 public class SwerveModule {
     public final CANSparkMax driveMotor;
@@ -22,7 +23,7 @@ public class SwerveModule {
 
     private final PIDController turningPidController;
 
-    // private final AnalogInput absoluteEncoder;
+    private final CANCoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad;
 
@@ -31,7 +32,7 @@ public class SwerveModule {
 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
-        // absoluteEncoder = new AnalogInput(absoluteEncoderId);
+        absoluteEncoder = new CANCoder(absoluteEncoderId);
 
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
@@ -79,12 +80,7 @@ public class SwerveModule {
     }
 
     public double getAbsoluteEncoderRad() {
-        // FIXME absoluteEncoder refs.
-        // double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
-        double angle = 0;
-        angle *= 2.0 * Math.PI; // multiply by 360 to get the angle in degrees
-        angle -= absoluteEncoderOffsetRad;
-        return angle * (absoluteEncoderReversed ? -1.0 : 1.0); //shorthand for if the encoder is reversed, multiply by -1, else do nothing (multiply by 1)
+        return absoluteEncoder.getPosition() * (Math.PI / 180);
     }
 
     public void resetEncoders() {
