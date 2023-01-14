@@ -4,6 +4,12 @@
 
 package frc.robot;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -28,10 +34,24 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        List<String> offsetsList = new ArrayList<String>();
+        try {
+            File myObj = new File("/home/lvuser/offsets.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                offsetsList.add(myReader.nextLine());
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            offsetsList.add("0");
+            offsetsList.add("0");
+            offsetsList.add("0");
+            offsetsList.add("0");
+        }
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our
         // autonomous chooser on the dashboard.
-        m_robotContainer = new RobotContainer();
+        m_robotContainer = new RobotContainer(offsetsList);
     }
 
     /**

@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.List;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -10,12 +12,16 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
 
-    private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-    private final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem);
+    private final SwerveSubsystem swerveSubsystem;
+    private final SwerveAuto autoCmd;
     private final XboxController m_joy0 = new XboxController(0);
+    private final List<String> offsetsList;
 
-    public RobotContainer() {
+    public RobotContainer(List<String> offsets) {
+        this.offsetsList = offsets;
+        swerveSubsystem = new SwerveSubsystem(this.offsetsList);
         swerveSubsystem.setDefaultCommand(new SwerveJoystickDefaultCmd(swerveSubsystem, m_joy0));
+        autoCmd = new SwerveAuto(swerveSubsystem);
         configureButtonBindings();
     }
 
