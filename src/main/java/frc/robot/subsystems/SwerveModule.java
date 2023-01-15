@@ -2,17 +2,14 @@ package frc.robot.subsystems;
 
 
 import com.revrobotics.RelativeEncoder;
+import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
-import com.ctre.phoenix.sensors.CANCoder;
 
 public class SwerveModule {
     public final CANSparkMax driveMotor;
@@ -23,6 +20,7 @@ public class SwerveModule {
 
     private final PIDController turningPidController;
 
+    // private final AnalogInput absoluteEncoder;
     private final CANCoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad;
@@ -80,7 +78,9 @@ public class SwerveModule {
     }
 
     public double getAbsoluteEncoderRad() {
-        return absoluteEncoder.getPosition() * (Math.PI / 180);
+        double angle = absoluteEncoder.getAbsolutePosition() * (Math.PI / 180.0);
+        angle -= absoluteEncoderOffsetRad;
+        return angle * (absoluteEncoderReversed ? -1.0 : 1.0); //shorthand for if the encoder is reversed, multiply by -1, else do nothing (multiply by 1)
     }
 
     public void resetEncoders() {

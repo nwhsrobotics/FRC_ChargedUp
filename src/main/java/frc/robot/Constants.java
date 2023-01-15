@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 //Most values are from SDS SwerveLib setup for MK4_L2
 public final class Constants {
     public static final class ModuleConstants {
@@ -62,17 +61,16 @@ public final class Constants {
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
         //FOR ALL OFFSETS: turn wheels until they become straight, replace with the value of encoderss
-        
-        public static double kFrontLeftDriveAbsoluteEncoderOffsetRad = 7.076253374516463; // REPLACE
-        public static double kBackLeftDriveAbsoluteEncoderOffsetRad = 8.58722445058382; // REPLACE
-        public static double kFrontRightDriveAbsoluteEncoderOffsetRad = 8.519729295916852; // REPLACE
-        public static double kBackRightDriveAbsoluteEncoderOffsetRad = 3.950000528805526; // REPLACE
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0; // REPLACE
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0; // REPLACE
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0; // REPLACE
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0; // REPLACE
 
-        public static final double kPhysicalMaxSpeedMetersPerSecond = 6380.0 / 60.0 * (ModuleConstants.kDriveMotorGearRatio) * ModuleConstants.kWheelDiameterMeters * Math.PI * 2; // set up for Falcons to drive
-        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond / Math.hypot(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0 * 3); //adapted from SDS
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 6380.0 / 60.0 * (ModuleConstants.kDriveMotorGearRatio) * ModuleConstants.kWheelDiameterMeters * Math.PI; // set up for Falcons to drive
+        public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond / Math.hypot(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0); //adapted from SDS
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
-        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
+        public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond;
         // TODO specify units.
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3; // REPLACE and test?
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3; // REPLACE and test?
