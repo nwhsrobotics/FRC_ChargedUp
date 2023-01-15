@@ -1,11 +1,5 @@
 package frc.robot.subsystems;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -20,54 +14,47 @@ import frc.robot.Constants.DriveConstants;
 public class SwerveSubsystem extends SubsystemBase {
     public static final double MAX_VOLTAGE = 12.0; // cap to reduce speed (RIP REDLINE)
     public boolean isTank = false;
-    public boolean isCar = false;
-    public List<String> offsetList;
     //CREATE SwerveModules
-    public final SwerveModule frontLeft;
-    public final SwerveModule frontRight;
-    public final SwerveModule backLeft;
-    public final SwerveModule backRight;
-
-    private final AHRS gyro = new AHRS(SPI.Port.kMXP);
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(0)); //estimates robot's pos on field
-
-    public SwerveSubsystem(List<String> offsets) {
-        offsetList = offsets;
-        frontLeft = new SwerveModule(
+    public final SwerveModule frontLeft = new SwerveModule(
             DriveConstants.kFrontLeftDriveMotorPort,
             DriveConstants.kFrontLeftTurningMotorPort,
             DriveConstants.kFrontLeftDriveEncoderReversed,
             DriveConstants.kFrontLeftTurningEncoderReversed,
             DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
-            Integer.valueOf(offsetList.get(1)),
+            DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
 
-        frontRight = new SwerveModule(
+    public final SwerveModule frontRight = new SwerveModule(
             DriveConstants.kFrontRightDriveMotorPort,
             DriveConstants.kFrontRightTurningMotorPort,
             DriveConstants.kFrontRightDriveEncoderReversed,
             DriveConstants.kFrontRightTurningEncoderReversed,
             DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
-            Integer.valueOf(offsetList.get(2)),
+            DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
 
-        backLeft = new SwerveModule(
+    public final SwerveModule backLeft = new SwerveModule(
             DriveConstants.kBackLeftDriveMotorPort,
             DriveConstants.kBackLeftTurningMotorPort,
             DriveConstants.kBackLeftDriveEncoderReversed,
             DriveConstants.kBackLeftTurningEncoderReversed,
             DriveConstants.kBackLeftDriveAbsoluteEncoderPort,
-            Integer.valueOf(offsetList.get(3)),
+            DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
 
-        backRight = new SwerveModule(
+    public final SwerveModule backRight = new SwerveModule(
             DriveConstants.kBackRightDriveMotorPort,
             DriveConstants.kBackRightTurningMotorPort,
             DriveConstants.kBackRightDriveEncoderReversed,
             DriveConstants.kBackRightTurningEncoderReversed,
             DriveConstants.kBackRightDriveAbsoluteEncoderPort,
-            Integer.valueOf(offsetList.get(4)),
+            DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
+
+    private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(0)); //estimates robot's pos on field
+
+    public SwerveSubsystem() {
         // if robot loop dies, look here for potential threading conflicts.
         new Thread(() -> { // delays navX recalibration by 1s as it will be busy recalibrating, placed on a new thread to prevent interruption
             try {
@@ -84,11 +71,9 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void switchTank() {
+        // TODO put shuffleboard indicator here.
         isTank = !isTank;
-    }
-
-    public void switchCar() {
-        isCar = !isCar;
+        //System.out.println("switched");
     }
 
     public double getHeading() {
@@ -119,6 +104,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void stopModules() {
+        // TODO make sure thread dies.
         frontLeft.stop();
         frontRight.stop();
         backLeft.stop();
