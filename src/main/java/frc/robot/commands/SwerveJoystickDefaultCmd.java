@@ -37,7 +37,7 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
             // Left joystick controls horizontal movement (moving left joystick left and right moves the robot left and right)
             // moving left joystick up and down moves the robot up and down
             // Right joystick controls rotation (moving right joystick left and right rotates the robot left and right)
-            double xSpeed = -controller.getLeftY(); // pushing up on the joystick means we want the robot to move forward, so y axis is x component
+            double xSpeed = controller.getLeftY(); // pushing up on the joystick means we want the robot to move forward, so y axis is x component
             double ySpeed = controller.getLeftX();
             double turningSpeed = controller.getRightX();
 

@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -99,6 +101,14 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
+        SmartDashboard.putNumber("fl abs", m_robotContainer.swerveSubsystem.frontLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("fr abs", m_robotContainer.swerveSubsystem.frontRight.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("bl abs", m_robotContainer.swerveSubsystem.backLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("br abs", m_robotContainer.swerveSubsystem.backRight.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("fl rel", m_robotContainer.swerveSubsystem.frontLeft.getTurningPosition());
+        SmartDashboard.putNumber("fr rel", m_robotContainer.swerveSubsystem.frontRight.getTurningPosition());
+        SmartDashboard.putNumber("bl rel", m_robotContainer.swerveSubsystem.backLeft.getTurningPosition());
+        SmartDashboard.putNumber("br rel", m_robotContainer.swerveSubsystem.backRight.getTurningPosition());
     }
 
     @Override
