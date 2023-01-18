@@ -10,7 +10,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
 
-    private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+    public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     private final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem);
     private final XboxController m_joy0 = new XboxController(0);
 

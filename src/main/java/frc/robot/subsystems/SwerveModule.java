@@ -48,8 +48,9 @@ public class SwerveModule {
  
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI); //the wheels can rotate in a full circle
-
         resetEncoders();
+        turningMotor.set(turningPidController.calculate(getAbsoluteEncoderRad(), 0));
+
     }
 
     public double getDrivePosition() {
