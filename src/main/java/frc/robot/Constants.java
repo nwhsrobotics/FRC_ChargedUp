@@ -13,7 +13,8 @@ public final class Constants {
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-        public static final double kPTurning = .5; // P constant for turning, REPLACE with testing
+        public static final double kPTurning = .575; // P constant for turning, REPLACE with testing
+        public static final double kITurning = 0.48;
     }
 
     public static final class DriveConstants {
