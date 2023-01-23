@@ -62,10 +62,10 @@ public final class Constants {
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
         //FOR ALL OFFSETS: turn wheels until they become straight, replace with the value of encoderss
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 2.655320743830045;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.226272544326379;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 3.749049045592507;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 2.0586022173425307;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad =  5.120428 + Math.PI/2; //2.655320743830045;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 3.621729 + Math.PI/2; //5.226272544326379;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 5.352059 + Math.PI/2; //3.749049045592507;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 3.630932 + Math.PI/2; //2.0586022173425307;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 6380.0 / 60.0 * (ModuleConstants.kDriveMotorGearRatio) * ModuleConstants.kWheelDiameterMeters * Math.PI; // set up for Falcons to drive
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond / Math.hypot(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0); //adapted from SDS
