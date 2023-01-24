@@ -101,10 +101,10 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        SmartDashboard.putNumber("fl abs", m_robotContainer.swerveSubsystem.frontLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("fr abs", m_robotContainer.swerveSubsystem.frontRight.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("bl abs", m_robotContainer.swerveSubsystem.backLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("br abs", m_robotContainer.swerveSubsystem.backRight.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("fl abs", m_robotContainer.swerveSubsystem.frontLeft.getAbsoluteEncoderRadRaw());
+        SmartDashboard.putNumber("fr abs", m_robotContainer.swerveSubsystem.frontRight.getAbsoluteEncoderRadRaw());
+        SmartDashboard.putNumber("bl abs", m_robotContainer.swerveSubsystem.backLeft.getAbsoluteEncoderRadRaw());
+        SmartDashboard.putNumber("br abs", m_robotContainer.swerveSubsystem.backRight.getAbsoluteEncoderRadRaw());
         SmartDashboard.putNumber("fl rel", m_robotContainer.swerveSubsystem.frontLeft.getTurningPosition());
         SmartDashboard.putNumber("fr rel", m_robotContainer.swerveSubsystem.frontRight.getTurningPosition());
         SmartDashboard.putNumber("bl rel", m_robotContainer.swerveSubsystem.backLeft.getTurningPosition());

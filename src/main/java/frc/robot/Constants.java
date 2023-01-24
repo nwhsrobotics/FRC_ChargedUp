@@ -48,8 +48,8 @@ public final class Constants {
         // redundant, ignore.
         public static final boolean kFrontLeftDriveEncoderReversed = false;
         public static final boolean kBackLeftDriveEncoderReversed = false;
-        public static final boolean kFrontRightDriveEncoderReversed = true;
-        public static final boolean kBackRightDriveEncoderReversed = true;
+        public static final boolean kFrontRightDriveEncoderReversed = false;
+        public static final boolean kBackRightDriveEncoderReversed = false;
 
         public static final int kFrontLeftDriveAbsoluteEncoderPort = 23;
         public static final int kBackLeftDriveAbsoluteEncoderPort = 22;
@@ -62,10 +62,10 @@ public final class Constants {
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
         //FOR ALL OFFSETS: turn wheels until they become straight, replace with the value of encoderss
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 2.655320743830045;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.226272544326379;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 3.749049045592507;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 2.0586022173425307;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad =  2.66; //2.655320743830045;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.24; //5.226272544326379;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.61; //3.749049045592507;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 5.20; //2.0586022173425307;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 6380.0 / 60.0 * (ModuleConstants.kDriveMotorGearRatio) * ModuleConstants.kWheelDiameterMeters * Math.PI; // set up for Falcons to drive
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond / Math.hypot(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0); //adapted from SDS
