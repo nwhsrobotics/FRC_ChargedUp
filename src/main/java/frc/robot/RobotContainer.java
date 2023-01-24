@@ -12,7 +12,7 @@ public class RobotContainer {
 
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     private final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem);
-    private final XboxController m_joy0 = new XboxController(2);
+    private final XboxController m_joy0 = new XboxController(0);
 
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickDefaultCmd(swerveSubsystem, m_joy0));

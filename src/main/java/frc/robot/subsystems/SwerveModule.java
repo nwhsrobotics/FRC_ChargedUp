@@ -78,10 +78,24 @@ public class SwerveModule {
         return turningEncoder.getVelocity();
     }
 
-    public double getAbsoluteEncoderRad() {
+    public double getAbsoluteEncoderRadRaw() {
         double angle = absoluteEncoder.getAbsolutePosition() * (Math.PI / 180.0);
+        return angle; //shorthand for if the encoder is reversed, multiply by -1, else do nothing (multiply by 1)
+    }
+
+    public double getAbsoluteEncoderRad() {
+        double angle = this.getAbsoluteEncoderRadRaw();
         angle -= absoluteEncoderOffsetRad;
-        return angle * (absoluteEncoderReversed ? -1.0 : 1.0); //shorthand for if the encoder is reversed, multiply by -1, else do nothing (multiply by 1)
+        angle = angle * (absoluteEncoderReversed ? -1.0 : 1.0);
+
+        if (angle > 2*Math.PI) {
+            angle -= 2 *Math.PI;
+        }
+
+        if (angle < 0) {
+            angle += 2 * Math.PI;
+        }
+        return angle;
     }
 
     public void resetEncoders() {
