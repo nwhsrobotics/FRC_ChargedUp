@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -33,7 +34,9 @@ public class SwerveModule {
         absoluteEncoder = new CANCoder(absoluteEncoderId);
 
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
+        driveMotor.setIdleMode(IdleMode.kBrake);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
+        turningMotor.setIdleMode(IdleMode.kBrake);
 
         driveMotor.setInverted(driveMotorReversed);
         turningMotor.setInverted(turningMotorReversed);
