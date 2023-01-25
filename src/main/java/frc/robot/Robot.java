@@ -109,6 +109,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("fr rel", m_robotContainer.swerveSubsystem.frontRight.getTurningPosition());
         SmartDashboard.putNumber("bl rel", m_robotContainer.swerveSubsystem.backLeft.getTurningPosition());
         SmartDashboard.putNumber("br rel", m_robotContainer.swerveSubsystem.backRight.getTurningPosition());
+        SmartDashboard.putNumber("gyro", m_robotContainer.swerveSubsystem.gyro.getAngle());
     }
 
     @Override
