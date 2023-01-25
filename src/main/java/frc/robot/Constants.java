@@ -96,7 +96,7 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final double kDeadband = 0.05; //deadband on controller
+        public static final double kDeadband = 0.1; //deadband on controller
         public static final double kSlowdownFactor = 0.5; // factor to slow speed by in precision mode.
     }
 }
