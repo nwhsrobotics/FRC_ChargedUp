@@ -31,8 +31,7 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
     @Override
     public void execute() {
         if (!swerveSubsystem.isTank) {
-            //System.out.println("default swerve");
-            // joystick inputs
+            double speedCoefficient = controller.getLeftStickButton() ? 1 : OIConstants.kSlowdownFactor;
 
             // Left joystick controls horizontal movement (moving left joystick left and right moves the robot left and right)
             // moving left joystick up and down moves the robot up and down
@@ -47,10 +46,9 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
             turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
 
             // make the driving smoother with slew rate limiters (RIP REDLINE)
-            xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-            ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-            turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-            System.out.println(xSpeed + " " + ySpeed + " " + turningSpeed);
+            xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * speedCoefficient;
+            ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * speedCoefficient;
+            turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond * speedCoefficient;
             ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                         xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
 
