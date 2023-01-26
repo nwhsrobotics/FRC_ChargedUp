@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
-    public static final double MAX_VOLTAGE = 12.0; // cap to reduce speed (RIP REDLINE)
-    public boolean isTank = false;
     //CREATE SwerveModules
     public final SwerveModule frontLeft = new SwerveModule(
             DriveConstants.kFrontLeftDriveMotorPort,
@@ -51,11 +49,10 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
-    public final AHRS gyro = new AHRS(SPI.Port.kMXP);
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(0)); //estimates robot's pos on field
+    public final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(0));
 
     public SwerveSubsystem() {
-        // if robot loop dies, look here for potential threading conflicts.
         new Thread(() -> { // delays navX recalibration by 1s as it will be busy recalibrating, placed on a new thread to prevent interruption
             try {
                 Thread.sleep(1000);
@@ -68,12 +65,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void zeroHeading() {
         gyro.reset();
-    }
-
-    public void switchTank() {
-        // TODO put shuffleboard indicator here.
-        isTank = !isTank;
-        //System.out.println("switched");
     }
 
     public double getHeading() {
@@ -104,7 +95,6 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void stopModules() {
-        // TODO make sure thread dies.
         frontLeft.stop();
         frontRight.stop();
         backLeft.stop();
@@ -114,10 +104,6 @@ public class SwerveSubsystem extends SubsystemBase {
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond); //scales all speeds down instead of truncating them if over max
         frontLeft.setDesiredState(desiredStates[0]);
-        if(!isTank) {
-            System.out.println("Front Left Drive: " + frontLeft.getDrivePower());
-            System.out.println("Front Left Turn: " + frontLeft.getTurnPower());
-        }
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
