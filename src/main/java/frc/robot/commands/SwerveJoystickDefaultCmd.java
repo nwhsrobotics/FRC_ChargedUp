@@ -7,6 +7,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -16,6 +17,7 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
     private final SwerveSubsystem swerveSubsystem;
     private final Joystick controller;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+    private final double preciseSpd = Constants.OIConstants.kPreciseSpdMetersPerSecond;
 
     public SwerveJoystickDefaultCmd(SwerveSubsystem swerveSubsystem, Joystick controller) {
         this.swerveSubsystem = swerveSubsystem;
@@ -32,7 +34,54 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
 
     @Override
     public void execute() {
-        if (controller.getRawButton(3) || controller.getRawButton(4) || controller.getRawButton(5) || controller.getRawButton(6)) {
+        //ultra precise mode
+        if (controller.getPOV() != -1) {
+            int POV = controller.getPOV();
+            ChassisSpeeds chassisSpeeds;
+            if (!controller.getTrigger()) {
+                if(POV == 0) {
+                    chassisSpeeds = new ChassisSpeeds(preciseSpd,0,0);
+                }
+                else if (POV == 45) {
+                    chassisSpeeds = new ChassisSpeeds(preciseSpd, preciseSpd, 0);
+                }
+                else if (POV == 90) {
+                    chassisSpeeds = new ChassisSpeeds(0,preciseSpd,0);
+                }
+                else if (POV == 135) {
+                    chassisSpeeds = new ChassisSpeeds(-preciseSpd, preciseSpd, 0);
+                }
+                else if (POV == 180) {
+                    chassisSpeeds = new ChassisSpeeds(-preciseSpd, 0, 0);
+                }
+                else if (POV == 225) {
+                    chassisSpeeds = new ChassisSpeeds(-preciseSpd, -preciseSpd, 0);
+                }
+                else if (POV == 270) {
+                    chassisSpeeds = new ChassisSpeeds(0, -preciseSpd, 0);
+                }
+                else {
+                    chassisSpeeds = new ChassisSpeeds(preciseSpd, -preciseSpd, 0);
+                }
+            }
+            else {
+                if (POV == 45 || POV == 90 || POV == 135) {
+                    chassisSpeeds = new ChassisSpeeds(0,0, preciseSpd);
+                }
+                else if (POV == 225 || POV == 270 || POV == 315) {
+                    chassisSpeeds = new ChassisSpeeds(0, 0, -preciseSpd);
+                }
+                else {
+                    chassisSpeeds = new ChassisSpeeds();
+                }
+            }
+            SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+
+            swerveSubsystem.setModuleStates(moduleStates);
+        }
+        //corner swerve!
+        //TODO check if these are the right corners
+        else if (controller.getRawButton(3) || controller.getRawButton(4) || controller.getRawButton(5) || controller.getRawButton(6)) {
             double turningSpeed = Math.abs(controller.getTwist()) > OIConstants.kDeadband ? controller.getTwist() : 0.0;
             turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
             SwerveModuleState[] moduleStates;
@@ -52,13 +101,12 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
             }
             swerveSubsystem.setModuleStates(moduleStates);
         }
+        //regular swerve
         else {
-            double speedCoefficient = !controller.getTrigger() ? 1 : OIConstants.kSlowdownFactor;
+            // the flap on the bottom sets the speed when trigger is not held; at the bottom speed is 0.2, top 0.8
+            double speedCoefficient = !controller.getTrigger() ? 1 : (-controller.getRawAxis(3)) * 0.3 + 0.5; 
 
-            // Left joystick controls horizontal movement (moving left joystick left and right moves the robot left and right)
-            // moving left joystick up and down moves the robot up and down
-            // Right joystick controls rotation (moving right joystick left and right rotates the robot left and right)
-            double xSpeed = controller.getY(); // pushing up on the joystick means we want the robot to move forward, so y axis is x component
+            double xSpeed = controller.getY();
             double ySpeed = controller.getX();
             double turningSpeed = controller.getTwist();
 
@@ -72,7 +120,7 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
             ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * speedCoefficient;
             turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond * speedCoefficient;
             ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xSpeed, ySpeed, turningSpeed, Rotation2d.fromDegrees(swerveSubsystem.gyro.getAngle()));
+                        xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
 
             SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 

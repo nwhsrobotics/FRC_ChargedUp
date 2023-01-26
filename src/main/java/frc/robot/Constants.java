@@ -28,7 +28,6 @@ public final class Constants {
                 new Translation2d(-kWheelBase / 2, kTrackWidth / 2), //back left
                 new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); //backright
 
-        // REPLACE ALL PORTS
         public static final int kFrontLeftDriveMotorPort = 2;
         public static final int kBackLeftDriveMotorPort = 4;
         public static final int kFrontRightDriveMotorPort = 7;
@@ -39,7 +38,6 @@ public final class Constants {
         public static final int kFrontRightTurningMotorPort = 5;
         public static final int kBackRightTurningMotorPort = 11;
 
-        // set TurningEncoderReverseds to true if using MK4 (I think)?
         public static final boolean kFrontLeftTurningEncoderReversed = false;
         public static final boolean kBackLeftTurningEncoderReversed = false;
         public static final boolean kFrontRightTurningEncoderReversed = false;
@@ -74,7 +72,7 @@ public final class Constants {
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond;
         // TODO specify units.
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3; // REPLACE and test?
-        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3; // REPLACE and test?
+        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 1.5; // REPLACE and test?
     }
 
     public static final class AutoConstants {
@@ -96,7 +94,8 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final double kDeadband = 0.1; //deadband on controller
-        public static final double kSlowdownFactor = 0.5; // factor to slow speed by in precision mode.
+        public static final double kDeadband = 0.05; //deadband on controller
+        public static final int kJoystickPort = 2;
+        public static final double kPreciseSpdMetersPerSecond = 0.5;
     }
 }
