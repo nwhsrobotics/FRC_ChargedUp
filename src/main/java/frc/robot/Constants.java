@@ -13,8 +13,8 @@ public final class Constants {
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-        public static final double kPTurning = .575; // P constant for turning, REPLACE with testing
-        public static final double kITurning = 0.48;
+        public static final double kPTurning = .525; // P constant for turning, REPLACE with testing
+        public static final double kITurning = 0.;
     }
 
     public static final class DriveConstants {
@@ -94,7 +94,7 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final double kDeadband = 0.05; //deadband on controller
+        public static final double kDeadband = 0.1; //deadband on controller
         public static final int kJoystickPort = 2;
         public static final double kPreciseSpdMetersPerSecond = 0.5;
     }
