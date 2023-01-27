@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SwerveAuto;
 import frc.robot.commands.SwerveJoystickDefaultCmd;
@@ -18,6 +19,6 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(m_joy0, 12).whenPressed(() -> swerveSubsystem.zeroHeading()); //button 12 zeroes gyro to reset if robot drifts
+        new JoystickButton(m_joy0, 12).onTrue(new InstantCommand(() -> swerveSubsystem.gyro.reset())); //button 12 zeroes gyro to reset if robot drifts
     }
 }
