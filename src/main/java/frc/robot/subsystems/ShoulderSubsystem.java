@@ -8,9 +8,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShoulderSubsystem extends SubsystemBase {
-  private final double kp = 1.0;
-  private final double ki = 0.0;
-  private final double kd = 0.0;
   private final PIDController pidControl;
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
