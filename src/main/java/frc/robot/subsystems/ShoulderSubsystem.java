@@ -12,7 +12,7 @@ public class ShoulderSubsystem extends SubsystemBase {
   private final PIDController pidControl;
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
-  pidControl = new PIDController(0, 0, 0);
+  pidControl = new PIDController(ShoulderConstants.kp, ShoulderConstants.ki, ShoulderConstants.kd);
   }
 
   @Override
