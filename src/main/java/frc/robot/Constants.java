@@ -99,7 +99,7 @@ public final class Constants {
         public static final double kPreciseSpdMetersPerSecond = 0.5;
     }
 
-    public static final class Shouldercostants {
+    public static final class ShoulderConstants {
         public static final double kp = 1.0;
         public static final double ki = 0.0;
         public static final double kd = 0.0;
