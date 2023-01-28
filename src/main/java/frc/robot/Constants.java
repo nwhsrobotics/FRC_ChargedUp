@@ -7,14 +7,14 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 public final class Constants {
     public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = 0.10033; // set up for MK4(i)
-        public static final double kDriveMotorGearRatio = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0); // REPLACE (set up for MK4(i) L2)
-        public static final double kTurningMotorGearRatio = (15.0 / 32.0) * (10.0 / 60.0); // REPLACE (set up for MK4 L2)
+        public static final double kDriveMotorGearRatio = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0); // (set up for MK4(i) L2)
+        public static final double kTurningMotorGearRatio = (15.0 / 32.0) * (10.0 / 60.0); // (set up for MK4 L2)
         public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-        public static final double kPTurning = .575; // P constant for turning, REPLACE with testing
-        public static final double kITurning = 0.48;
+        public static final double kPTurning = .525; // P constant for turning
+        public static final double kITurning = 0.;
     }
 
     public static final class DriveConstants {
@@ -71,13 +71,13 @@ public final class Constants {
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond;
         // TODO specify units.
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3; // REPLACE and test?
-        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 1.5; // REPLACE and test?
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
+        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 1.5;
     }
 
     public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4; // obviously we don't want it to go warp speed in auto
-        public static final double kMaxAngularSpeedRadiansPerSecond = DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10; // slow and steady turns wins the comp
+        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
+        public static final double kMaxAngularSpeedRadiansPerSecond = DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
         
         // test and REPLACE all of these!!
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
@@ -94,7 +94,7 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final double kDeadband = 0.05; //deadband on controller
+        public static final double kDeadband = 0.1; //deadband on controller
         public static final int kJoystickPort = 2;
         public static final double kPreciseSpdMetersPerSecond = 0.5;
     }

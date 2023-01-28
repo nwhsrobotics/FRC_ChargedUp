@@ -20,5 +20,6 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         new JoystickButton(m_joy0, 12).onTrue(new InstantCommand(() -> swerveSubsystem.gyro.reset())); //button 12 zeroes gyro to reset if robot drifts
+        new JoystickButton(m_joy0, 2).onTrue(new InstantCommand(() -> swerveSubsystem.swtichFR())); //button on the side of stick toggles field relative (default is true)
     }
 }
