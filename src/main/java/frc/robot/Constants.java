@@ -1,4 +1,5 @@
 package frc.robot;
+
 // IMPORTANT: SET UP FOR FALCONS TO DRIVE AND NEOS TO TURN
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -98,5 +99,19 @@ public final class Constants {
         public static final double kDeadband = 0.1; //deadband on controller
         public static final int kJoystickPort = 2;
         public static final double kPreciseSpdMetersPerSecond = 0.5;
+    }
+
+    public static final class ShoulderConstants {
+        public static final double kp = 1.0;
+        public static final double ki = 0.0;
+        public static final double kd = 0.0;
+        public static final int CanID20 = 20;
+    }
+    public static final class WristConstants {
+        public static final double kp = 1.0;
+        public static final double ki = 0.0;
+        public static final double kd = 0.0;
+        public static final int CANID12 = 12;
+        public static final int CANID13 = 13;
     }
 }
