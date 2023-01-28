@@ -20,7 +20,7 @@ public class SwerveModule {
     private final RelativeEncoder driveEncoder;
     private final RelativeEncoder turningEncoder; // built in NEO encoder (steering)
 
-    private final PIDController turningPidController;
+    public final PIDController turningPidController;
 
     private final CANCoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
@@ -44,12 +44,15 @@ public class SwerveModule {
         driveEncoder = driveMotor.getEncoder();
         turningEncoder = turningMotor.getEncoder();
 
+        turningEncoder.setPosition(getAbsoluteEncoderRad());
+
         driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
         driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
         turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
         turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
  
         turningPidController = new PIDController(ModuleConstants.kPTurning, ModuleConstants.kITurning, 0);
+        turningPidController.setTolerance(ModuleConstants.kPTolerance);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI); //the wheels can rotate in a full circle
         resetEncoders();
         turningMotor.set(turningPidController.calculate(getAbsoluteEncoderRad(), 0));

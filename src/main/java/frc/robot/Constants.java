@@ -13,15 +13,16 @@ public final class Constants {
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-        public static final double kPTurning = .525; // P constant for turning
+        public static final double kPTurning = .50; // P constant for turning
+        public static final double kPTolerance = 2.5 * (Math.PI/180);
         public static final double kITurning = 0.;
     }
 
     public static final class DriveConstants {
         // left-to-right distance between the drivetrain wheels, should be measured from center to center AND IN METERS
-        public static final double kTrackWidth = 0.52; 
+        public static final double kTrackWidth = 0.52; //0.52 
         // front-back distance between drivetrain wheels, should be measured from center to center AND IN METERS 
-        public static final double kWheelBase = 0.625;
+        public static final double kWheelBase = 0.625; //0.625
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
                 new Translation2d(kWheelBase / 2, kTrackWidth / 2), //front left
                 new Translation2d(kWheelBase / 2, -kTrackWidth / 2), //front right
@@ -82,9 +83,9 @@ public final class Constants {
         // test and REPLACE all of these!!
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
-        public static final double kPXController = 1.5;
-        public static final double kPYController = 1.5;
-        public static final double kPThetaController = 3;
+        public static final double kPXController = 0.35;
+        public static final double kPYController = 0.35;
+        public static final double kPThetaController = 0.7;
 
         //creates a TrapezoidProfile to determine setpoints for autonomous
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =

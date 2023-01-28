@@ -84,6 +84,7 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
+        System.out.println(m_robotContainer.swerveSubsystem.getPose());
     }
 
     @Override
@@ -100,6 +101,7 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
+        System.out.println(m_robotContainer.swerveSubsystem.getPose());
         SmartDashboard.putNumber("fl abs", m_robotContainer.swerveSubsystem.frontLeft.getAbsoluteEncoderRadRaw());
         SmartDashboard.putNumber("fr abs", m_robotContainer.swerveSubsystem.frontRight.getAbsoluteEncoderRadRaw());
         SmartDashboard.putNumber("bl abs", m_robotContainer.swerveSubsystem.backLeft.getAbsoluteEncoderRadRaw());
