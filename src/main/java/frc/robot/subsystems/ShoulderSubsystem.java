@@ -4,15 +4,19 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShoulderConstants;
 
 public class ShoulderSubsystem extends SubsystemBase {
+  private final CANSparkMax m_motor;
   private final PIDController pidControl;
   
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
+  m_motor = new CANSparkMax(ShoulderConstants.CanID20, CANSparkMax.MotorType.kBrushless);  
   pidControl = new PIDController(ShoulderConstants.kp, ShoulderConstants.ki, ShoulderConstants.kd);
   }
 
