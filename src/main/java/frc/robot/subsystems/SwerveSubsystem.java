@@ -92,18 +92,22 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(gyro.getRotation2d(), getModulePositions());
-        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-        SmartDashboard.putNumber("Front Left Encoder", frontLeft.getTurningPosition());
-        SmartDashboard.putNumber("Front Right Encoder", frontRight.getTurningPosition());
-        SmartDashboard.putNumber("Back Left Encoder", backLeft.getTurningPosition());
-        SmartDashboard.putNumber("Back Right Encoder", backRight.getTurningPosition());
+        for (SwerveModule module : swerveMods) {
+            if (module.isTuning) {
+                SmartDashboard.putNumber("relative encoder:", module.getTurningPosition());
+                SmartDashboard.putNumber("abs encoder", module.getAbsoluteEncoderRad());
+            }
+        }
+    }
+
+    public void straightenModules() {
+        for (SwerveModule module: swerveMods)
+            module.turningMotor.set(module.turningPidController.calculate(module.getAbsoluteEncoderRad(), 0));
     }
 
     public void stopModules() {
-        frontLeft.stop();
-        frontRight.stop();
-        backLeft.stop();
-        backRight.stop();
+        for (SwerveModule module: swerveMods)
+            module.stop();
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {

@@ -1,23 +1,9 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the
- * name of this class or
- * the package after creating this project, you must also update the
- * build.gradle file in the
- * project.
- */
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     public RobotContainer m_robotContainer;
@@ -100,15 +86,6 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        SmartDashboard.putNumber("fl abs", m_robotContainer.swerveSubsystem.frontLeft.getAbsoluteEncoderRadRaw());
-        SmartDashboard.putNumber("fr abs", m_robotContainer.swerveSubsystem.frontRight.getAbsoluteEncoderRadRaw());
-        SmartDashboard.putNumber("bl abs", m_robotContainer.swerveSubsystem.backLeft.getAbsoluteEncoderRadRaw());
-        SmartDashboard.putNumber("br abs", m_robotContainer.swerveSubsystem.backRight.getAbsoluteEncoderRadRaw());
-        SmartDashboard.putNumber("fl rel", m_robotContainer.swerveSubsystem.frontLeft.getTurningPosition());
-        SmartDashboard.putNumber("fr rel", m_robotContainer.swerveSubsystem.frontRight.getTurningPosition());
-        SmartDashboard.putNumber("bl rel", m_robotContainer.swerveSubsystem.backLeft.getTurningPosition());
-        SmartDashboard.putNumber("br rel", m_robotContainer.swerveSubsystem.backRight.getTurningPosition());
-        SmartDashboard.putNumber("gyro", m_robotContainer.swerveSubsystem.gyro.getAngle());
     }
 
     @Override

@@ -18,13 +18,15 @@ public class SwerveModule {
     public final CANSparkMax turningMotor;
 
     private final RelativeEncoder driveEncoder;
-    private final RelativeEncoder turningEncoder; // built in NEO encoder (steering)
+    public final RelativeEncoder turningEncoder; // built in NEO encoder (steering)
 
-    private final PIDController turningPidController;
+    public final PIDController turningPidController;
 
     private final CANCoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad;
+
+    public boolean isTuning = false;
 
     public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
