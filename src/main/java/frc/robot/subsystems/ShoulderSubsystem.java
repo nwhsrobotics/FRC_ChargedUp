@@ -6,12 +6,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ShoulderConstants;
 
 public class ShoulderSubsystem extends SubsystemBase {
   private final PIDController pidControl;
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
-  pidControl = new PIDController(kp, ki, kd);
+  pidControl = new PIDController(0, 0, 0);
   }
 
   @Override
