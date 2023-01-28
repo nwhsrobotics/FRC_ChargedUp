@@ -1,4 +1,7 @@
 package frc.robot;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 // IMPORTANT: SET UP FOR FALCONS TO DRIVE AND NEOS TO TURN
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -104,6 +107,5 @@ public final class Constants {
         public static final double ki = 0.0;
         public static final double kd = 0.0;
         public static final int MotorPort20 = 20;
-        public static final int MotorPort21 = 21;
 }
 }

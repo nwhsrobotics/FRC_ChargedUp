@@ -10,6 +10,7 @@ import frc.robot.Constants.ShoulderConstants;
 
 public class ShoulderSubsystem extends SubsystemBase {
   private final PIDController pidControl;
+  
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
   pidControl = new PIDController(ShoulderConstants.kp, ShoulderConstants.ki, ShoulderConstants.kd);
