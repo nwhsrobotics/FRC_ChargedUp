@@ -81,6 +81,13 @@ public class SwerveSubsystem extends SubsystemBase {
         odometer.resetPosition(gyro.getRotation2d(), getModulePositions(), pose);
     }
 
+    public void straighten() {
+        for (SwerveModule s_mod: swerveMods) {
+            s_mod.turningMotor.set(s_mod.turningPidController.calculate(s_mod.getAbsoluteEncoderRad(), 0));
+            s_mod.turningMotor.set(0);
+        }
+    }
+
     public SwerveModulePosition[] getModulePositions() {
         SwerveModulePosition[] positions = new SwerveModulePosition[4];
         for (int i = 0; i < swerveMods.length; i++) {
@@ -92,22 +99,22 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(gyro.getRotation2d(), getModulePositions());
-        for (SwerveModule module : swerveMods) {
-            if (module.isTuning) {
-                SmartDashboard.putNumber("relative encoder:", module.getTurningPosition());
-                SmartDashboard.putNumber("abs encoder", module.getAbsoluteEncoderRad());
-            }
-        }
-    }
-
-    public void straightenModules() {
-        for (SwerveModule module: swerveMods)
-            module.turningMotor.set(module.turningPidController.calculate(module.getAbsoluteEncoderRad(), 0));
+        SmartDashboard.putNumber("fl drive", frontLeft.getDrivePosition());
+        SmartDashboard.putNumber("fr drive", frontRight.getDrivePosition());
+        SmartDashboard.putNumber("bl drive", backLeft.getDrivePosition());
+        SmartDashboard.putNumber("br drive", backRight.getDrivePosition());
+        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+        SmartDashboard.putNumber("Front Left Encoder", frontLeft.getTurningPosition());
+        SmartDashboard.putNumber("Front Right Encoder", frontRight.getTurningPosition());
+        SmartDashboard.putNumber("Back Left Encoder", backLeft.getTurningPosition());
+        SmartDashboard.putNumber("Back Right Encoder", backRight.getTurningPosition());
     }
 
     public void stopModules() {
-        for (SwerveModule module: swerveMods)
-            module.stop();
+        frontLeft.stop();
+        frontRight.stop();
+        backLeft.stop();
+        backRight.stop();
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {

@@ -1,4 +1,5 @@
 package frc.robot;
+
 // IMPORTANT: SET UP FOR FALCONS TO DRIVE AND NEOS TO TURN
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -13,15 +14,16 @@ public final class Constants {
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-        public static final double kPTurning = .525; // P constant for turning
+        public static final double kPTurning = .50; // P constant for turning
+        public static final double kPTolerance = 2.5 * (Math.PI/180);
         public static final double kITurning = 0.;
     }
 
     public static final class DriveConstants {
         // left-to-right distance between the drivetrain wheels, should be measured from center to center AND IN METERS
-        public static final double kTrackWidth = 0.52; 
+        public static final double kTrackWidth = 0.52; //0.52 
         // front-back distance between drivetrain wheels, should be measured from center to center AND IN METERS 
-        public static final double kWheelBase = 0.625;
+        public static final double kWheelBase = 0.625; //0.625
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
                 new Translation2d(kWheelBase / 2, kTrackWidth / 2), //front left
                 new Translation2d(kWheelBase / 2, -kTrackWidth / 2), //front right
@@ -78,11 +80,13 @@ public final class Constants {
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
         public static final double kMaxAngularSpeedRadiansPerSecond = DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
+        
+        // test and REPLACE all of these!!
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
-        public static final double kPXController = 1.5;
-        public static final double kPYController = 1.5;
-        public static final double kPThetaController = 3;
+        public static final double kPXController = 0.35;
+        public static final double kPYController = 0.35;
+        public static final double kPThetaController = 0.45;
 
         //creates a TrapezoidProfile to determine setpoints for autonomous
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
@@ -95,5 +99,19 @@ public final class Constants {
         public static final double kDeadband = 0.1; //deadband on controller
         public static final int kJoystickPort = 2;
         public static final double kPreciseSpdMetersPerSecond = 0.5;
+    }
+
+    public static final class ShoulderConstants {
+        public static final double kp = 1.0;
+        public static final double ki = 0.0;
+        public static final double kd = 0.0;
+        public static final int CanID20 = 20;
+    }
+    public static final class WristConstants {
+        public static final double kp = 1.0;
+        public static final double ki = 0.0;
+        public static final double kd = 0.0;
+        public static final int CANID12 = 12;
+        public static final int CANID13 = 13;
     }
 }
