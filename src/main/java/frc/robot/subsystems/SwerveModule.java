@@ -22,7 +22,6 @@ public class SwerveModule {
 
     private final PIDController turningPidController;
 
-    // private final AnalogInput absoluteEncoder;
     private final CANCoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad;
@@ -61,15 +60,6 @@ public class SwerveModule {
         return driveEncoder.getPosition();
     }
 
-    //TESTING CODE
-    public double getDrivePower(){  
-        return driveMotor.get();
-    }
-
-    public double getTurnPower(){
-        return turningMotor.get();
-    }
-
     public double getTurningPosition() {
         return turningEncoder.getPosition();
     }
@@ -83,7 +73,7 @@ public class SwerveModule {
     }
 
     public double getAbsoluteEncoderRadRaw() {
-        double angle = absoluteEncoder.getAbsolutePosition() * (Math.PI / 180.0);
+        double angle = absoluteEncoder.getAbsolutePosition() * (Math.PI / 180.0); // convert degrees to radians
         return angle; //shorthand for if the encoder is reversed, multiply by -1, else do nothing (multiply by 1)
     }
 

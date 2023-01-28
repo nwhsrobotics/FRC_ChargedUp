@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -81,10 +82,10 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
         //corner swerve!
         //TODO check if these are the right corners
         else if (controller.getRawButton(3) || controller.getRawButton(4) || controller.getRawButton(5) || controller.getRawButton(6)) {
-            double turningSpeed = Math.abs(controller.getTwist()) > OIConstants.kDeadband ? controller.getTwist() : 0.0;
+            double turningSpeed = Math.abs(controller.getTwist()) > 0.15 ? controller.getTwist() : 0.0;
             turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
             SwerveModuleState[] moduleStates;
-            ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, turningSpeed, swerveSubsystem.getRotation2d());
+            ChassisSpeeds chassisSpeeds = (swerveSubsystem.isFR) ? (ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, turningSpeed, swerveSubsystem.gyro.getRotation2d())) : (ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, turningSpeed, new Rotation2d(0)));
 
             if (controller.getRawButton(5)) { //front left
                 moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds, new Translation2d(DriveConstants.kWheelBase / 2, -DriveConstants.kTrackWidth / 2));
@@ -103,7 +104,7 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
         //regular swerve
         else {
             // the flap on the bottom sets the speed when trigger is not held; at the bottom speed is 0.2, top 0.8
-            double speedCoefficient = !controller.getTrigger() ? 1 : (-controller.getRawAxis(3)) * 0.3 + 0.5; 
+            double speedCoefficient = controller.getTrigger() ? 1 : (-controller.getRawAxis(3)) * 0.3 + 0.5; 
 
             double xSpeed = controller.getY();
             double ySpeed = controller.getX();
@@ -112,14 +113,13 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
             // deadband to counter joystick drift (and driver error)
             xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
             ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
-            turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
+            turningSpeed = Math.abs(turningSpeed) > 0.15 ? turningSpeed : 0.0;
 
             // make the driving smoother with slew rate limiters (RIP REDLINE)
             xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * speedCoefficient;
             ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * speedCoefficient;
             turningSpeed = turningLimiter.calculate(turningSpeed) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond * speedCoefficient;
-            ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+            ChassisSpeeds chassisSpeeds = (swerveSubsystem.isFR) ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed, swerveSubsystem.gyro.getRotation2d()) : ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed, new Rotation2d(0));
 
             SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
