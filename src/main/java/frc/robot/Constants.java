@@ -105,5 +105,12 @@ public final class Constants {
         public static final double ki = 0.0;
         public static final double kd = 0.0;
         public static final int CanID20 = 20;
-}
+    }
+    public static final class WristConstants {
+        public static final double kp = 1.0;
+        public static final double ki = 0.0;
+        public static final double kd = 0.0;
+        public static final int CANID12 = 12;
+        public static final int CANID13 = 13;
+    }
 }
