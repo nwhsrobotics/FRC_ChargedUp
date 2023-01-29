@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.WristConstants;
@@ -11,14 +12,16 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class WristSubsystem extends SubsystemBase {
-  private final PIDController pidControl;
+  private final PIDController pidController;
 
   public WristSubsystem() {
-    CANSparkMax wristLeftMoter = new CANSparkMax(WristConstants.CANID13, MotorType.kBrushless);
-    CANSparkMax wristRightMoter = new CANSparkMax(WristConstants.CANID12, MotorType.kBrushless);
+    CANSparkMax wristLeftMotor = new CANSparkMax(WristConstants.CANID13, MotorType.kBrushless);
+    CANSparkMax wristRightMotor = new CANSparkMax(WristConstants.CANID12, MotorType.kBrushless);
 
-    pidControl = new PIDController(WristConstants.kp, WristConstants.ki, WristConstants.kd);
-
+    pidController = new PIDController(WristConstants.kp, WristConstants.ki, WristConstants.kd);
+    pidController.setP(WristConstants.kp);
+    pidController.setI(WristConstants.ki);
+    pidController.setD(WristConstants.kd);
   }
 
   @Override
