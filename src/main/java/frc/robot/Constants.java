@@ -1,8 +1,9 @@
 package frc.robot;
 
-// IMPORTANT: SET UP FOR FALCONS TO DRIVE AND NEOS TO TURN
+// IMPORTANT: SET UP FOR NEOS for both driving and turning
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 //Most values are from SDS SwerveLib setup for MK4_L2
 public final class Constants {
@@ -21,9 +22,9 @@ public final class Constants {
 
     public static final class DriveConstants {
         // left-to-right distance between the drivetrain wheels, should be measured from center to center AND IN METERS
-        public static final double kTrackWidth = 0.52; //0.52 
+        public static final double kTrackWidth = 0.52;
         // front-back distance between drivetrain wheels, should be measured from center to center AND IN METERS 
-        public static final double kWheelBase = 0.625; //0.625
+        public static final double kWheelBase = 0.625;
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
                 new Translation2d(kWheelBase / 2, kTrackWidth / 2), //front left
                 new Translation2d(kWheelBase / 2, -kTrackWidth / 2), //front right
@@ -45,7 +46,6 @@ public final class Constants {
         public static final boolean kFrontRightTurningEncoderReversed = false;
         public static final boolean kBackRightTurningEncoderReversed = false;
 
-        // redundant, ignore.
         public static final boolean kFrontLeftDriveEncoderReversed = false;
         public static final boolean kBackLeftDriveEncoderReversed = false;
         public static final boolean kFrontRightDriveEncoderReversed = false;
@@ -62,28 +62,30 @@ public final class Constants {
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
         //FOR ALL OFFSETS: turn wheels until they become straight, replace with the value of encoderss
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad =  2.66; //2.655320743830045;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.24; //5.226272544326379;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.61; //3.749049045592507;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 5.20; //2.0586022173425307;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad =  2.66;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.24;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.61;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 5.20;
 
-        public static final double kPhysicalMaxSpeedMetersPerSecond = 6380.0 / 60.0 * (ModuleConstants.kDriveMotorGearRatio) * ModuleConstants.kWheelDiameterMeters * Math.PI; // set up for Falcons to drive
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 6380.0 / 60.0 * (ModuleConstants.kDriveMotorGearRatio) * ModuleConstants.kWheelDiameterMeters * Math.PI; // set up for NEOs to drive
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond / Math.hypot(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0); //adapted from SDS
 
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond;
-        // TODO specify units.
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
-        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 1.5;
     }
 
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
         public static final double kMaxAngularSpeedRadiansPerSecond = DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
+
+        public static final TrajectoryConfig autoTrajectoryConfig =
+        new TrajectoryConfig(
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+            .setKinematics(Constants.DriveConstants.kDriveKinematics);
         
-        // test and REPLACE all of these!!
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
+        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 2;
         public static final double kPXController = 0.35;
         public static final double kPYController = 0.35;
         public static final double kPThetaController = 0.45;
@@ -96,7 +98,8 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final double kDeadband = 0.1; //deadband on controller
+        public static final double kXYDeadband = 0.1;
+        public static final double kZDeadband = 0.2;
         public static final int kJoystickPort = 2;
         public static final double kPreciseSpdMetersPerSecond = 0.5;
     }
