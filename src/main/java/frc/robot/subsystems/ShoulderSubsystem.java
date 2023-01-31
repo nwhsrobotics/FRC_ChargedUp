@@ -15,8 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // ShoulderSubsystem initializes and sets up two brushless motors and their associated encoders and PID controllers
 public class ShoulderSubsystem extends SubsystemBase {
-  // Declare two brushless motors and their associated encoders and PID
-  // controllers
+  // Declare two brushless motors and their associated encoders and PID controllers
 
   // Declare two instances of the CANSparkMax motor controller class
   private final CANSparkMax shoulderMotor1 = null;
@@ -44,8 +43,7 @@ public class ShoulderSubsystem extends SubsystemBase {
   public ShoulderSubsystem() {
     // Initialize the first motor and set its PID controller and encoder
 
-    // creating an instance of CANSparkMax for the shoulder motor with ID
-    // ShoulderCanID20
+    // creating an instance of CANSparkMax for the shoulder motor with ID ShoulderCanID20
     shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
     // checking if the shoulder motor instance is not null
     if (shoulderMotor1 != null) {
@@ -56,14 +54,12 @@ public class ShoulderSubsystem extends SubsystemBase {
       // setting the encoder position to zero
       shoulderEncoder1.setPosition(0);
 
-      // setting the P, I, and D values for the PIDController from the
-      // ShoulderConstants
+      // setting the P, I, and D values for the PIDController from the ShoulderConstants
       pidController1.setP(ShoulderConstants.kp);
       pidController1.setI(ShoulderConstants.ki);
       pidController1.setD(ShoulderConstants.kd);
 
-      // setting the IZone and FF values for the PIDController from the
-      // ShoulderConstants
+      // setting the IZone and FF values for the PIDController from the ShoulderConstants
       pidController1.setIZone(ShoulderConstants.kIz);
       pidController1.setFF(ShoulderConstants.kFFz);
 
@@ -77,8 +73,7 @@ public class ShoulderSubsystem extends SubsystemBase {
 
     // Initialize the second motor and set its PID controller and encoder
 
-    // creating an instance of CANSparkMax for the shoulder motor with ID
-    // ShoulderCanID21
+    // creating an instance of CANSparkMax for the shoulder motor with ID ShoulderCanID21
     shoulderMotor2 = new CANSparkMax(ShoulderConstants.ShoulderCanID21, CANSparkMax.MotorType.kBrushless);
 
     // checking if the shoulder motor instance is not null
@@ -90,14 +85,12 @@ public class ShoulderSubsystem extends SubsystemBase {
       // setting the encoder position to zero
       shoulderEncoder2.setPosition(0);
 
-      // setting the P, I, and D values for the PIDController from the
-      // ShoulderConstants
+      // setting the P, I, and D values for the PIDController from the ShoulderConstants
       pidController2.setP(ShoulderConstants.kp);
       pidController2.setI(ShoulderConstants.ki);
       pidController2.setD(ShoulderConstants.kd);
 
-      // setting the IZone and FF values for the PIDController from the
-      // ShoulderConstants
+      // setting the IZone and FF values for the PIDController from the ShoulderConstants
       pidController2.setIZone(ShoulderConstants.kIz);
       pidController2.setFF(ShoulderConstants.kFFz);
 
