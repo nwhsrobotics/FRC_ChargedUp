@@ -2,7 +2,6 @@ package frc.robot;
 
 import org.littletonrobotics.junction.LoggedRobot;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -71,8 +70,7 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void autonomousInit() {
-        m_robotContainer.swerveSubsystem.zeroHeading();
-        m_robotContainer.swerveSubsystem.resetOdometry(new Pose2d());
+        //m_robotContainer.swerveSubsystem.resetHeadingAndPose();
         
         m_autonomousCommand = m_robotContainer.autoCmd;
 

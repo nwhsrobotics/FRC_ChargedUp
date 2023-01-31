@@ -63,15 +63,16 @@ public class SwerveSubsystem extends SubsystemBase {
         {
         }
 
-        zeroHeading();
+        m_gyro.zeroYaw();;
     }
 
     public double getHeading() {
         return Math.IEEEremainder(m_gyro.getAngle(), 360) * -1;
     }
 
-    public void zeroHeading() {
+    public void resetHeadingAndPose() {
         m_gyro.zeroYaw();
+        resetOdometry(new Pose2d());
     }
 
     public void switchFR() {
