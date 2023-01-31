@@ -51,22 +51,27 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
     
     public final SwerveModule[] swerveMods = {frontLeft, frontRight, backLeft, backRight};
-    public final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, Rotation2d.fromDegrees(-gyro.getAngle()), getModulePositions());
+    public final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB);
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, Rotation2d.fromDegrees(getHeading()), getModulePositions());
 
     public SwerveSubsystem() {
-        new Thread(() -> { // delays navX recalibration by 1s as it will be busy recalibrating, placed on a new thread to prevent interruption
-            try {
-                Thread.sleep(1000);
-                zeroHeading();
-            } 
-            catch (Exception e) {
-            }
-        }).start();
+        try
+        {
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e)
+        {
+        }
+
+        zeroHeading();
+    }
+
+    public double getHeading() {
+        return Math.IEEEremainder(m_gyro.getAngle(), 360) * -1;
     }
 
     public void zeroHeading() {
-        gyro.reset();
+        m_gyro.zeroYaw();
     }
 
     public void switchFR() {
@@ -78,8 +83,9 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        gyro.reset();
-        odometer.resetPosition(Rotation2d.fromDegrees(-gyro.getAngle()), getModulePositions(), pose);
+        for (SwerveModule sModule : swerveMods)
+            sModule.driveEncoder.setPosition(0);
+        odometer.resetPosition(Rotation2d.fromDegrees(getHeading()), getModulePositions(), pose);
     }
 
     public void straighten() {
@@ -99,7 +105,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        odometer.update(gyro.getRotation2d(), getModulePositions());
+        odometer.update(Rotation2d.fromDegrees(getHeading()), getModulePositions());
         SmartDashboard.putNumber("fl drive", frontLeft.getDrivePosition());
         SmartDashboard.putNumber("fr drive", frontRight.getDrivePosition());
         SmartDashboard.putNumber("bl drive", backLeft.getDrivePosition());

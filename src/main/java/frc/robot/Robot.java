@@ -2,6 +2,7 @@ package frc.robot;
 
 import org.littletonrobotics.junction.LoggedRobot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -70,6 +71,9 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void autonomousInit() {
+        m_robotContainer.swerveSubsystem.zeroHeading();
+        m_robotContainer.swerveSubsystem.resetOdometry(new Pose2d());
+        
         m_autonomousCommand = m_robotContainer.autoCmd;
 
         // schedule the autonomous command (example)
@@ -81,7 +85,7 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        System.out.println(m_robotContainer.swerveSubsystem.getPose());
+        //System.out.println(m_robotContainer.swerveSubsystem.getPose());
     }
 
     @Override
@@ -98,7 +102,7 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        System.out.println(m_robotContainer.swerveSubsystem.getPose());
+        //System.out.println(m_robotContainer.swerveSubsystem.getPose());
         SmartDashboard.putNumber("fl abs", m_robotContainer.swerveSubsystem.frontLeft.getAbsoluteEncoderRadRaw());
         SmartDashboard.putNumber("fr abs", m_robotContainer.swerveSubsystem.frontRight.getAbsoluteEncoderRadRaw());
         SmartDashboard.putNumber("bl abs", m_robotContainer.swerveSubsystem.backLeft.getAbsoluteEncoderRadRaw());
@@ -107,7 +111,7 @@ public class Robot extends LoggedRobot {
         SmartDashboard.putNumber("fr rel", m_robotContainer.swerveSubsystem.frontRight.getTurningPosition());
         SmartDashboard.putNumber("bl rel", m_robotContainer.swerveSubsystem.backLeft.getTurningPosition());
         SmartDashboard.putNumber("br rel", m_robotContainer.swerveSubsystem.backRight.getTurningPosition());
-        SmartDashboard.putNumber("gyro", -m_robotContainer.swerveSubsystem.gyro.getAngle());
+        SmartDashboard.putNumber("gyro", m_robotContainer.swerveSubsystem.getHeading());
     }
 
     @Override

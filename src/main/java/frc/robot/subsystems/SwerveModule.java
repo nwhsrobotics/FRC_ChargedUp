@@ -17,7 +17,7 @@ public class SwerveModule {
     public final CANSparkMax driveMotor;
     public final CANSparkMax turningMotor;
 
-    private final RelativeEncoder driveEncoder;
+    public final RelativeEncoder driveEncoder;
     private final RelativeEncoder turningEncoder; // built in NEO encoder (steering)
 
     public final PIDController turningPidController;
