@@ -15,7 +15,7 @@ public final class Constants {
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
         public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-        public static final double kPTurning = .50; // P constant for turning
+        public static final double kPTurning = .5; // P constant for turning
         public static final double kPTolerance = 2.5 * (Math.PI/180);
         public static final double kITurning = 0.;
     }
@@ -75,8 +75,8 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
-        public static final double kMaxAngularSpeedRadiansPerSecond = DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
+        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond;
+        public static final double kMaxAngularSpeedRadiansPerSecond = DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond;
 
         public static final TrajectoryConfig autoTrajectoryConfig =
         new TrajectoryConfig(
@@ -84,11 +84,11 @@ public final class Constants {
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
             .setKinematics(Constants.DriveConstants.kDriveKinematics);
         
-        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 2;
-        public static final double kPXController = 0.35;
-        public static final double kPYController = 0.35;
-        public static final double kPThetaController = 0.45;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 5;
+        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI;
+        public static final double kPXController = 1;
+        public static final double kPYController = 1;
+        public static final double kPThetaController = 1;
 
         //creates a TrapezoidProfile to determine setpoints for autonomous
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
