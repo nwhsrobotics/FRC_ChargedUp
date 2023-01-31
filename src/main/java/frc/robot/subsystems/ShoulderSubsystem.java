@@ -15,11 +15,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // ShoulderSubsystem initializes and sets up two brushless motors and their associated encoders and PID controllers
 public class ShoulderSubsystem extends SubsystemBase {
-  // Declare two brushless motors and their associated encoders and PID controllers
-
   // Declare two instances of the CANSparkMax motor controller class
-  private final CANSparkMax shoulderMotor1 = null;
-  private final CANSparkMax shoulderMotor2 = null;
+  private CANSparkMax shoulderMotor1 = null;
+  private CANSparkMax shoulderMotor2 = null;
   // Declare two instances of the SparkMaxPIDController class
   private SparkMaxPIDController pidController1 = null;
   private SparkMaxPIDController pidController2 = null;
