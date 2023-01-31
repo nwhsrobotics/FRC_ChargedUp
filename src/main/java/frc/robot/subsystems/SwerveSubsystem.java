@@ -55,14 +55,15 @@ public class SwerveSubsystem extends SubsystemBase {
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, Rotation2d.fromDegrees(getHeading()), getModulePositions());
 
     public SwerveSubsystem() {
-        new Thread(() -> { // delays navX recalibration by 1s as it will be busy recalibrating, placed on a new thread to prevent interruption
-            try {
-                Thread.sleep(1000);
-                zeroHeading();
-            } 
-            catch (Exception e) {
-            }
-        }).start();
+        try
+        {
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e)
+        {
+        }
+
+        zeroHeading();
     }
 
     public double getHeading() {
@@ -70,7 +71,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void zeroHeading() {
-        m_gyro.reset();
+        m_gyro.zeroYaw();
     }
 
     public void switchFR() {
@@ -82,7 +83,8 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        m_gyro.reset();
+        for (SwerveModule sModule : swerveMods)
+            sModule.driveEncoder.setPosition(0);
         odometer.resetPosition(Rotation2d.fromDegrees(getHeading()), getModulePositions(), pose);
     }
 
