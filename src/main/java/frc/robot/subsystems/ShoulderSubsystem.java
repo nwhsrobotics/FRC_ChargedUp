@@ -4,16 +4,23 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
+
+import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ShoulderConstants;
 
 public class ShoulderSubsystem extends SubsystemBase {
-  private final PIDController pidControl;
+  private final CANSparkMax shoulderMotor;
   
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
-  pidControl = new PIDController(ShoulderConstants.kp, ShoulderConstants.ki, ShoulderConstants.kd);
+    shoulderMotor = new CANSparkMax(20, CANSparkMax.MotorType.kBrushless);  
+    SparkMaxPIDController pidController = shoulderMotor.getPIDController();
+    pidController.setP(ShoulderConstants.kp);
+    pidController.setI(ShoulderConstants.ki);
+    pidController.setD(ShoulderConstants.kd);
   }
 
   @Override
@@ -21,3 +28,4 @@ public class ShoulderSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 }
+
