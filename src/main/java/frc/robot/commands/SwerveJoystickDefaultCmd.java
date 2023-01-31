@@ -30,7 +30,7 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
         //corner swerve
         if (m_joy0.getRawButton(3) || m_joy0.getRawButton(4) || m_joy0.getRawButton(5) || m_joy0.getRawButton(6)) {
             double rotatingSpeed = m_joy0.getTwist() * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond; // no deadband and speed selector because corner swerve is for emergencies
-            ChassisSpeeds chassisSpeeds = swerveSubsystem.isFR ? ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, rotatingSpeed, Rotation2d.fromDegrees(-swerveSubsystem.gyro.getAngle())) : ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, rotatingSpeed, new Rotation2d(0));
+            ChassisSpeeds chassisSpeeds = swerveSubsystem.isFR ? ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, rotatingSpeed, Rotation2d.fromDegrees(swerveSubsystem.getHeading())) : ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, rotatingSpeed, new Rotation2d(0));
 
             if (m_joy0.getRawButton(5)) { //front left
                 swerveSubsystem.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds, new Translation2d(DriveConstants.kWheelBase / 2, -DriveConstants.kTrackWidth / 2)));
@@ -53,7 +53,7 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
             double ySpeed = Math.abs(m_joy0.getX()) < OIConstants.kXYDeadband ? 0 : m_joy0.getX() > 0 ? (m_joy0.getX() - OIConstants.kXYDeadband) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * speedCoefficient * (1/(1-OIConstants.kXYDeadband)) : (m_joy0.getX() + OIConstants.kXYDeadband) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * speedCoefficient * (1/(1-OIConstants.kXYDeadband));
             double rotatingSpeed = Math.abs(m_joy0.getTwist()) < OIConstants.kZDeadband ? 0 : m_joy0.getTwist() > 0 ? (m_joy0.getTwist() - OIConstants.kZDeadband) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond * speedCoefficient: (m_joy0.getTwist() + OIConstants.kZDeadband) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond * speedCoefficient;
 
-            ChassisSpeeds chassisSpeeds = (swerveSubsystem.isFR) ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotatingSpeed, Rotation2d.fromDegrees(-swerveSubsystem.gyro.getAngle())) : ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotatingSpeed, new Rotation2d(0));
+            ChassisSpeeds chassisSpeeds = (swerveSubsystem.isFR) ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotatingSpeed, Rotation2d.fromDegrees(swerveSubsystem.getHeading())) : ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotatingSpeed, new Rotation2d(0));
 
             swerveSubsystem.setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
         }

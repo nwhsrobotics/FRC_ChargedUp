@@ -14,8 +14,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShoulderSubsystem extends SubsystemBase {
-  private final CANSparkMax shoulderMotor1 = null;
-  private final CANSparkMax shoulderMotor2 = null;
+  private CANSparkMax shoulderMotor1 = null;
+  private CANSparkMax shoulderMotor2 = null;  
   private SparkMaxPIDController pidController1 = null;
   private SparkMaxPIDController pidController2 = null;
   private RelativeEncoder shoulderEncoder1 = null;
