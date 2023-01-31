@@ -75,7 +75,7 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond;
+        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
         public static final double kMaxAngularSpeedRadiansPerSecond = DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond;
 
         public static final TrajectoryConfig autoTrajectoryConfig =
@@ -84,11 +84,11 @@ public final class Constants {
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
             .setKinematics(Constants.DriveConstants.kDriveKinematics);
         
-        public static final double kMaxAccelerationMetersPerSecondSquared = 5;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI;
         public static final double kPXController = 1;
         public static final double kPYController = 1;
-        public static final double kPThetaController = 1;
+        public static final double kPThetaController = 0.25;
 
         //creates a TrapezoidProfile to determine setpoints for autonomous
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
@@ -98,8 +98,8 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final double kXYDeadband = 0.1;
-        public static final double kZDeadband = 0.2;
+        public static final double kXYDeadband = 0.05;
+        public static final double kZDeadband = 0.05;
         public static final int kJoystickPort = 2;
         public static final double kPreciseSpdMetersPerSecond = 0.5;
     }
