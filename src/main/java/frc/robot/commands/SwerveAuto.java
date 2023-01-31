@@ -27,7 +27,7 @@ public class SwerveAuto extends SequentialCommandGroup {
                 // Pass through these two interior waypoints, making an 's' curve path
                 List.of(new Translation2d(1, 1), new Translation2d(2, -1), new Translation2d(3, 0)),
                 // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(4, 0, new Rotation2d(0)),
+                new Pose2d(0, 0, new Rotation2d(0)),
                 Constants.AutoConstants.autoTrajectoryConfig);
 
         var thetaController =
@@ -48,10 +48,11 @@ public class SwerveAuto extends SequentialCommandGroup {
 
 
         addCommands(
+            new InstantCommand(() -> s_Swerve.resetHeadingAndPose()),
             new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
-            new InstantCommand(() -> Timer.delay(5)),
+            new InstantCommand(() -> Timer.delay(2)),
             swerveControllerCommand,
             new InstantCommand(() -> s_Swerve.stopModules()),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
