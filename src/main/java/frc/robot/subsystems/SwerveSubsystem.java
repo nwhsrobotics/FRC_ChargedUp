@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -50,10 +51,9 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
     
     public final SwerveModule[] swerveMods = {frontLeft, frontRight, backLeft, backRight};
-
     public final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, Rotation2d.fromDegrees(-gyro.getAngle()), getModulePositions());
 
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, gyro.getRotation2d(), getModulePositions());
     public SwerveSubsystem() {
         new Thread(() -> { // delays navX recalibration by 1s as it will be busy recalibrating, placed on a new thread to prevent interruption
             try {
@@ -69,7 +69,7 @@ public class SwerveSubsystem extends SubsystemBase {
         gyro.reset();
     }
 
-    public void swtichFR() {
+    public void switchFR() {
         isFR = !isFR;
     }
 
@@ -78,7 +78,15 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        odometer.resetPosition(gyro.getRotation2d(), getModulePositions(), pose);
+        gyro.reset();
+        odometer.resetPosition(Rotation2d.fromDegrees(-gyro.getAngle()), getModulePositions(), pose);
+    }
+
+    public void straighten() {
+        for (SwerveModule s_mod: swerveMods) {
+            s_mod.turningMotor.set(s_mod.turningPidController.calculate(s_mod.getAbsoluteEncoderRad(), 0));
+            s_mod.turningMotor.set(0);
+        }
     }
 
     public SwerveModulePosition[] getModulePositions() {
@@ -92,6 +100,10 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(gyro.getRotation2d(), getModulePositions());
+        SmartDashboard.putNumber("fl drive", frontLeft.getDrivePosition());
+        SmartDashboard.putNumber("fr drive", frontRight.getDrivePosition());
+        SmartDashboard.putNumber("bl drive", backLeft.getDrivePosition());
+        SmartDashboard.putNumber("br drive", backRight.getDrivePosition());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
         SmartDashboard.putNumber("Front Left Encoder", frontLeft.getTurningPosition());
         SmartDashboard.putNumber("Front Right Encoder", frontRight.getTurningPosition());
@@ -100,10 +112,8 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void stopModules() {
-        frontLeft.stop();
-        frontRight.stop();
-        backLeft.stop();
-        backRight.stop();
+        for (SwerveModule sMod : swerveMods)
+            sMod.stop();
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
