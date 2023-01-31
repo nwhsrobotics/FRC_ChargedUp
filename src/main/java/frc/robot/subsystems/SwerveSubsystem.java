@@ -99,7 +99,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        odometer.update(gyro.getRotation2d(), getModulePositions());
+        odometer.update(Rotation2d.fromDegrees(-gyro.getAngle()), getModulePositions());
         SmartDashboard.putNumber("fl drive", frontLeft.getDrivePosition());
         SmartDashboard.putNumber("fr drive", frontRight.getDrivePosition());
         SmartDashboard.putNumber("bl drive", backLeft.getDrivePosition());
