@@ -15,30 +15,40 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // ShoulderSubsystem initializes and sets up two brushless motors and their associated encoders and PID controllers
 public class ShoulderSubsystem extends SubsystemBase {
-  // Declare two brushless motors and their associated encoders and PID controllers  
+  // Declare two brushless motors and their associated encoders and PID
+  // controllers
+
+  // Declare two instances of the CANSparkMax motor controller class
   private final CANSparkMax shoulderMotor1 = null;
   private final CANSparkMax shoulderMotor2 = null;
+  // Declare two instances of the SparkMaxPIDController class
   private SparkMaxPIDController pidController1 = null;
   private SparkMaxPIDController pidController2 = null;
+  // Declare two instances of the RelativeEncoder class
   private RelativeEncoder shoulderEncoder1 = null;
   private RelativeEncoder shoulderEncoder2 = null;
-  private static final double DOWNPOS = 0.0; //Revisit values with cad!!!
-  private static final double UPPOS = 90; //Revisit values with cad!!!
-  private static final double TICKS_PER_SECOND = 50.0; //Revisit values!!!
-  private static final double SECONDS_TO_MOVE = 1.0; //Revisit values!!!
-  private static final double SPEED_ROT_PER_TICK = ((UPPOS - DOWNPOS))/ (SECONDS_TO_MOVE * TICKS_PER_SECOND);
+  // Set the default position for the shoulder when it is at the bottom
+  private static final double DOWNPOS = 0.0; // Revisit this value!!!!!
+  // Set the default position for the shoulder when it is at the top
+  private static final double UPPOS = 90; // Revisit this value!!!!!
+  // Set the number of ticks per second
+  private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!!!
+  // Set the time it takes for the shoulder to move from bottom to top
+  private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!!!
+  // Calculate the speed of rotation per tick
+  private static final double SPEED_ROT_PER_TICK = ((UPPOS - DOWNPOS)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
+  // Set the initial shoulder position to be at the bottom or 0.0 position
   private double m_shoulderPos = 0.0;
 
-
- 
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
     // Initialize the first motor and set its PID controller and encoder
-    
-    // creating an instance of CANSparkMax for the shoulder motor with ID ShoulderCanID20
+
+    // creating an instance of CANSparkMax for the shoulder motor with ID
+    // ShoulderCanID20
     shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
     // checking if the shoulder motor instance is not null
-    if(shoulderMotor1 != null){
+    if (shoulderMotor1 != null) {
       // getting PIDController instance from the shoulder motor
       pidController1 = shoulderMotor1.getPIDController();
       // getting the encoder instance from the shoulder motor
@@ -46,12 +56,14 @@ public class ShoulderSubsystem extends SubsystemBase {
       // setting the encoder position to zero
       shoulderEncoder1.setPosition(0);
 
-      // setting the P, I, and D values for the PIDController from the ShoulderConstants
+      // setting the P, I, and D values for the PIDController from the
+      // ShoulderConstants
       pidController1.setP(ShoulderConstants.kp);
       pidController1.setI(ShoulderConstants.ki);
       pidController1.setD(ShoulderConstants.kd);
 
-      // setting the IZone and FF values for the PIDController from the ShoulderConstants
+      // setting the IZone and FF values for the PIDController from the
+      // ShoulderConstants
       pidController1.setIZone(ShoulderConstants.kIz);
       pidController1.setFF(ShoulderConstants.kFFz);
 
@@ -65,24 +77,27 @@ public class ShoulderSubsystem extends SubsystemBase {
 
     // Initialize the second motor and set its PID controller and encoder
 
-    // creating an instance of CANSparkMax for the shoulder motor with ID ShoulderCanID21
+    // creating an instance of CANSparkMax for the shoulder motor with ID
+    // ShoulderCanID21
     shoulderMotor2 = new CANSparkMax(ShoulderConstants.ShoulderCanID21, CANSparkMax.MotorType.kBrushless);
 
     // checking if the shoulder motor instance is not null
-    if(shoulderMotor2 != null){
+    if (shoulderMotor2 != null) {
       // getting PIDController instance from the shoulder motor
-      pidController2 = shoulderMotor2.getPIDController(); 
+      pidController2 = shoulderMotor2.getPIDController();
       // getting the encoder instance from the shoulder motor
       shoulderEncoder2 = shoulderMotor2.getEncoder();
       // setting the encoder position to zero
       shoulderEncoder2.setPosition(0);
-      
-      // setting the P, I, and D values for the PIDController from the ShoulderConstants
+
+      // setting the P, I, and D values for the PIDController from the
+      // ShoulderConstants
       pidController2.setP(ShoulderConstants.kp);
       pidController2.setI(ShoulderConstants.ki);
       pidController2.setD(ShoulderConstants.kd);
 
-      // setting the IZone and FF values for the PIDController from the ShoulderConstants
+      // setting the IZone and FF values for the PIDController from the
+      // ShoulderConstants
       pidController2.setIZone(ShoulderConstants.kIz);
       pidController2.setFF(ShoulderConstants.kFFz);
 
@@ -98,11 +113,6 @@ public class ShoulderSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-      // This method will be called once per scheduler run
+    // This method will be called once per scheduler run
   }
 }
-
-
-
-
-
