@@ -48,17 +48,14 @@ public class SwerveAuto extends SequentialCommandGroup {
 
 
         addCommands(
-            new InstantCommand(() -> s_Swerve.straighten()),
-            new InstantCommand(() -> s_Swerve.gyro.reset()),
-            new InstantCommand(() -> s_Swerve.resetOdometry(new Pose2d())),
+            new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
-            new InstantCommand(() -> System.out.println(-s_Swerve.gyro.getAngle())),
+            new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
             new InstantCommand(() -> Timer.delay(5)),
-            //new InstantCommand(() -> Timer.delay(2)),
-            //new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
             swerveControllerCommand,
+            new InstantCommand(() -> s_Swerve.stopModules()),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
-            new InstantCommand(() -> System.out.println(-s_Swerve.gyro.getAngle()))
+            new InstantCommand(() -> System.out.println(s_Swerve.getHeading()))
         );
     }
 }
