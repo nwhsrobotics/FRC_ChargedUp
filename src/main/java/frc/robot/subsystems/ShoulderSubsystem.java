@@ -13,7 +13,9 @@ import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+// ShoulderSubsystem initializes and sets up two brushless motors and their associated encoders and PID controllers
 public class ShoulderSubsystem extends SubsystemBase {
+  // Declare two brushless motors and their associated encoders and PID controllers  
   private final CANSparkMax shoulderMotor1 = null;
   private final CANSparkMax shoulderMotor2 = null;
   private SparkMaxPIDController pidController1 = null;
@@ -31,45 +33,67 @@ public class ShoulderSubsystem extends SubsystemBase {
  
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
-      shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
-      if(shoulderMotor1 != null){
-        pidController1 = shoulderMotor1.getPIDController();
-        shoulderEncoder1 = shoulderMotor1.getEncoder();
-        shoulderEncoder1.setPosition(0);
+    // Initialize the first motor and set its PID controller and encoder
+    
+    // creating an instance of CANSparkMax for the shoulder motor with ID ShoulderCanID20
+    shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
+    // checking if the shoulder motor instance is not null
+    if(shoulderMotor1 != null){
+      // getting PIDController instance from the shoulder motor
+      pidController1 = shoulderMotor1.getPIDController();
+      // getting the encoder instance from the shoulder motor
+      shoulderEncoder1 = shoulderMotor1.getEncoder();
+      // setting the encoder position to zero
+      shoulderEncoder1.setPosition(0);
 
-        pidController1.setP(ShoulderConstants.kp);
-        pidController1.setI(ShoulderConstants.ki);
-        pidController1.setD(ShoulderConstants.kd);
+      // setting the P, I, and D values for the PIDController from the ShoulderConstants
+      pidController1.setP(ShoulderConstants.kp);
+      pidController1.setI(ShoulderConstants.ki);
+      pidController1.setD(ShoulderConstants.kd);
 
-        pidController1.setIZone(ShoulderConstants.kIz);
-        pidController1.setFF(ShoulderConstants.kFFz);
+      // setting the IZone and FF values for the PIDController from the ShoulderConstants
+      pidController1.setIZone(ShoulderConstants.kIz);
+      pidController1.setFF(ShoulderConstants.kFFz);
 
-        pidController1.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
-        pidController1.setReference(0.0, ControlType.kPosition);
-        System.out.println("ShoulderMotor1 initialized");
-      }
+      // setting the output range for the PIDController from the ShoulderConstants
+      pidController1.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
+      // setting the reference for the PIDController to 0.0, using position control
+      pidController1.setReference(0.0, ControlType.kPosition);
+      // printing a message to indicate the initialization of the shoulder motor 1
+      System.out.println("ShoulderMotor1 initialized");
+    }
+
+    // Initialize the second motor and set its PID controller and encoder
+
+    // creating an instance of CANSparkMax for the shoulder motor with ID ShoulderCanID21
+    shoulderMotor2 = new CANSparkMax(ShoulderConstants.ShoulderCanID21, CANSparkMax.MotorType.kBrushless);
+
+    // checking if the shoulder motor instance is not null
+    if(shoulderMotor2 != null){
+      // getting PIDController instance from the shoulder motor
+      pidController2 = shoulderMotor2.getPIDController(); 
+      // getting the encoder instance from the shoulder motor
+      shoulderEncoder2 = shoulderMotor2.getEncoder();
+      // setting the encoder position to zero
+      shoulderEncoder2.setPosition(0);
       
-      
-      shoulderMotor2 = new CANSparkMax(ShoulderConstants.ShoulderCanID21, CANSparkMax.MotorType.kBrushless);
-      
-      if(shoulderMotor2 != null){
-        pidController2 = shoulderMotor2.getPIDController(); 
-        shoulderEncoder2 = shoulderMotor2.getEncoder();
-        shoulderEncoder2.setPosition(0);
-        
-        pidController2.setP(ShoulderConstants.kp);
-        pidController2.setI(ShoulderConstants.ki);
-        pidController2.setD(ShoulderConstants.kd);
+      // setting the P, I, and D values for the PIDController from the ShoulderConstants
+      pidController2.setP(ShoulderConstants.kp);
+      pidController2.setI(ShoulderConstants.ki);
+      pidController2.setD(ShoulderConstants.kd);
 
-        pidController2.setIZone(ShoulderConstants.kIz);
-        pidController2.setFF(ShoulderConstants.kFFz);
+      // setting the IZone and FF values for the PIDController from the ShoulderConstants
+      pidController2.setIZone(ShoulderConstants.kIz);
+      pidController2.setFF(ShoulderConstants.kFFz);
 
-        pidController2.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
-        pidController2.setReference(0.0, ControlType.kPosition);
-        System.out.println("ShoulderMotor2 initialized");
-      }
-
-      }
+      // setting the output range for the PIDController from the ShoulderConstants
+      pidController2.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
+      // setting the reference for the PIDController to 0.0, using position control
+      pidController2.setReference(0.0, ControlType.kPosition);
+      // printing a message to indicate the initialization of the shoulder motor 2
+      System.out.println("ShoulderMotor2 initialized");
+    }
+  }
 
   @Override
   public void periodic() {
