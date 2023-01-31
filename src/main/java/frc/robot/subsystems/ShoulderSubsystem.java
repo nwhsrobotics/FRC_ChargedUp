@@ -25,13 +25,13 @@ public class ShoulderSubsystem extends SubsystemBase {
   private RelativeEncoder shoulderEncoder1 = null;
   private RelativeEncoder shoulderEncoder2 = null;
   // Set the default position for the shoulder when it is at the bottom
-  private static final double DOWNPOS = 0.0; // Revisit this value!!!!!
+  private static final double DOWNPOS = 0.0; // Revisit this value!!!
   // Set the default position for the shoulder when it is at the top
-  private static final double UPPOS = 90; // Revisit this value!!!!!
+  private static final double UPPOS = 90; // Revisit this value!!!
   // Set the number of ticks per second
-  private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!!!
+  private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
   // Set the time it takes for the shoulder to move from bottom to top
-  private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!!!
+  private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
   // Calculate the speed of rotation per tick
   private static final double SPEED_ROT_PER_TICK = ((UPPOS - DOWNPOS)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
   // Set the initial shoulder position to be at the bottom or 0.0 position
