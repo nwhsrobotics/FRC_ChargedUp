@@ -52,7 +52,7 @@ public class SwerveModule {
         turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
  
         turningPidController = new PIDController(ModuleConstants.kPTurning, ModuleConstants.kITurning, 0);
-        turningPidController.setTolerance(ModuleConstants.kPTolerance);
+        //turningPidController.setTolerance(ModuleConstants.kPTolerance);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI); //the wheels can rotate in a full circle
         resetEncoders();
         turningMotor.set(turningPidController.calculate(getAbsoluteEncoderRad(), 0));
