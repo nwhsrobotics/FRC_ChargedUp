@@ -13,6 +13,7 @@ import frc.robot.Constants.ExtendArmConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+// ExtendArmSubsystem initializes and sets up two brushless motors and their associated encoders and PID controllers
 public class ExtendArmSubsystem extends SubsystemBase {
   // Declare two instances of the CANSparkMax motor controller class
   private CANSparkMax extendArmMotor1 = null;
