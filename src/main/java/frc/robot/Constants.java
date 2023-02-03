@@ -132,8 +132,8 @@ public final class Constants {
         public static final double kFFz = 0.0;
         public static final double kMaxOutput = 1.0;
         public static final double kMinOutput = -1.0;
-        public static final int ExtendArmCanID24 = 3;
-        public static final int ExtendArmCanID25 = 21;
+        public static final int ExtendArmCanID24 = 24;
+        public static final int ExtendArmCanID25 = 25;
 
     }
 }
