@@ -16,18 +16,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // ShoulderSubsystem initializes and sets up two brushless motors and their associated encoders and PID controllers
 public class ShoulderSubsystem extends SubsystemBase {
   // Declare two instances of the CANSparkMax motor controller class
-  private CANSparkMax shoulderMotor1 = null;
-  private CANSparkMax shoulderMotor2 = null;
+  private CANSparkMax shoulderMotor1;
+  private CANSparkMax shoulderMotor2;
   // Declare two instances of the SparkMaxPIDController class
-  private SparkMaxPIDController pidController1 = null;
-  private SparkMaxPIDController pidController2 = null;
+  private SparkMaxPIDController pidController1;
+  private SparkMaxPIDController pidController2;
   // Declare two instances of the RelativeEncoder class
-  private RelativeEncoder shoulderEncoder1 = null;
-  private RelativeEncoder shoulderEncoder2 = null;
+  private RelativeEncoder shoulderEncoder1;
+  private RelativeEncoder shoulderEncoder2;
   // Set the default position for the shoulder when it is at the bottom
   private static final double DOWNPOS = 0.0; // Revisit this value!!!
   // Set the default position for the shoulder when it is at the top
-  private static final double UPPOS = 90; // Revisit this value!!!
+  private static final double UPPOS = 90.0; // Revisit this value!!!
   // Set the number of ticks per second
   private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
   // Set the time it takes for the shoulder to move from bottom to top
@@ -35,14 +35,14 @@ public class ShoulderSubsystem extends SubsystemBase {
   // Calculate the speed of rotation per tick
   private static final double SPEED_ROT_PER_TICK = ((UPPOS - DOWNPOS)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
   // Set the initial shoulder position to be at the bottom or 0.0 position
-  private double m_shoulderPos = 0.0;
+  private double m_shoulderPos = DOWNPOS;
 
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
     // Initialize the first motor and set its PID controller and encoder
 
     // creating an instance of CANSparkMax for the shoulder motor with ID ShoulderCanID20
-    shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
+    //shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
     // checking if the shoulder motor instance is not null
     if (shoulderMotor1 != null) {
       // getting PIDController instance from the shoulder motor

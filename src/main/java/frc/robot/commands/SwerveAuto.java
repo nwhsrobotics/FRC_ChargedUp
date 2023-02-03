@@ -12,7 +12,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -60,12 +59,11 @@ public class SwerveAuto extends SequentialCommandGroup {
 
 
         addCommands(
+            new InstantCommand(() -> System.out.println("scheduled!")),
             new InstantCommand(() -> s_Swerve.resetHeadingAndPose()),
             new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
-            //new InstantCommand(() -> Timer.delay(5)),
-            //new InstantCommand(() -> Timer.delay(2)),
             swerveControllerCommand,
             new InstantCommand(() -> s_Swerve.stopModules()),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
