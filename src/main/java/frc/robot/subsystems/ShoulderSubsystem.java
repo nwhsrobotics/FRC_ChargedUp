@@ -101,6 +101,18 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
   }
 
+  public void resetPos() {
+    shoulderEncoder1.setPosition(DOWNPOS);
+    shoulderEncoder2.setPosition(DOWNPOS);
+    System.out.println("Position reset to default position");
+  }
+
+  public void maxPos() {
+    shoulderEncoder1.setPosition(UPPOS);
+    shoulderEncoder2.setPosition(UPPOS);
+    System.out.println("Positon set to max position");
+  }
+  
   @Override
   public void periodic() {
 
