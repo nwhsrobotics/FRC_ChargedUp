@@ -2,6 +2,7 @@ package frc.robot;
 
 import org.littletonrobotics.junction.LoggedRobot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -70,20 +71,16 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void autonomousInit() {
-        //m_robotContainer.swerveSubsystem.resetHeadingAndPose();
         
-        m_autonomousCommand = m_robotContainer.autoCmd;
-
-        // schedule the autonomous command (example)
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.schedule();
-        }
     }
 
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        //System.out.println(m_robotContainer.swerveSubsystem.getPose());
+        m_autonomousCommand = m_robotContainer.autoCmd;
+        m_autonomousCommand.schedule();
+        Timer.delay(1);
+        m_autonomousCommand.cancel();
     }
 
     @Override
