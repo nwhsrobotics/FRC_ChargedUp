@@ -7,11 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShoulderSubsystem;
 
-public class shoulderCommand extends CommandBase {
+public class ShoulderCommand extends CommandBase {
   private final ShoulderSubsystem m_shoulderSubsystem;
   private boolean isOn = true;
   /** Creates a new shoulderCommand. */
-  public shoulderCommand(ShoulderSubsystem subsystem) {
+  public ShoulderCommand(ShoulderSubsystem subsystem) {
     addRequirements(subsystem);
     m_shoulderSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.

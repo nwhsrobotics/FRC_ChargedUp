@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SwerveAuto;
 import frc.robot.commands.SwerveJoystickDefaultCmd;
-import frc.robot.commands.shoulderCommand;
+import frc.robot.commands.ShoulderCommand;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -17,7 +17,7 @@ public class RobotContainer {
     public final XboxController xboxController = new XboxController(0);
     public final Joystick m_joy0 = new Joystick(Constants.OIConstants.kJoystickPort);
     public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem();
-    public final shoulderCommand m_shoulderCommand = new shoulderCommand(m_shoulderSubsystem);
+    public final ShoulderCommand m_shoulderCommand = new ShoulderCommand(m_shoulderSubsystem);
 
     public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); //button A
     public final JoystickButton m_joyB = new JoystickButton(xboxController, 2); // button B
