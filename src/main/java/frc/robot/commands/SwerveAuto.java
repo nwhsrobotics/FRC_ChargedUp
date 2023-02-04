@@ -19,27 +19,25 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 public class SwerveAuto extends SequentialCommandGroup {
     public SwerveAuto(SwerveSubsystem s_Swerve){
         // An example trajectory to follow.  All units in meters.
-        Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-            List.of(new Pose2d(0, 0, new Rotation2d(0)), 
-                new Pose2d(1, 1, new Rotation2d(0)),
-                new Pose2d(2, -1, new Rotation2d(0)), 
-                new Pose2d(3, 0, new Rotation2d(0)), 
-                new Pose2d(3, 4, new Rotation2d(Math.PI)), 
-                new Pose2d(3, 0, new Rotation2d(0)), 
-                new Pose2d(0, 0, new Rotation2d(0))), 
-            Constants.AutoConstants.autoTrajectoryConfig);
 
-        /*
-        Trajectory exampleTrajectory =
+        Trajectory trajectory1 =
         TrajectoryGenerator.generateTrajectory(
             // Start at the origin facing the +X direction
             new Pose2d(0, 0, new Rotation2d(0)),
             // Pass through these two interior waypoints, making an 's' curve path
             //List.of(new Translation2d(1, 1), new Translation2d(2, -1), new Translation2d(3, 0)),
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1), new Translation2d(3, 0),  new Translation2d(3, 4), new Translation2d(3, 0), new Translation2d(0, -0.5), new Translation2d(-3, -0.5)),
+            List.of(new Translation2d(1, 1), new Translation2d(2, -1), new Translation2d(3, 0)),
             // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(0, 0, new Rotation2d(0)),
-            Constants.AutoConstants.autoTrajectoryConfig);*/
+            new Pose2d(3, 4, new Rotation2d(Math.PI)),
+            Constants.AutoConstants.autoTrajectoryConfig);
+        
+        Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(new Pose2d(3, 4, new Rotation2d(Math.PI)), 
+            List.of(new Translation2d(3, 0), 
+            new Translation2d(0, 0)),
+            new Pose2d(0, 0, new Rotation2d()), 
+            Constants.AutoConstants.autoTrajectoryConfig);
+
+        Trajectory finalTrajectory = trajectory1.concatenate(trajectory2);
 
         var thetaController =
             new ProfiledPIDController(
@@ -48,7 +46,7 @@ public class SwerveAuto extends SequentialCommandGroup {
 
         SwerveControllerCommand swerveControllerCommand =
             new SwerveControllerCommand(
-                exampleTrajectory,
+                finalTrajectory,
                 s_Swerve::getPose,
                 Constants.DriveConstants.kDriveKinematics,
                 new PIDController(Constants.AutoConstants.kPXController, 0, 0),
@@ -60,10 +58,10 @@ public class SwerveAuto extends SequentialCommandGroup {
 
         addCommands(
             new InstantCommand(() -> s_Swerve.resetHeadingAndPose()),
-            new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
+            new InstantCommand(() -> s_Swerve.resetOdometry(finalTrajectory.getInitialPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
-            new InstantCommand(() -> System.out.println(exampleTrajectory.getTotalTimeSeconds())),
+            new InstantCommand(() -> System.out.println(finalTrajectory.getTotalTimeSeconds())),
             swerveControllerCommand,
             new InstantCommand(() -> s_Swerve.stopModules()),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
