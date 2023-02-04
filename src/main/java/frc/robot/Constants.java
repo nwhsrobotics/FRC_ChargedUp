@@ -120,8 +120,12 @@ public final class Constants {
         public static final double kp = 1.0;
         public static final double ki = 0.0;
         public static final double kd = 0.0;
-        public static final int CANID12 = 12;
-        public static final int CANID13 = 13;
+        public static final double kIz = 0.0;
+        public static final double kFFz = 0.0;
+        public static final double kMaxOutput = 1.0;
+        public static final double kMinOutput = -1.0;
+        public static final int WristCanID60 = 60;
+        public static final int WristCanID61 = 61;
     }
 
     public static final class ExtendArmConstants {
