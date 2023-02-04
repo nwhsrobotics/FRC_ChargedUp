@@ -62,10 +62,10 @@ public final class Constants {
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
         //FOR ALL OFFSETS: turn wheels until they become straight, replace with the value of encoderss
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad =  2.66;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.24;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.61;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 5.20;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad =  2.66 + Math.PI;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.24 - Math.PI;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.61 + Math.PI;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 5.20 - Math.PI;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 6380.0 / 60.0 * (ModuleConstants.kDriveMotorGearRatio) * ModuleConstants.kWheelDiameterMeters * Math.PI; // set up for NEOs to drive
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond / Math.hypot(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0); //adapted from SDS
@@ -112,8 +112,8 @@ public final class Constants {
         public static final double kFFz = 0.0;
         public static final double kMaxOutput = 1.0;
         public static final double kMinOutput = -1.0;
-        public static final int ShoulderCanID20 = 3;
-        public static final int ShoulderCanID21 = 21;
+        public static final int ShoulderCanID20 = 27;
+        public static final int ShoulderCanID21 = 6;
 
     }
     public static final class WristConstants {
