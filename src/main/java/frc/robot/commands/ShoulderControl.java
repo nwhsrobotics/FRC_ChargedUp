@@ -7,14 +7,18 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShoulderSubsystem;
+import frc.robot.RobotContainer;
 
 public class ShoulderControl extends CommandBase {
   private final ShoulderSubsystem m_shoulderSubsystem;
   private double m_position;
+  private double m_multiplier;
   /** Creates a new ShoulderControl. */
-  public ShoulderControl(ShoulderSubsystem subsystem, double position) {
+  public ShoulderControl(ShoulderSubsystem subsystem, double position, double multiplier) {
     addRequirements(subsystem);
     m_position = position;
+    m_multiplier = multiplier;
+  
 
     m_shoulderSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -28,7 +32,7 @@ public class ShoulderControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     m_shoulderSubsystem.setPos(m_position);
+     m_shoulderSubsystem.setPos(m_position, m_multiplier);
     }
 
   
