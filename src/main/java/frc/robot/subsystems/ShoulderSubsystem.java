@@ -22,17 +22,17 @@ public class ShoulderSubsystem extends SubsystemBase {
   private SparkMaxPIDController pidController1 = null;
   private SparkMaxPIDController pidController2 = null;
   // Declare two instances of the RelativeEncoder class
-  private RelativeEncoder shoulderEncoder1 = null;
-  private RelativeEncoder shoulderEncoder2 = null;
+  private RelativeEncoder shoulderRelativeEncoder1 = null;
+  private RelativeEncoder shoulderRelativeEncoder2 = null;
   // Set the default position for the shoulder when it is at the bottom
-  private static final double DOWNPOS = 0.0; // Revisit this value!!!
+  public static double DOWNPOS = 0.0; // Revisit this value!!!
   // Set the default position for the shoulder when it is at the top
-  private static final double UPPOS = 90; // Revisit this value!!!
+  public static double UPPOS = 61.1; // Revisit this value!!!
   // Set the number of ticks per second
   private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
   // Set the time it takes for the shoulder to move from bottom to top
-  private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
-  // Calculate the speed of rotation per tick
+  private static double SECONDS_TO_MOVE = 2.0; // Revisit this value!!!
+  // Calculate the speed of rotation per tick (distance traveled per tick )
   private static final double SPEED_ROT_PER_TICK = ((UPPOS - DOWNPOS)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
   // Set the initial shoulder position to be at the bottom or 0.0 position
   private double m_shoulderPos = 0.0;
@@ -48,9 +48,9 @@ public class ShoulderSubsystem extends SubsystemBase {
       // getting PIDController instance from the shoulder motor
       pidController1 = shoulderMotor1.getPIDController();
       // getting the encoder instance from the shoulder motor
-      shoulderEncoder1 = shoulderMotor1.getEncoder();
+      shoulderRelativeEncoder1 = shoulderMotor1.getEncoder();
       // setting the encoder position to zero
-      shoulderEncoder1.setPosition(0);
+      shoulderRelativeEncoder1.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the ShoulderConstants
       pidController1.setP(ShoulderConstants.kp);
@@ -79,9 +79,9 @@ public class ShoulderSubsystem extends SubsystemBase {
       // getting PIDController instance from the shoulder motor
       pidController2 = shoulderMotor2.getPIDController();
       // getting the encoder instance from the shoulder motor
-      shoulderEncoder2 = shoulderMotor2.getEncoder();
+      shoulderRelativeEncoder2 = shoulderMotor2.getEncoder();
       // setting the encoder position to zero
-      shoulderEncoder2.setPosition(0);
+      shoulderRelativeEncoder2.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the ShoulderConstants
       pidController2.setP(ShoulderConstants.kp);
@@ -101,15 +101,14 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
   }
 
-  public void resetPos() {
-    shoulderEncoder1.setPosition(DOWNPOS);
-    shoulderEncoder2.setPosition(DOWNPOS);
-    System.out.println("Position reset to default position");
+  public void setPos(double position) {
+    pidController1.setReference(position, ControlType.kPosition);
+    System.out.println(position);
   }
 
   public void maxPos() {
-    shoulderEncoder1.setPosition(UPPOS);
-    shoulderEncoder2.setPosition(UPPOS);
+    shoulderRelativeEncoder1.setPosition(UPPOS);
+    shoulderRelativeEncoder2.setPosition(UPPOS);
     System.out.println("Positon set to max position");
   }
   
