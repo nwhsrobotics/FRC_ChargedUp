@@ -101,8 +101,8 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
   }
 
-  public void setPos(double position, double multiplier) {
-    pidController1.setReference(multiplier*position, ControlType.kPosition);
+  public void setPos(double position) {
+    pidController1.setReference(position, ControlType.kPosition);
     System.out.println(position);
   }
 

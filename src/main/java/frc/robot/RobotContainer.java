@@ -17,9 +17,10 @@ public class RobotContainer {
     public final Joystick m_joystick = new Joystick(Constants.OIConstants.kJoystickPort);
     /*public final XboxController xboxController = new XboxController(0);
     public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem();
-    public final ShoulderControl m_shoulderPreset0deg = new ShoulderControl(m_shoulderSubsystem, 0, 1.0);
-    public final ShoulderControl m_shoulderPreset55deg = new ShoulderControl(m_shoulderSubsystem, 30.5, 1.0);
-    public final ShoulderControl m_shoulderPreset110deg = new ShoulderControl(m_shoulderSubsystem, 61.1, 1.0);
+    public final ShoulderControl m_shoulderControl = new ShoulderControl(m_shoulderSubsystem, 0);
+    public final ShoulderControl m_shoulderPreset0deg = new ShoulderControl(m_shoulderSubsystem, 0);
+    public final ShoulderControl m_shoulderPreset55deg = new ShoulderControl(m_shoulderSubsystem, 30.5);
+    public final ShoulderControl m_shoulderPreset110deg = new ShoulderControl(m_shoulderSubsystem, 61.1);
   
     public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); //button A
     public final JoystickButton m_joyB = new JoystickButton(xboxController, 2); // button B
@@ -43,5 +44,6 @@ public class RobotContainer {
         /*m_joyA.onTrue(m_shoulderPreset0deg);
         m_joyB.onTrue(m_shoulderPreset55deg);
         m_joyX.onTrue(m_shoulderPreset110deg);*/
+        
     }
 }
