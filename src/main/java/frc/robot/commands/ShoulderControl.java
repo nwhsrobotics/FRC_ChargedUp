@@ -11,7 +11,7 @@ import frc.robot.subsystems.ShoulderSubsystem;
 public class ShoulderControl extends CommandBase {
   private final ShoulderSubsystem m_shoulderSubsystem;
   private double m_position;
-  /** Creates a new shoulderCommand. */
+  /** Creates a new ShoulderControl. */
   public ShoulderControl(ShoulderSubsystem subsystem, double position) {
     addRequirements(subsystem);
     m_position = position;
