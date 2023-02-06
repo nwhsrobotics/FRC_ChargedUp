@@ -31,6 +31,8 @@ public class RobotContainer {
         new JoystickButton(m_joystick,3).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
         new JoystickButton(m_joystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR()));
         new JoystickButton(m_joystick, 4).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
-        //m_joyA.whileTrue(m_shoulderCommand);
+        /*m_joyA.onTrue(m_shoulderPreset0deg);
+        m_joyB.onTrue(m_shoulderPreset55deg);
+        m_joyX.onTrue(m_shoulderPreset110deg);*/
     }
 }
