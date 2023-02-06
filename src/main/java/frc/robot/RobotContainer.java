@@ -15,14 +15,14 @@ public class RobotContainer {
 
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem);
-    /*public final XboxController xboxController = new XboxController(0);*/
     public final Joystick m_joystick = new Joystick(Constants.OIConstants.kJoystickPort);
-    /*public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem();
+    /*public final XboxController xboxController = new XboxController(0);
+    public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem();
     public final ShoulderControl m_shoulderPreset0deg = new ShoulderControl(m_shoulderSubsystem, 0);
     public final ShoulderControl m_shoulderPreset55deg = new ShoulderControl(m_shoulderSubsystem, 30.5);
-    public final ShoulderControl m_shoulderPreset110deg = new ShoulderControl(m_shoulderSubsystem, 61.1);*/
+    public final ShoulderControl m_shoulderPreset110deg = new ShoulderControl(m_shoulderSubsystem, 61.1);
   
-    /*public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); //button A
+    public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); //button A
     public final JoystickButton m_joyB = new JoystickButton(xboxController, 2); // button B
     public final JoystickButton m_joyX = new JoystickButton(xboxController, 3); // button X
     public final JoystickButton m_joyY = new JoystickButton(xboxController, 4); // button Y
