@@ -105,8 +105,8 @@ public final class Constants {
     }
  
     public static final class ShoulderConstants {
-        public static final double kp = 0.005;
-        public static final double ki = 0.0;
+        public static final double kp = 0.007;
+        public static final double ki = 0.004;
         public static final double kd = 0.0;
         public static final double kIz = 0.0;
         public static final double kFFz = 0.0;
