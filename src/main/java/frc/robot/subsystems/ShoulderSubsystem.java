@@ -13,6 +13,7 @@ import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+
 // ShoulderSubsystem initializes and sets up two brushless motors and their associated encoders and PID controllers
 public class ShoulderSubsystem extends SubsystemBase {
   // Declare two instances of the CANSparkMax motor controller class
@@ -118,3 +119,4 @@ public class ShoulderSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 }
+

@@ -103,7 +103,7 @@ public final class Constants {
         public static final int kJoystickPort = 2;
         public static final double kPreciseSpdMetersPerSecond = 0.5;
     }
-
+/* 
     public static final class ShoulderConstants {
         public static final double kp = 0.005;
         public static final double ki = 0.0;
@@ -115,7 +115,7 @@ public final class Constants {
         public static final int ShoulderCanID20 = 20; //changed id from 3 to 20 to avoid conflicts with other id values
         public static final int ShoulderCanID21 = 21;
     
-    } 
+    } */
         public static final class WristConstants {
         public static final double kp = 1.0;
         public static final double ki = 0.0;
