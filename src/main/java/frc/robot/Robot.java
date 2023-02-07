@@ -72,7 +72,6 @@ public class Robot extends LoggedRobot {
     public void autonomousInit() {
         //m_robotContainer.swerveSubsystem.resetHeadingAndPose();
         
-        m_autonomousCommand = m_robotContainer.autoCmd;
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
@@ -101,15 +100,6 @@ public class Robot extends LoggedRobot {
     @Override
     public void teleopPeriodic() {
         //System.out.println(m_robotContainer.swerveSubsystem.getPose());
-        SmartDashboard.putNumber("fl abs", m_robotContainer.swerveSubsystem.frontLeft.getAbsoluteEncoderRadRaw());
-        SmartDashboard.putNumber("fr abs", m_robotContainer.swerveSubsystem.frontRight.getAbsoluteEncoderRadRaw());
-        SmartDashboard.putNumber("bl abs", m_robotContainer.swerveSubsystem.backLeft.getAbsoluteEncoderRadRaw());
-        SmartDashboard.putNumber("br abs", m_robotContainer.swerveSubsystem.backRight.getAbsoluteEncoderRadRaw());
-        SmartDashboard.putNumber("fl rel", m_robotContainer.swerveSubsystem.frontLeft.getTurningPosition());
-        SmartDashboard.putNumber("fr rel", m_robotContainer.swerveSubsystem.frontRight.getTurningPosition());
-        SmartDashboard.putNumber("bl rel", m_robotContainer.swerveSubsystem.backLeft.getTurningPosition());
-        SmartDashboard.putNumber("br rel", m_robotContainer.swerveSubsystem.backRight.getTurningPosition());
-        SmartDashboard.putNumber("gyro", m_robotContainer.swerveSubsystem.getHeading());
     }
 
     @Override
