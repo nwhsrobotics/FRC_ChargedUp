@@ -114,7 +114,7 @@ public class ShoulderSubsystem extends SubsystemBase {
 
   public void setPos(double position) {
     
-    desired_pos = position;
+    desired_pos = ((position / 360) * 200);
 
   }
 

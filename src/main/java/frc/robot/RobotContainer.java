@@ -13,8 +13,8 @@ public class RobotContainer {
     public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem();
     public final ShoulderControl m_shoulderControl = new ShoulderControl(m_shoulderSubsystem, 0);
     public final ShoulderControl m_shoulderPreset0deg = new ShoulderControl(m_shoulderSubsystem, 0);
-    public final ShoulderControl m_shoulderPreset55deg = new ShoulderControl(m_shoulderSubsystem, 30.5);
-    public final ShoulderControl m_shoulderPreset110deg = new ShoulderControl(m_shoulderSubsystem, 61.1);
+    public final ShoulderControl m_shoulderPreset55deg = new ShoulderControl(m_shoulderSubsystem, 55);
+    public final ShoulderControl m_shoulderPreset110deg = new ShoulderControl(m_shoulderSubsystem, 110);
   
     public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); //button A
     public final JoystickButton m_joyB = new JoystickButton(xboxController, 2); // button B
