@@ -25,9 +25,9 @@ public class ShoulderSubsystem extends SubsystemBase {
   private RelativeEncoder shoulderRelativeEncoder1 = null;
   private RelativeEncoder shoulderRelativeEncoder2 = null;
   // Set the default position for the shoulder when it is at the bottom
-  public static double current_pos = 0.0;
+  public static double currentPos = 0.0;
 
-  public static double desired_pos = 0.0;
+  public static double desiredPos = 0.0;
 
   public static double degree = 0.0;
 
@@ -124,14 +124,15 @@ public class ShoulderSubsystem extends SubsystemBase {
   }
 
   public void setPos(double position) {
-    desired_pos = ((position / 360) * 200);
+    desiredPos = ((position / 360) * 200);
   }
 
   @Override
   public void periodic() {
-    System.out.println(desired_pos);
+    // This method will be called once per scheduler run    
+    System.out.println(desiredPos);
 
-    double distance = (desired_pos - current_pos);
+    double distance = (desiredPos - currentPos);
 
     double delta = distance;
 
@@ -143,9 +144,8 @@ public class ShoulderSubsystem extends SubsystemBase {
       delta = -SPEED_ROT_PER_TICK;
     }
 
-    current_pos += delta;
+    currentPos += delta;
 
-    pidController1.setReference(current_pos, ControlType.kPosition);
-    // This method will be called once per scheduler run
+    pidController1.setReference(currentPos, ControlType.kPosition);
   }
 }
