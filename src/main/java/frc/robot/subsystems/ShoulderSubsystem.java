@@ -26,16 +26,26 @@ public class ShoulderSubsystem extends SubsystemBase {
   private RelativeEncoder shoulderRelativeEncoder1 = null;
   private RelativeEncoder shoulderRelativeEncoder2 = null;
   // Set the default position for the shoulder when it is at the bottom
-  public static double DOWNPOS = 0.0; // Revisit this value!!!
-  // Set the default position for the shoulder when it is at the top
-  public static double UPPOS = 61.1; // Revisit this value!!!
+  public static double current_pos = 0.0;
+
+  public static double desired_pos = 0.0;
+
+  public static double degree = 0.0;
+
+
+
+  // Revisit this value!!!
   // Set the number of ticks per second
   private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
+
+  private static final double TOTAL_DISTANCE = 61.1;
   // Set the time it takes for the shoulder to move from bottom to top
-  private static double SECONDS_TO_MOVE = 2.0; // Revisit this value!!!
+  private static double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
   // Calculate the speed of rotation per tick (distance traveled per tick )
-  private static final double SPEED_ROT_PER_TICK = ((UPPOS - DOWNPOS)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
+  private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
+  
   // Set the initial shoulder position to be at the bottom or 0.0 position
+
   private double m_shoulderPos = 0.0;
 
   /** Creates a new ShoulderSubsystem. */
@@ -103,18 +113,51 @@ public class ShoulderSubsystem extends SubsystemBase {
   }
 
   public void setPos(double position) {
-    pidController1.setReference(position, ControlType.kPosition);
-    System.out.println(position);
+    
+    desired_pos = position;
+
   }
 
-  public void maxPos() {
-    shoulderRelativeEncoder1.setPosition(UPPOS);
-    shoulderRelativeEncoder2.setPosition(UPPOS);
-    System.out.println("Positon set to max position");
-  }
   
+  
+  
+
   @Override
   public void periodic() {
+    System.out.println(desired_pos);
+
+    double distance = (desired_pos - current_pos);
+
+    double delta = distance;
+
+    if(delta > SPEED_ROT_PER_TICK) {
+      delta = SPEED_ROT_PER_TICK;
+    }
+
+    if(delta < -SPEED_ROT_PER_TICK) {
+      delta = -SPEED_ROT_PER_TICK;
+    }
+
+    current_pos += delta;
+
+
+    pidController1.setReference(current_pos, ControlType.kPosition);
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+    
+
+
 
     // This method will be called once per scheduler run
   }
