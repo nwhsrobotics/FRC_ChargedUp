@@ -1,10 +1,9 @@
 package frc.robot;
 
-import org.littletonrobotics.junction.LoggedRobot;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import org.littletonrobotics.junction.LoggedRobot;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -16,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends LoggedRobot {
+
     private Command m_autonomousCommand;
     public RobotContainer m_robotContainer;
 
@@ -70,8 +70,7 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void autonomousInit() {
-        //m_robotContainer.swerveSubsystem.resetHeadingAndPose();
-        
+        // m_robotContainer.swerveSubsystem.resetHeadingAndPose();
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
@@ -82,7 +81,7 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        //System.out.println(m_robotContainer.swerveSubsystem.getPose());
+        // System.out.println(m_robotContainer.swerveSubsystem.getPose());
     }
 
     @Override
@@ -99,7 +98,7 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        //System.out.println(m_robotContainer.swerveSubsystem.getPose());
+        // System.out.println(m_robotContainer.swerveSubsystem.getPose());
     }
 
     @Override
