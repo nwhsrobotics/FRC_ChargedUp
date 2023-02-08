@@ -105,16 +105,15 @@ public final class Constants {
     }
  
     public static final class ShoulderConstants {
-        public static final double kp = 0.007;
-        public static final double ki = 0.004;
+        public static final double kp = 1;
+        public static final double ki = 0.0;
         public static final double kd = 0.0;
         public static final double kIz = 0.0;
         public static final double kFFz = 0.0;
         public static final double kMaxOutput = 1.0;
         public static final double kMinOutput = -1.0;
         public static final int ShoulderCanID20 = 3; //changed id from 3 to 20 to avoid conflicts with other id values
-        public static final int ShoulderCanID21 = 21;
-    
+        public static final int ShoulderCanID21 = 21;    
     } 
         public static final class WristConstants {
         public static final double kp = 1.0;
@@ -129,7 +128,7 @@ public final class Constants {
     }
 
     public static final class ExtendArmConstants {
-        public static final double kp = 1.0;
+        public static final double kp = 0.5;
         public static final double ki = 0.0;
         public static final double kd = 0.0;
         public static final double kIz = 0.0;
