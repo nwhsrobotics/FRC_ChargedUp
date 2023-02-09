@@ -129,23 +129,32 @@ public class ShoulderSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run    
+    // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.
+  
     System.out.println(desiredPos);
-
+  
+    // Calculate the difference between the desired position and the current position
     double distance = (desiredPos - currentPos);
-
+  
+    // Store the difference in a variable named delta
     double delta = distance;
-
+  
+    // Check if delta is greater than the maximum speed(max distance it can travel in a tick) (SPEED_ROT_PER_TICK)
     if (delta > SPEED_ROT_PER_TICK) {
+      // If delta is greater than the maximum speed(max distance it can travel in a tick), set delta to the maximum speed(max distance it can travel in a tick)
       delta = SPEED_ROT_PER_TICK;
     }
-
+  
+    // Check if delta is less than the negative of the maximum speed(max distance it can travel in a tick)
     if (delta < -SPEED_ROT_PER_TICK) {
+      // If delta is less than the negative of the maximum speed(max rotation it can travel in a tick), set delta to the negative of the maximum speed(max distance it can travel in a tick)
       delta = -SPEED_ROT_PER_TICK;
     }
-
+  
+    // Update the current position by adding delta
     currentPos += delta;
-
+  
+    // Set the reference position for the PID controller
     pidController1.setReference(currentPos, ControlType.kPosition);
   }
-}
+}  
