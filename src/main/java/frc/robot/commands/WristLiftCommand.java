@@ -5,26 +5,42 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.WristSubsystem;
 
 public class WristLiftCommand extends CommandBase {
-  /** Creates a new WristLiftCommand. */
-  public WristLiftCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+
+  private final WristSubsystem m_wristSubsystem;
+  private double m_nextPosition;
+
+  private boolean liftingUp;
+  private boolean loweringDown;
+
+  public WristLiftCommand(WristSubsystem subsystem, double nextPosition) {
+    addRequirements(subsystem);
+    m_nextPosition = nextPosition;
+
+    m_wristSubsystem = subsystem;
+    
   }
 
-  // Called when the command is initially scheduled.
+  
   @Override
   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if(liftingUp = true) {
+    m_wristSubsystem.turnLeft(m_nextPosition);
+    }
+    else if (loweringDown = true) {
+    m_wristSubsystem.turnRight(m_nextPosition);
+    }
 
-  // Called once the command ends or is interrupted.
+  }
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
