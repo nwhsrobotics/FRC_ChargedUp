@@ -156,5 +156,6 @@ public class ShoulderSubsystem extends SubsystemBase {
   
     // Set the reference position for the PID controller
     pidController1.setReference(currentPos, ControlType.kPosition);
+    pidController2.setReference(-currentPos, ControlType.kPosition);
   }
 }  
