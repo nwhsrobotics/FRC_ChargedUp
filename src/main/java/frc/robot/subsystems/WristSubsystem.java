@@ -21,13 +21,10 @@ public class WristSubsystem extends SubsystemBase {
   private SparkMaxPIDController pidControllerLeft = null;
   private SparkMaxPIDController pidControllerRight = null;
 
-  private RelativeEncoder wristLeftEncoder = null;
-  private RelativeEncoder wristRightEncoder = null;
+  private RelativeEncoder wristLeftRelativeEncoder = null;
+  private RelativeEncoder wristRightRelativeEncoder = null;
   
-  private double m_WristPos = 0.0;
-
-  private boolean m_wristLeftIsOn = false;
-  private boolean m_wristRightIsOn = false;
+  public static double positionIncrease = 1.0;
 
   public WristSubsystem() {
     wristLeftMotor = new CANSparkMax(WristConstants.WristCanID60, CANSparkMax.MotorType.kBrushless);
@@ -36,9 +33,9 @@ public class WristSubsystem extends SubsystemBase {
       // getting PIDController instance from the wrist motor
       pidControllerLeft = wristLeftMotor.getPIDController();
       // getting the encoder instance from the wrist motor
-      wristLeftEncoder = wristLeftMotor.getEncoder();
+      wristLeftRelativeEncoder = wristLeftMotor.getEncoder();
       // setting the encoder position to zero
-      wristLeftEncoder.setPosition(0);
+      wristLeftRelativeEncoder.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the wristConstants
       pidControllerLeft.setP(WristConstants.kp);
@@ -67,9 +64,9 @@ public class WristSubsystem extends SubsystemBase {
       // getting PIDController instance from the Wrist motor
       pidControllerRight = wristRightMotor.getPIDController();
       // getting the encoder instance from the Wrist motor
-      wristRightEncoder = wristRightMotor.getEncoder();
+      wristRightRelativeEncoder = wristRightMotor.getEncoder();
       // setting the encoder position to zero
-      wristRightEncoder.setPosition(0);
+      wristRightRelativeEncoder.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the WristConstants
       pidControllerRight.setP(WristConstants.kp);
@@ -86,9 +83,33 @@ public class WristSubsystem extends SubsystemBase {
       pidControllerRight.setReference(0.0, ControlType.kPosition);
     }
   }
+  
+ 
+  public void turnLeft(double nextPosition) {
+    pidControllerLeft.setReference(nextPosition, ControlType.kPosition);
+    pidControllerRight.setReference(nextPosition, ControlType.kPosition);
+    
+  }
+
+  public void turnRight(double nextPosition) {
+    pidControllerLeft.setReference(-nextPosition, ControlType.kPosition);
+    pidControllerRight.setReference(-nextPosition, ControlType.kPosition);
+    
+  }
+
+  public void liftUp(double nextPosition) {
+    pidControllerLeft.setReference(-nextPosition, ControlType.kPosition);
+    pidControllerRight.setReference(-nextPosition, ControlType.kPosition);
+    
+  }
+
+  public void lowerDown(double nextPosition) {
+    pidControllerLeft.setReference(nextPosition, ControlType.kPosition);
+    pidControllerRight.setReference(nextPosition, ControlType.kPosition);
+    
+  }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

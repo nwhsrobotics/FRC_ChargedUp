@@ -6,36 +6,41 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.WristSubsystem;
 
 public class WristTurnCommand extends CommandBase {
 
-private boolean turningLeft = false;
-private boolean turningRight = false;
+  private final WristSubsystem m_wristSubsystem;
+  private double m_nextPosition;
 
-  public WristTurnCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  private boolean turningLeft;
+  private boolean turningRight;
+
+  public WristTurnCommand(WristSubsystem subsystem, double nextPosition) {
+    addRequirements(subsystem);
+    m_nextPosition = nextPosition;
+
+    m_wristSubsystem = subsystem;
+    
   }
 
-  // Called when the command is initially scheduled.
+  
   @Override
   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(turningLeft = true) {
-
+    if(turningLeft == true) {
+    m_wristSubsystem.turnLeft(m_nextPosition);
     }
-    else if(turningRight = true) {
-
+    else if (turningRight == true) {
+    m_wristSubsystem.turnRight(m_nextPosition);
     }
+
   }
-
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
