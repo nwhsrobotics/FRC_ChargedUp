@@ -24,17 +24,17 @@ public class ShoulderSubsystem extends SubsystemBase {
   // Declare two instances of the RelativeEncoder class
   private RelativeEncoder shoulderRelativeEncoder1 = null;
   private RelativeEncoder shoulderRelativeEncoder2 = null;
-  // Set the default position for the shoulder when it is at the bottom
+
+  // Set the current position for the shoulder motors
   public static double currentPos = 0.0;
-
+  // Set the desired position that user wants to go to for the shoulder motors
   public static double desiredPos = 0.0;
-
+  // Set the degree angel for the shoulder motors
   public static double degree = 0.0;
 
-  // Revisit this value!!!
   // Set the number of ticks per second
   private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
-
+  //Rotations it can make (Total_Distance) it can travel 
   private static final double TOTAL_DISTANCE = 61.1;
   // Set the time it takes for the shoulder to move from bottom to top
   private static double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
@@ -42,7 +42,6 @@ public class ShoulderSubsystem extends SubsystemBase {
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
 
   // Set the initial shoulder position to be at the bottom or 0.0 position
-
   private double m_shoulderPos = 0.0;
 
   /** Creates a new ShoulderSubsystem. */
