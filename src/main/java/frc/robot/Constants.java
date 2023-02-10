@@ -128,8 +128,8 @@ public final class Constants {
         public static final double kFFz = 0.0;
         public static final double kMaxOutput = 1.0;
         public static final double kMinOutput = -1.0;
-        public static final int ShoulderCanID20 = 3; // changed id from 3 to 20 to avoid conflicts with other id values
-        public static final int ShoulderCanID21 = 21;
+        public static final int ShoulderCanID20 = 21; // changed id from 3 to 20 to avoid conflicts with other id values
+        public static final int ShoulderCanID21 = 3;
     }
 
     public static final class WristConstants {
