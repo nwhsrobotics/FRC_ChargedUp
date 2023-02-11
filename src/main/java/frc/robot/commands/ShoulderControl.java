@@ -15,10 +15,11 @@ public class ShoulderControl extends CommandBase {
 
   /** Creates a new ShoulderControl. */
   public ShoulderControl(ShoulderSubsystem subsystem, double degree) {
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     m_position = degree;
     m_shoulderSubsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
+    
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +30,6 @@ public class ShoulderControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //m_shoulderSubsystem.shoulderMotor2.set(0.5);
     m_shoulderSubsystem.setPos(m_position);
   }
 
