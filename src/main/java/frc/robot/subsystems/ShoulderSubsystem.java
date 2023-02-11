@@ -17,7 +17,7 @@ public class ShoulderSubsystem extends SubsystemBase {
 
   // Declare two instances of the CANSparkMax motor controller class
   private CANSparkMax shoulderMotor1 = null;
-  private CANSparkMax shoulderMotor2 = null;
+  public CANSparkMax shoulderMotor2 = null;
   // Declare two instances of the SparkMaxPIDController class
   private SparkMaxPIDController pidController1 = null;
   private SparkMaxPIDController pidController2 = null;
@@ -153,7 +153,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     // Update the current position by adding delta
     currentPos += delta;
   
-    // Set the reference position for the PID controller
+    // Set the reference position for the 2 PID controllers in two opposite directions
     pidController1.setReference(currentPos, ControlType.kPosition);
     pidController2.setReference(-currentPos, ControlType.kPosition);
   }

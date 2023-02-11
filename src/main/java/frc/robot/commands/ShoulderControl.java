@@ -29,6 +29,7 @@ public class ShoulderControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //m_shoulderSubsystem.shoulderMotor2.set(0.5);
     m_shoulderSubsystem.setPos(m_position);
   }
 
