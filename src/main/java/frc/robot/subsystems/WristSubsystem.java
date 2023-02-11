@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -23,6 +25,9 @@ public class WristSubsystem extends SubsystemBase {
 
   private RelativeEncoder m_wristRelativeEncoderA = null;
   private RelativeEncoder m_wristRelativeEncoderB = null;
+
+  private CANCoder m_wristAbsoluteEncoderA = null;
+  private CANCoder m_wristAbsoluteEncoderB = null;
   
   private double m_pitch_deg = 0.0;
   private double m_roll_deg = 0.0;
@@ -30,10 +35,9 @@ public class WristSubsystem extends SubsystemBase {
   private double m_positionB = 0.0;
 
   public WristSubsystem() {
-    //TODO: Create absolute encoder for wrist motor
     //TODO: Create repositioning for those
 
-    m_wristmotorA = new CANSparkMax(WristConstants.WristCanID60, CANSparkMax.MotorType.kBrushless);
+    m_wristmotorA = new CANSparkMax(WristConstants.WristCanIDA, CANSparkMax.MotorType.kBrushless);
   
     if (m_wristmotorA != null) {
       // getting PIDController instance from the wrist motor
@@ -63,7 +67,7 @@ public class WristSubsystem extends SubsystemBase {
     // Initialize the second motor and set its PID controller and encoder
 
     // creating an instance of CANSparkMax for the Wrist motor with ID WristCanID21
-    m_wristmotorB = new CANSparkMax(WristConstants.WristCanID61, CANSparkMax.MotorType.kBrushless);
+    m_wristmotorB = new CANSparkMax(WristConstants.WristCanIDB, CANSparkMax.MotorType.kBrushless);
 
     // checking if the Wrist motor instance is not null
     if (m_wristmotorB != null) {
@@ -91,22 +95,21 @@ public class WristSubsystem extends SubsystemBase {
   }
   
 public void pitch(double delta_deg) {
-  m_pitch_deg += delta_deg;
-// TODO: limit pitch range
+  if(m_pitch_deg + delta_deg <= WristConstants.kMaxPitch && m_pitch_deg + delta_deg >= WristConstants.kMinPitch) {
+    m_pitch_deg += delta_deg;
+  }
 }
 
 public void roll(double delta_deg) {
-  m_roll_deg += delta_deg;
-// TODO: limit roll range
-
+  if(m_roll_deg + delta_deg <= WristConstants.kMaxRoll && m_roll_deg + delta_deg >= WristConstants.kMinRoll) {
+    m_roll_deg += delta_deg;
+  }
 }
 
   @Override
   public void periodic() {
     m_positionA = m_pitch_deg + m_roll_deg;
     m_positionB = (m_pitch_deg - m_roll_deg) * WristConstants.REVS_PER_OUTPUT_DEGREE;
-
-  //TODO: convert deg to motor revolutions
 
     m_pidControllerA.setReference(m_positionA, ControlType.kPosition);
     m_pidControllerB.setReference(m_positionB, ControlType.kPosition);

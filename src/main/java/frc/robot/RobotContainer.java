@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SwerveAuto;
 import frc.robot.commands.SwerveJoystickDefaultCmd;
-import frc.robot.commands.WristPitchCommand;
-import frc.robot.commands.WristRollCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
@@ -35,11 +33,6 @@ public class RobotContainer {
 
 
     public final WristSubsystem m_wristSubsystem = new WristSubsystem();
-    public final WristRollCommand m_wristRollRightCommand = new WristRollCommand(m_wristSubsystem,0.1);
-    public final WristRollCommand m_wristRollLeftCommand = new WristRollCommand(m_wristSubsystem,-0.1);
-
-    public final WristPitchCommand m_wristPitchUpCommand = new WristPitchCommand(m_wristSubsystem,0.1);
-    public final WristPitchCommand m_wristPitchDownCommand = new WristPitchCommand(m_wristSubsystem,-0.1);
 
 
 
@@ -55,11 +48,13 @@ public class RobotContainer {
         /*m_joyA.onTrue(m_shoulderPreset0deg);
         m_joyB.onTrue(m_shoulderPreset55deg);
         m_joyX.onTrue(m_shoulderPreset110deg);*/
-        m_joyRB.whileTrue(m_wristRollRightCommand);
-        m_joyLB.whileTrue(m_wristRollLeftCommand);
+        m_joyRB.whileTrue(new InstantCommand(() -> m_wristSubsystem.roll(2.5)));
+        m_joyLB.whileTrue(new InstantCommand(() -> m_wristSubsystem.roll(-2.5)));
 
-        m_joyST.whileTrue(m_wristPitchUpCommand);
-        m_joyBK.whileTrue(m_wristPitchDownCommand);
+
+        m_joyST.whileTrue(new InstantCommand(() -> m_wristSubsystem.pitch(0.1)));
+        m_joyBK.whileTrue(new InstantCommand(() -> m_wristSubsystem.pitch(-0.1)));
+
 
         
     }

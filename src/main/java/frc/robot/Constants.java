@@ -33,12 +33,12 @@ public final class Constants {
 
         public static final int kFrontLeftDriveMotorPort = 2;
         public static final int kBackLeftDriveMotorPort = 4;
-        public static final int kFrontRightDriveMotorPort = 7;
+        public static final int kFrontRightDriveMotorPort = 60;
         public static final int kBackRightDriveMotorPort = 10;
 
         public static final int kFrontLeftTurningMotorPort = 1;
         public static final int kBackLeftTurningMotorPort = 3;
-        public static final int kFrontRightTurningMotorPort = 5;
+        public static final int kFrontRightTurningMotorPort = 61;
         public static final int kBackRightTurningMotorPort = 11;
 
         public static final boolean kFrontLeftTurningEncoderReversed = false;
@@ -117,15 +117,19 @@ public final class Constants {
     
     } */
         public static final class WristConstants {
-        public static final double kp = 0.01;
+        public static final double kp = 0.1;
         public static final double ki = 0.0;
         public static final double kd = 0.0;
         public static final double kIz = 0.0;
         public static final double kFFz = 0.0;
         public static final double kMaxOutput = 1.0;
         public static final double kMinOutput = -1.0;
-        public static final int WristCanID60 = 60;
-        public static final int WristCanID61 = 61;
+        public static final double kMaxRoll = 115.0;
+        public static final double kMinRoll = -115.0;
+        public static final double kMaxPitch = 15.0;
+        public static final double kMinPitch = -15.0;
+        public static final int WristCanIDA = 5;
+        public static final int WristCanIDB = 7;
         public static final double WRIST_GEAR_RATIO = 60.0;
         public static final double REVS_PER_OUTPUT_DEGREE = WRIST_GEAR_RATIO / 360.0;
     }
