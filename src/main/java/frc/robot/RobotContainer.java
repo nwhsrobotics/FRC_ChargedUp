@@ -4,7 +4,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ExtendedArmControl;
 import frc.robot.commands.ShoulderControl;
+import frc.robot.subsystems.ExtendArmSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 
 public class RobotContainer {
@@ -15,6 +17,13 @@ public class RobotContainer {
     public final ShoulderControl m_shoulderPreset0deg = new ShoulderControl(m_shoulderSubsystem,0);
     public final ShoulderControl m_shoulderPreset55deg = new ShoulderControl(m_shoulderSubsystem,55);
     public final ShoulderControl m_shoulderPreset110deg = new ShoulderControl(m_shoulderSubsystem,110);
+
+
+    public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem();
+    public final ExtendedArmControl m_extendedpresetlength1 = new ExtendedArmControl(m_extendArmSubsystem, 1.0);
+    public final ExtendedArmControl m_extendedpresetlength2 = new ExtendedArmControl(m_extendArmSubsystem, 2.0);
+    public final ExtendedArmControl m_extendedpresetlength3 = new ExtendedArmControl(m_extendArmSubsystem, 3.0);
+
 
     public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); // button A
     public final JoystickButton m_joyB = new JoystickButton(xboxController, 2); // button B
@@ -33,5 +42,9 @@ public class RobotContainer {
         m_joyA.onTrue(m_shoulderPreset0deg);
         m_joyB.onTrue(m_shoulderPreset55deg);
         m_joyX.onTrue(m_shoulderPreset110deg);
+
+        m_joyLB.onTrue(m_extendedpresetlength1);
+        m_joyRB.onTrue(m_extendedpresetlength3);
+
     }
 }
