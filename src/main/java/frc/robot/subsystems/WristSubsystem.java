@@ -12,44 +12,50 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.WristConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+//TODO: get arm position and adjust pitch
 
 public class WristSubsystem extends SubsystemBase {
-  private CANSparkMax wristLeftMotor = null;
-  private CANSparkMax wristRightMotor = null;
+  private CANSparkMax m_wristmotorA = null;
+  private CANSparkMax m_wristmotorB = null;
 
-  private SparkMaxPIDController pidControllerLeft = null;
-  private SparkMaxPIDController pidControllerRight = null;
+  private SparkMaxPIDController m_pidControllerA = null;
+  private SparkMaxPIDController m_pidControllerB = null;
 
-  private RelativeEncoder wristLeftRelativeEncoder = null;
-  private RelativeEncoder wristRightRelativeEncoder = null;
+  private RelativeEncoder m_wristRelativeEncoderA = null;
+  private RelativeEncoder m_wristRelativeEncoderB = null;
   
-  public static double positionIncrease = 1.0;
+  private double m_pitch_deg = 0.0;
+  private double m_roll_deg = 0.0;
+  private double m_positionA = 0.0;
+  private double m_positionB = 0.0;
 
   public WristSubsystem() {
-    wristLeftMotor = new CANSparkMax(WristConstants.WristCanID60, CANSparkMax.MotorType.kBrushless);
+    //TODO: Create absolute encoder for wrist motor
+    //TODO: Create repositioning for those
 
-    if (wristLeftMotor != null) {
+    m_wristmotorA = new CANSparkMax(WristConstants.WristCanID60, CANSparkMax.MotorType.kBrushless);
+  
+    if (m_wristmotorA != null) {
       // getting PIDController instance from the wrist motor
-      pidControllerLeft = wristLeftMotor.getPIDController();
+      m_pidControllerA = m_wristmotorA.getPIDController();
       // getting the encoder instance from the wrist motor
-      wristLeftRelativeEncoder = wristLeftMotor.getEncoder();
+      m_wristRelativeEncoderA = m_wristmotorA.getEncoder();
       // setting the encoder position to zero
-      wristLeftRelativeEncoder.setPosition(0);
+      m_wristRelativeEncoderA.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the wristConstants
-      pidControllerLeft.setP(WristConstants.kp);
-      pidControllerLeft.setI(WristConstants.ki);
-      pidControllerLeft.setD(WristConstants.kd);
+      m_pidControllerA.setP(WristConstants.kp);
+      m_pidControllerA.setI(WristConstants.ki);
+      m_pidControllerA.setD(WristConstants.kd);
 
       // setting the IZone and FF values for the PIDController from the WristConstants
-      pidControllerLeft.setIZone(WristConstants.kIz);
-      pidControllerLeft.setFF(WristConstants.kFFz);
+      m_pidControllerA.setIZone(WristConstants.kIz);
+      m_pidControllerA.setFF(WristConstants.kFFz);
 
       // setting the output range for the PIDController from the WristConstants
-      pidControllerLeft.setOutputRange(WristConstants.kMinOutput, WristConstants.kMaxOutput);
+      m_pidControllerA.setOutputRange(WristConstants.kMinOutput, WristConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
-      pidControllerLeft.setReference(0.0, ControlType.kPosition);
+      m_pidControllerA.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the Wrist motor 1
       System.out.println("WristMotor1 initialized");
     }
@@ -57,59 +63,53 @@ public class WristSubsystem extends SubsystemBase {
     // Initialize the second motor and set its PID controller and encoder
 
     // creating an instance of CANSparkMax for the Wrist motor with ID WristCanID21
-    wristRightMotor = new CANSparkMax(WristConstants.WristCanID61, CANSparkMax.MotorType.kBrushless);
+    m_wristmotorB = new CANSparkMax(WristConstants.WristCanID61, CANSparkMax.MotorType.kBrushless);
 
     // checking if the Wrist motor instance is not null
-    if (wristRightMotor != null) {
+    if (m_wristmotorB != null) {
       // getting PIDController instance from the Wrist motor
-      pidControllerRight = wristRightMotor.getPIDController();
+      m_pidControllerB = m_wristmotorB.getPIDController();
       // getting the encoder instance from the Wrist motor
-      wristRightRelativeEncoder = wristRightMotor.getEncoder();
+      m_wristRelativeEncoderB = m_wristmotorB.getEncoder();
       // setting the encoder position to zero
-      wristRightRelativeEncoder.setPosition(0);
+      m_wristRelativeEncoderB.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the WristConstants
-      pidControllerRight.setP(WristConstants.kp);
-      pidControllerRight.setI(WristConstants.ki);
-      pidControllerRight.setD(WristConstants.kd);
+      m_pidControllerB.setP(WristConstants.kp);
+      m_pidControllerB.setI(WristConstants.ki);
+      m_pidControllerB.setD(WristConstants.kd);
 
       // setting the IZone and FF values for the PIDController from the WristConstants
-      pidControllerRight.setIZone(WristConstants.kIz);
-      pidControllerRight.setFF(WristConstants.kFFz);
+      m_pidControllerB.setIZone(WristConstants.kIz);
+      m_pidControllerB.setFF(WristConstants.kFFz);
 
       // setting the output range for the PIDController from the WristConstants
-      pidControllerRight.setOutputRange(WristConstants.kMinOutput, WristConstants.kMaxOutput);
+      m_pidControllerB.setOutputRange(WristConstants.kMinOutput, WristConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
-      pidControllerRight.setReference(0.0, ControlType.kPosition);
+      m_pidControllerB.setReference(0.0, ControlType.kPosition);
     }
   }
   
- 
-  public void turnLeft(double nextPosition) {
-    pidControllerLeft.setReference(nextPosition, ControlType.kPosition);
-    pidControllerRight.setReference(nextPosition, ControlType.kPosition);
-    
-  }
+public void pitch(double delta_deg) {
+  m_pitch_deg += delta_deg;
+// TODO: limit pitch range
+}
 
-  public void turnRight(double nextPosition) {
-    pidControllerLeft.setReference(-nextPosition, ControlType.kPosition);
-    pidControllerRight.setReference(-nextPosition, ControlType.kPosition);
-    
-  }
+public void roll(double delta_deg) {
+  m_roll_deg += delta_deg;
+// TODO: limit roll range
 
-  public void liftUp(double nextPosition) {
-    pidControllerLeft.setReference(-nextPosition, ControlType.kPosition);
-    pidControllerRight.setReference(-nextPosition, ControlType.kPosition);
-    
-  }
-
-  public void lowerDown(double nextPosition) {
-    pidControllerLeft.setReference(nextPosition, ControlType.kPosition);
-    pidControllerRight.setReference(nextPosition, ControlType.kPosition);
-    
-  }
+}
 
   @Override
   public void periodic() {
+    m_positionA = m_pitch_deg + m_roll_deg;
+    m_positionB = (m_pitch_deg - m_roll_deg) * WristConstants.REVS_PER_OUTPUT_DEGREE;
+
+  //TODO: convert deg to motor revolutions
+
+    m_pidControllerA.setReference(m_positionA, ControlType.kPosition);
+    m_pidControllerB.setReference(m_positionB, ControlType.kPosition);
+    
   }
 }

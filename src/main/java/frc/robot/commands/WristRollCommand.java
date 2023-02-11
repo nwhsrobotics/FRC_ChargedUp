@@ -8,20 +8,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.WristSubsystem;
 
-public class WristTurnCommand extends CommandBase {
+public class WristRollCommand extends CommandBase {
 
   private final WristSubsystem m_wristSubsystem;
-  private double m_nextPosition;
+  //private double m_nextPosition;
 
-  private boolean turningLeft;
-  private boolean turningRight;
 
-  public WristTurnCommand(WristSubsystem subsystem, double nextPosition) {
+  private double m_delta_deg;
+
+
+  public WristRollCommand(WristSubsystem subsystem, double delta_deg) {
     addRequirements(subsystem);
-    m_nextPosition = nextPosition;
-
     m_wristSubsystem = subsystem;
-    
+    m_delta_deg = delta_deg;
   }
 
   
@@ -30,19 +29,14 @@ public class WristTurnCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if(turningLeft == true) {
-    m_wristSubsystem.turnLeft(m_nextPosition);
-    }
-    else if (turningRight == true) {
-    m_wristSubsystem.turnRight(m_nextPosition);
-    }
-
+    m_wristSubsystem.roll(m_delta_deg);
   }
+
   @Override
   public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
