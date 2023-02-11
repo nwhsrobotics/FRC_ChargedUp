@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SwerveAuto;
 import frc.robot.commands.SwerveJoystickDefaultCmd;
-import frc.robot.commands.WristLiftCommand;
-import frc.robot.commands.WristTurnCommand;
+import frc.robot.commands.WristPitchCommand;
+import frc.robot.commands.WristRollCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
@@ -27,15 +27,19 @@ public class RobotContainer {
     public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); //button A
     public final JoystickButton m_joyB = new JoystickButton(xboxController, 2); // button B
     public final JoystickButton m_joyX = new JoystickButton(xboxController, 3); // button X
-    public final JoystickButton m_joyY = new JoystickButton(xboxController, 4); // button Y
-    public final JoystickButton m_joyVB = new JoystickButton(xboxController, 7); // View Button
-    public final JoystickButton m_joyMB = new JoystickButton(xboxController, 8); // Menu Button*/
+    public final JoystickButton m_joyY = new JoystickButton(xboxController, 4); // button Y*/
+    public final JoystickButton m_joyBK = new JoystickButton(xboxController, 7); // Back Button
+    public final JoystickButton m_joyST = new JoystickButton(xboxController, 8); // Start Button
     public final JoystickButton m_joyLB = new JoystickButton(xboxController, 5); // Left bumper
     public final JoystickButton m_joyRB = new JoystickButton(xboxController, 6); // Right bumper
 
+
     public final WristSubsystem m_wristSubsystem = new WristSubsystem();
-    public final WristTurnCommand m_nextWristTurnPosition = new WristTurnCommand(m_wristSubsystem,0.1);
-    public final WristLiftCommand m_nextWristLiftPosition = new WristLiftCommand(m_wristSubsystem,0.1);
+    public final WristRollCommand m_wristRollRightCommand = new WristRollCommand(m_wristSubsystem,0.1);
+    public final WristRollCommand m_wristRollLeftCommand = new WristRollCommand(m_wristSubsystem,-0.1);
+
+    public final WristPitchCommand m_wristPitchUpCommand = new WristPitchCommand(m_wristSubsystem,0.1);
+    public final WristPitchCommand m_wristPitchDownCommand = new WristPitchCommand(m_wristSubsystem,-0.1);
 
 
 
@@ -51,8 +55,11 @@ public class RobotContainer {
         /*m_joyA.onTrue(m_shoulderPreset0deg);
         m_joyB.onTrue(m_shoulderPreset55deg);
         m_joyX.onTrue(m_shoulderPreset110deg);*/
-        m_joyRB.onTrue(m_nextWristTurnPosition);
-        m_joyLB.onTrue(m_nextWristLiftPosition);
+        m_joyRB.whileTrue(m_wristRollRightCommand);
+        m_joyLB.whileTrue(m_wristRollLeftCommand);
+
+        m_joyST.whileTrue(m_wristPitchUpCommand);
+        m_joyBK.whileTrue(m_wristPitchDownCommand);
 
         
     }

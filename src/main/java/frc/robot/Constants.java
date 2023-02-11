@@ -126,6 +126,8 @@ public final class Constants {
         public static final double kMinOutput = -1.0;
         public static final int WristCanID60 = 60;
         public static final int WristCanID61 = 61;
+        public static final double WRIST_GEAR_RATIO = 60.0;
+        public static final double REVS_PER_OUTPUT_DEGREE = WRIST_GEAR_RATIO / 360.0;
     }
 
     public static final class ExtendArmConstants {
