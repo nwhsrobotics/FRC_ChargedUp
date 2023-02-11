@@ -43,6 +43,10 @@ public class ShoulderSubsystem extends SubsystemBase {
 
   // Set the initial shoulder position to be at the bottom or 0.0 position
   private double m_shoulderPos = 0.0;
+  private double oldPos = 0.0;
+  private double oldDelta = 0.0;
+  private double oldCurrentDistance = 0.0;
+  private double oldDesiredDistance = 0.0;
 
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
@@ -53,6 +57,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     shoulderMotor1 = new CANSparkMax(
         ShoulderConstants.ShoulderCanID20,
         CANSparkMax.MotorType.kBrushless);
+
     // checking if the shoulder motor instance is not null
     if (shoulderMotor1 != null) {
       // getting PIDController instance from the shoulder motor
@@ -130,7 +135,7 @@ public class ShoulderSubsystem extends SubsystemBase {
   public void periodic() {
     // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.
   
-    System.out.println(desiredPos);
+    //System.out.println(desiredPos);
   
     // Calculate the difference between the desired position and the current position
     double distance = (desiredPos - currentPos);
@@ -156,5 +161,19 @@ public class ShoulderSubsystem extends SubsystemBase {
     // Set the reference position for the 2 PID controllers in two opposite directions
     pidController1.setReference(currentPos, ControlType.kPosition);
     pidController2.setReference(-currentPos, ControlType.kPosition);
+    
+    if((oldPos != currentPos) || (oldDelta != delta) || (oldDesiredDistance != desiredPos) || (oldCurrentDistance != distance))
+    {
+      System.out.println("Current position: " + currentPos);
+      System.out.println("Delta: " + delta);
+      System.out.println("Distance: " + distance);
+      System.out.println("Desired position: " + desiredPos);
+    }
+
+
+    oldPos = currentPos;
+    oldDesiredDistance = desiredPos;
+    oldDelta = delta;
+    oldCurrentDistance = distance;
   }
 }  
