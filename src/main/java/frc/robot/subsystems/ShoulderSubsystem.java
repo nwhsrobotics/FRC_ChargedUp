@@ -169,7 +169,9 @@ public class ShoulderSubsystem extends SubsystemBase {
       oldDesiredDistance = desiredPos;
       oldDelta = delta;
       oldCurrentDistance = distance;
-    } else {
+    } 
+    else 
+    {
       return;
     }
   }
