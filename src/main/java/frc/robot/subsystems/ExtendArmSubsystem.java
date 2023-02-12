@@ -22,8 +22,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private SparkMaxPIDController pidController1 = null;
   // Declare two instances of the RelativeEncoder class
   private RelativeEncoder extendArmEncoder1 = null; // Set the current position for the shoulder motors
-  
-  
+
   public static double currentPos = 0.0;
   // Set the desired position that user wants to go to for the shoulder motors
   public static double desiredPos = 0.0;
@@ -31,7 +30,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
   // Set the number of ticks per second
   private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
-  //Rotations it can make (Total_Distance) it can travel 
+  // Rotations it can make (Total_Distance) it can travel
   private static final double TOTAL_DISTANCE = 25.0; // Revisit this value!!!
   // Set the time it takes for the shoulder to move from bottom to top
   private static double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
@@ -45,7 +44,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
   private double gear_ratio = 48.0;
 
-  private double one_rotation_length = 1.0; //Revisit this values!!!
+  private double one_rotation_length = 1.0; // Revisit this values!!!
 
   private boolean m_enabled = false;
 
@@ -53,8 +52,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   public ExtendArmSubsystem() {
     // Initialize the first motor and set its PID controller and encoder
 
-    // creating an instance of CANSparkMax for the shoulder motor with ID
-    // ShoulderCanID20
+    // creating an instance of CANSparkMax for the shoulder motor with ID ShoulderCanID20
     extendArmMotor1 = new CANSparkMax(ExtendArmConstants.ExtendArmCanID24, CANSparkMax.MotorType.kBrushless);
     // checking if the shoulder motor instance is not null
     if (extendArmMotor1 != null) {
@@ -64,16 +62,13 @@ public class ExtendArmSubsystem extends SubsystemBase {
       extendArmEncoder1 = extendArmMotor1.getEncoder();
       // setting the encoder position to zero
       extendArmEncoder1.setPosition(0);
-      m_enabled = true;
 
-      // setting the P, I, and D values for the PIDController from the
-      // ShoulderConstants
+      // setting the P, I, and D values for the PIDController from the ShoulderConstants
       pidController1.setP(ExtendArmConstants.kp);
       pidController1.setI(ExtendArmConstants.ki);
       pidController1.setD(ExtendArmConstants.kd);
 
-      // setting the IZone and FF values for the PIDController from the
-      // ShoulderConstants
+      // setting the IZone and FF values for the PIDController from the ShoulderConstants
       pidController1.setIZone(ExtendArmConstants.kIz);
       pidController1.setFF(ExtendArmConstants.kFFz);
 
@@ -85,8 +80,8 @@ public class ExtendArmSubsystem extends SubsystemBase {
       pidController1.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the shoulder motor 1
       System.out.println("ShoulderMotor1 initialized");
+      m_enabled = true;
     }
-
 
   }
 
@@ -98,55 +93,47 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(m_enabled == true){
-        // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.
-  
-    //System.out.println(desiredPos);
-  
-    // Calculate the difference between the desired position and the current position
-    double distance = (desiredPos - currentPos);
-  
-    // Store the difference in a variable named delta
-    double delta = distance;
-  
-    // Check if delta is greater than the maximum speed(max distance it can travel in a tick) (SPEED_ROT_PER_TICK)
-    if (delta > SPEED_ROT_PER_TICK) {
-      // If delta is greater than the maximum speed(max distance it can travel in a tick), set delta to the maximum speed(max distance it can travel in a tick)
-      delta = SPEED_ROT_PER_TICK;
+    if (m_enabled == true) {
+      // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.
+
+      // Calculate the difference between the desired position and the current position
+      double distance = (desiredPos - currentPos);
+
+      // Store the difference in a variable named delta
+      double delta = distance;
+
+      // Check if delta is greater than the maximum speed(max distance it can travel in a tick) (SPEED_ROT_PER_TICK)
+      if (delta > SPEED_ROT_PER_TICK) {
+        // If delta is greater than the maximum speed(max distance it can travel in a tick), set delta to the maximum speed(max distance it can travel in a tick)
+        delta = SPEED_ROT_PER_TICK;
+      }
+
+      // Check if delta is less than the negative of the maximum speed(max distance it can travel in a tick)
+      if (delta < -SPEED_ROT_PER_TICK) {
+        // If delta is less than the negative of the maximum speed(max rotation it can travel in a tick), set delta to the negative of the maximum speed(max distance it can travel in a tick)
+        delta = -SPEED_ROT_PER_TICK;
+      }
+
+      // Update the current position by adding delta
+      currentPos += delta;
+
+      // Set the reference position for the 2 PID controllers in two opposite directions
+      pidController1.setReference(currentPos, ControlType.kPosition);
+
+      if ((oldPos != currentPos) || (oldDelta != delta) || (oldDesiredDistance != desiredPos)
+          || (oldCurrentDistance != distance)) {
+        System.out.println("Current position: " + currentPos);
+        System.out.println("Delta: " + delta);
+        System.out.println("Distance: " + distance);
+        System.out.println("Desired position: " + desiredPos);
+      }
+
+      oldPos = currentPos;
+      oldDesiredDistance = desiredPos;
+      oldDelta = delta;
+      oldCurrentDistance = distance;
+    } else {
+      return;
     }
-  
-    // Check if delta is less than the negative of the maximum speed(max distance it can travel in a tick)
-    if (delta < -SPEED_ROT_PER_TICK) {
-      // If delta is less than the negative of the maximum speed(max rotation it can travel in a tick), set delta to the negative of the maximum speed(max distance it can travel in a tick)
-      delta = -SPEED_ROT_PER_TICK;
-    }
-  
-    // Update the current position by adding delta
-    currentPos += delta;
-  
-    // Set the reference position for the 2 PID controllers in two opposite directions
-    pidController1.setReference(currentPos, ControlType.kPosition);
-    
-    if((oldPos != currentPos) || (oldDelta != delta) || (oldDesiredDistance != desiredPos) || (oldCurrentDistance != distance))
-    {
-      System.out.println("Current position: " + currentPos);
-      System.out.println("Delta: " + delta);
-      System.out.println("Distance: " + distance);
-      System.out.println("Desired position: " + desiredPos);
-    }
-
-
-    oldPos = currentPos;
-    oldDesiredDistance = desiredPos;
-    oldDelta = delta;
-    oldCurrentDistance = distance;
-  }
-  else
-  {
-    return;
-  }
-
-
-    // This method will be called once per scheduler run
   }
 }
