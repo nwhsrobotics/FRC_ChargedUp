@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
@@ -36,13 +32,11 @@ public class ShoulderSubsystem extends SubsystemBase {
   private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
   // Rotations it can make (Total_Distance) it can travel
   private static final double TOTAL_DISTANCE = 61.1;
-  // Set the time it takes for the shoulder to move from bottom to top
+  // Set the time it takes for the shoulder to reach destination
   private static double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
   // Calculate the speed of rotation per tick (distance traveled per tick )
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
 
-  // Set the initial shoulder position to be at the bottom or 0.0 position
-  private double m_shoulderPos = 0.0;
   private double oldPos = 0.0;
   private double oldDelta = 0.0;
   private double oldCurrentDistance = 0.0;
@@ -54,9 +48,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     // Initialize the first motor and set its PID controller and encoder
 
     // creating an instance of CANSparkMax for the shoulder motor with ID ShoulderCanID20
-    shoulderMotor1 = new CANSparkMax(
-        ShoulderConstants.ShoulderCanID20,
-        CANSparkMax.MotorType.kBrushless);
+    shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
 
     // checking if the shoulder motor instance is not null
     if (shoulderMotor1 != null) {
@@ -77,9 +69,7 @@ public class ShoulderSubsystem extends SubsystemBase {
       pidController1.setFF(ShoulderConstants.kFFz);
 
       // setting the output range for the PIDController from the ShoulderConstants
-      pidController1.setOutputRange(
-          ShoulderConstants.kMinOutput,
-          ShoulderConstants.kMaxOutput);
+      pidController1.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
       pidController1.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the shoulder motor 1
@@ -89,9 +79,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     // Initialize the second motor and set its PID controller and encoder
 
     // creating an instance of CANSparkMax for the shoulder motor with ID ShoulderCanID21
-    shoulderMotor2 = new CANSparkMax(
-        ShoulderConstants.ShoulderCanID21,
-        CANSparkMax.MotorType.kBrushless);
+    shoulderMotor2 = new CANSparkMax(ShoulderConstants.ShoulderCanID21, CANSparkMax.MotorType.kBrushless);
 
     // checking if the shoulder motor instance is not null
     if (shoulderMotor2 != null) {
@@ -112,9 +100,7 @@ public class ShoulderSubsystem extends SubsystemBase {
       pidController2.setFF(ShoulderConstants.kFFz);
 
       // setting the output range for the PIDController from the ShoulderConstants
-      pidController2.setOutputRange(
-          ShoulderConstants.kMinOutput,
-          ShoulderConstants.kMaxOutput);
+      pidController2.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
       pidController2.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the shoulder motor 2
@@ -157,8 +143,7 @@ public class ShoulderSubsystem extends SubsystemBase {
       pidController1.setReference(currentPos, ControlType.kPosition);
       pidController2.setReference(-currentPos, ControlType.kPosition);
 
-      if ((oldPos != currentPos) || (oldDelta != delta) || (oldDesiredDistance != desiredPos)
-          || (oldCurrentDistance != distance)) {
+      if ((oldPos != currentPos) || (oldDelta != delta) || (oldDesiredDistance != desiredPos) || (oldCurrentDistance != distance)) {
         System.out.println("Current position: " + currentPos);
         System.out.println("Delta: " + delta);
         System.out.println("Distance: " + distance);
