@@ -47,13 +47,15 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
   private double one_rotation_length = 1.0; //Revisit this values!!!
 
+  private boolean m_enabled = false;
+
   /** Creates a new ExtendArmSubsystem. */
   public ExtendArmSubsystem() {
     // Initialize the first motor and set its PID controller and encoder
 
     // creating an instance of CANSparkMax for the shoulder motor with ID
     // ShoulderCanID20
-    extendArmMotor1 = new CANSparkMax(4, CANSparkMax.MotorType.kBrushless);
+    extendArmMotor1 = new CANSparkMax(ExtendArmConstants.ExtendArmCanID24, CANSparkMax.MotorType.kBrushless);
     // checking if the shoulder motor instance is not null
     if (extendArmMotor1 != null) {
       // getting PIDController instance from the shoulder motor
@@ -62,6 +64,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
       extendArmEncoder1 = extendArmMotor1.getEncoder();
       // setting the encoder position to zero
       extendArmEncoder1.setPosition(0);
+      m_enabled = true;
 
       // setting the P, I, and D values for the PIDController from the
       // ShoulderConstants
@@ -95,7 +98,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    if(m_enabled == true){
         // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.
   
     //System.out.println(desiredPos);
@@ -137,8 +140,11 @@ public class ExtendArmSubsystem extends SubsystemBase {
     oldDesiredDistance = desiredPos;
     oldDelta = delta;
     oldCurrentDistance = distance;
-
-
+  }
+  else
+  {
+    return;
+  }
 
 
     // This method will be called once per scheduler run
