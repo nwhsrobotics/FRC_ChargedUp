@@ -132,7 +132,9 @@ public class ExtendArmSubsystem extends SubsystemBase {
       oldDesiredDistance = desiredPos;
       oldDelta = delta;
       oldCurrentDistance = distance;
-    } else {
+    } 
+    else
+    {
       return;
     }
   }

@@ -19,7 +19,6 @@ public class ShoulderControl extends CommandBase {
     addRequirements(subsystem);
     m_position = degree;
     m_shoulderSubsystem = subsystem;
-    
   }
 
   // Called when the command is initially scheduled.

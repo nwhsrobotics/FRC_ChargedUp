@@ -45,6 +45,5 @@ public class RobotContainer {
 
         m_joyLB.onTrue(m_extendedpresetlength1);
         m_joyRB.onTrue(m_extendedpresetlength3);
-
     }
 }
