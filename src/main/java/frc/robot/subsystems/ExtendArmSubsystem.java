@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
@@ -21,18 +17,17 @@ public class ExtendArmSubsystem extends SubsystemBase {
   // Declare two instances of the SparkMaxPIDController class
   private SparkMaxPIDController pidController1 = null;
   // Declare two instances of the RelativeEncoder class
-  private RelativeEncoder extendArmEncoder1 = null; // Set the current position for the shoulder motors
-
+  private RelativeEncoder extendArmEncoder1 = null; 
+  // Set the current position for the shoulder motors
   public static double currentPos = 0.0;
   // Set the desired position that user wants to go to for the shoulder motors
   public static double desiredPos = 0.0;
-  // Set the degree angel for the shoulder motors
 
   // Set the number of ticks per second
   private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
-  // Rotations it can make (Total_Distance) it can travel
+  // Rotations it can make (Total_Distance) it can travel in one second
   private static final double TOTAL_DISTANCE = 25.0; // Revisit this value!!!
-  // Set the time it takes for the shoulder to move from bottom to top
+  // Set the time it needs to reach the destination
   private static double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
   // Calculate the speed of rotation per tick (distance traveled per tick )
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
@@ -73,9 +68,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
       pidController1.setFF(ExtendArmConstants.kFFz);
 
       // setting the output range for the PIDController from the ShoulderConstants
-      pidController1.setOutputRange(
-          ExtendArmConstants.kMinOutput,
-          ExtendArmConstants.kMaxOutput);
+      pidController1.setOutputRange(ExtendArmConstants.kMinOutput, ExtendArmConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
       pidController1.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the shoulder motor 1
@@ -120,8 +113,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
       // Set the reference position for the 2 PID controllers in two opposite directions
       pidController1.setReference(currentPos, ControlType.kPosition);
 
-      if ((oldPos != currentPos) || (oldDelta != delta) || (oldDesiredDistance != desiredPos)
-          || (oldCurrentDistance != distance)) {
+      if ((oldPos != currentPos) || (oldDelta != delta) || (oldDesiredDistance != desiredPos) || (oldCurrentDistance != distance)) {
         System.out.println("Current position: " + currentPos);
         System.out.println("Delta: " + delta);
         System.out.println("Distance: " + distance);
