@@ -47,6 +47,7 @@ public class ShoulderSubsystem extends SubsystemBase {
   private double oldDelta = 0.0;
   private double oldCurrentDistance = 0.0;
   private double oldDesiredDistance = 0.0;
+  private boolean m_enabled = false;
 
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
@@ -124,6 +125,7 @@ public class ShoulderSubsystem extends SubsystemBase {
       pidController2.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the shoulder motor 2
       System.out.println("ShoulderMotor2 initialized");
+      m_enabled = true;
     }
   }
 
@@ -133,6 +135,7 @@ public class ShoulderSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if(m_enabled == true){
     // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.
   
     //System.out.println(desiredPos);
@@ -176,4 +179,9 @@ public class ShoulderSubsystem extends SubsystemBase {
     oldDelta = delta;
     oldCurrentDistance = distance;
   }
-}  
+  else
+  {
+    return;
+  }
+} 
+} 
