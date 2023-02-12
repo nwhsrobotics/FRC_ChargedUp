@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.swing.text.Position;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
@@ -7,6 +9,7 @@ import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShoulderConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // ShoulderSubsystem initializes and sets up two brushless motors and their associated encoders and PID controllers
 public class ShoulderSubsystem extends SubsystemBase {
@@ -143,17 +146,8 @@ public class ShoulderSubsystem extends SubsystemBase {
       pidController1.setReference(currentPos, ControlType.kPosition);
       pidController2.setReference(-currentPos, ControlType.kPosition);
 
-      if ((oldPos != currentPos) || (oldDelta != delta) || (oldDesiredDistance != desiredPos) || (oldCurrentDistance != distance)) {
-        System.out.println("Current position: " + currentPos);
-        System.out.println("Delta: " + delta);
-        System.out.println("Distance: " + distance);
-        System.out.println("Desired position: " + desiredPos);
-      }
-
-      oldPos = currentPos;
-      oldDesiredDistance = desiredPos;
-      oldDelta = delta;
-      oldCurrentDistance = distance;
+      SmartDashboard.putNumber("Shoulder 1 Position", shoulderRelativeEncoder1.getPosition());
+      SmartDashboard.putNumber("Shoulder 2 Position", shoulderRelativeEncoder2.getPosition());
     } 
     else 
     {
