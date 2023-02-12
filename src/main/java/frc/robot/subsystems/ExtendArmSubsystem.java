@@ -112,17 +112,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
       // Set the reference position for the 2 PID controllers in two opposite directions
       pidController1.setReference(currentPos, ControlType.kPosition);
 
-      if ((oldPos != currentPos) || (oldDelta != delta) || (oldDesiredDistance != desiredPos) || (oldCurrentDistance != distance)) {
-        System.out.println("Current position: " + currentPos);
-        System.out.println("Delta: " + delta);
-        System.out.println("Distance: " + distance);
-        System.out.println("Desired position: " + desiredPos);
-      }
-
-      oldPos = currentPos;
-      oldDesiredDistance = desiredPos;
-      oldDelta = delta;
-      oldCurrentDistance = distance;
+      SmartDashboard.putNumber("Shoulder 1 Position", extendArmEncoder1.getPosition());
     } 
     else
     {
