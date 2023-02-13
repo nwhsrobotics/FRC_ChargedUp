@@ -32,11 +32,13 @@ public class RobotContainer {
     public final JoystickButton m_joyVB = new JoystickButton(xboxController, 7); // View Button
     public final JoystickButton m_joyMB = new JoystickButton(xboxController, 8); // Menu Button
 
-    public RobotContainer() {
+    public RobotContainer() 
+    {
         configureButtonBindings();
     }
 
-    private void configureButtonBindings() {
+    private void configureButtonBindings() 
+    {
         m_joyA.onTrue(m_shoulderPreset0deg);
         m_joyB.onTrue(m_shoulderPreset55deg);
         m_joyX.onTrue(m_shoulderPreset110deg);
