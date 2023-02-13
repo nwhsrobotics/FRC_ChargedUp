@@ -136,7 +136,10 @@ public class ShoulderSubsystem extends SubsystemBase
     if (m_enabled == true) 
     {
       // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.
-
+      if((m_desiredPos > ((110/360)*200)) && (m_desiredPos < ((0/360)*200))) {
+        return;
+      }
+      else {}
       // Calculate the difference between the desired position and the current position
       double distance = (m_desiredPos - m_currentPos);
 
