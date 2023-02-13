@@ -49,6 +49,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
       // getting the encoder instance from the shoulder motor
       m_extendArmEncoder1 = m_extendArmMotor1.getEncoder();
       // setting the encoder position to zero
+      double resetDistance = m_extendArmEncoder1.getPosition();
       m_extendArmEncoder1.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the ShoulderConstants
@@ -63,6 +64,14 @@ public class ExtendArmSubsystem extends SubsystemBase {
       // setting the output range for the PIDController from the ShoulderConstants
       m_pidController1.setOutputRange(ExtendArmConstants.kMinOutput, ExtendArmConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
+      for (int i = 1; i <= 5; i++) 
+      {
+        m_pidController1.setReference(resetDistance / i, ControlType.kPosition);
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+        }
+      }
       m_pidController1.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the shoulder motor 1
       System.out.println("ShoulderMotor1 initialized");
