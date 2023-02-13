@@ -31,13 +31,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   // Calculate the speed of rotation per tick (distance traveled per tick )
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
 
-  private double oldPos = 0.0;
-  private double oldDelta = 0.0;
-  private double oldCurrentDistance = 0.0;
-  private double oldDesiredDistance = 0.0;
-
   private double gear_ratio = 48.0;
-
   private double one_rotation_length = 1.0; // Revisit this values!!!
 
   private boolean m_enabled = false;
@@ -74,7 +68,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
       System.out.println("ShoulderMotor1 initialized");
       m_enabled = true;
     }
-
   }
 
   public void setPos(double position) {
@@ -95,13 +88,15 @@ public class ExtendArmSubsystem extends SubsystemBase {
       double delta = distance;
 
       // Check if delta is greater than the maximum speed(max distance it can travel in a tick) (SPEED_ROT_PER_TICK)
-      if (delta > SPEED_ROT_PER_TICK) {
+      if (delta > SPEED_ROT_PER_TICK) 
+      {
         // If delta is greater than the maximum speed(max distance it can travel in a tick), set delta to the maximum speed(max distance it can travel in a tick)
         delta = SPEED_ROT_PER_TICK;
       }
 
       // Check if delta is less than the negative of the maximum speed(max distance it can travel in a tick)
-      if (delta < -SPEED_ROT_PER_TICK) {
+      if (delta < -SPEED_ROT_PER_TICK) 
+      {
         // If delta is less than the negative of the maximum speed(max rotation it can travel in a tick), set delta to the negative of the maximum speed(max distance it can travel in a tick)
         delta = -SPEED_ROT_PER_TICK;
       }

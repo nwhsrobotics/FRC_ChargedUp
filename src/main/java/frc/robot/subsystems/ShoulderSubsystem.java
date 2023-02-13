@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import javax.swing.text.Position;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
@@ -12,8 +10,8 @@ import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // ShoulderSubsystem initializes and sets up two brushless motors and their associated encoders and PID controllers
-public class ShoulderSubsystem extends SubsystemBase {
-
+public class ShoulderSubsystem extends SubsystemBase 
+{
   // Declare two instances of the CANSparkMax motor controller class
   private CANSparkMax shoulderMotor1 = null;
   public CANSparkMax shoulderMotor2 = null;
@@ -40,21 +38,19 @@ public class ShoulderSubsystem extends SubsystemBase {
   // Calculate the speed of rotation per tick (distance traveled per tick )
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
 
-  private double oldPos = 0.0;
-  private double oldDelta = 0.0;
-  private double oldCurrentDistance = 0.0;
-  private double oldDesiredDistance = 0.0;
   private boolean m_enabled = false;
 
   /** Creates a new ShoulderSubsystem. */
-  public ShoulderSubsystem() {
+  public ShoulderSubsystem() 
+  {
     // Initialize the first motor and set its PID controller and encoder
 
     // creating an instance of CANSparkMax for the shoulder motor with ID ShoulderCanID20
     shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
 
     // checking if the shoulder motor instance is not null
-    if (shoulderMotor1 != null) {
+    if (shoulderMotor1 != null) 
+    {
       // getting PIDController instance from the shoulder motor
       pidController1 = shoulderMotor1.getPIDController();
       // getting the encoder instance from the shoulder motor
@@ -85,7 +81,8 @@ public class ShoulderSubsystem extends SubsystemBase {
     shoulderMotor2 = new CANSparkMax(ShoulderConstants.ShoulderCanID21, CANSparkMax.MotorType.kBrushless);
 
     // checking if the shoulder motor instance is not null
-    if (shoulderMotor2 != null) {
+    if (shoulderMotor2 != null) 
+    {
       // getting PIDController instance from the shoulder motor
       pidController2 = shoulderMotor2.getPIDController();
       // getting the encoder instance from the shoulder motor
@@ -112,13 +109,16 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
   }
 
-  public void setPos(double position) {
+  public void setPos(double position) 
+  {
     desiredPos = ((position / 360) * 200);
   }
 
   @Override
-  public void periodic() {
-    if (m_enabled == true) {
+  public void periodic() 
+  {
+    if (m_enabled == true) 
+    {
       // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.
 
       // Calculate the difference between the desired position and the current position
@@ -128,13 +128,15 @@ public class ShoulderSubsystem extends SubsystemBase {
       double delta = distance;
 
       // Check if delta is greater than the maximum speed(max distance it can travel in a tick) (SPEED_ROT_PER_TICK)
-      if (delta > SPEED_ROT_PER_TICK) {
+      if (delta > SPEED_ROT_PER_TICK) 
+      {
         // If delta is greater than the maximum speed(max distance it can travel in a tick), set delta to the maximum speed(max distance it can travel in a tick)
         delta = SPEED_ROT_PER_TICK;
       }
 
       // Check if delta is less than the negative of the maximum speed(max distance it can travel in a tick)
-      if (delta < -SPEED_ROT_PER_TICK) {
+      if (delta < -SPEED_ROT_PER_TICK) 
+      {
         // If delta is less than the negative of the maximum speed(max rotation it can travel in a tick), set delta to the negative of the maximum speed(max distance it can travel in a tick)
         delta = -SPEED_ROT_PER_TICK;
       }
