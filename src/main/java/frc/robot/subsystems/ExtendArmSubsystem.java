@@ -74,7 +74,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
       }
       m_pidController1.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the shoulder motor 1
-      System.out.println("ShoulderMotor1 initialized");
+      System.out.println("ExtendArmMotor1 initialized");
       m_enabled = true;
     }
   }
