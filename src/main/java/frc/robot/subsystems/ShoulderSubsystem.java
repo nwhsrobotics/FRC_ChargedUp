@@ -107,9 +107,9 @@ public class ShoulderSubsystem extends SubsystemBase
     }
   }
 
-  public void setPos(double position) 
+  public void setPos(double p_position) 
   {
-    m_desiredPos = ((position / 360) * 200);
+    m_desiredPos = ((p_position / 360) * 200);
   }
 
   @Override
