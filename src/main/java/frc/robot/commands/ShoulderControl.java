@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShoulderSubsystem;
 
@@ -10,11 +9,11 @@ public class ShoulderControl extends CommandBase {
   private double m_position;
 
   /** Creates a new ShoulderControl. */
-  public ShoulderControl(ShoulderSubsystem subsystem, double degree) 
+  public ShoulderControl(ShoulderSubsystem subsystem, double p_degree) 
   {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-    m_position = degree;
+    m_position = p_degree;
     m_shoulderSubsystem = subsystem;
   }
 
