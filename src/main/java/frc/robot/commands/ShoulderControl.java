@@ -10,7 +10,8 @@ public class ShoulderControl extends CommandBase {
   private double m_position;
 
   /** Creates a new ShoulderControl. */
-  public ShoulderControl(ShoulderSubsystem subsystem, double degree) {
+  public ShoulderControl(ShoulderSubsystem subsystem, double degree) 
+  {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     m_position = degree;
@@ -24,7 +25,8 @@ public class ShoulderControl extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() 
+  {
     m_shoulderSubsystem.setPos(m_position);
   }
 
@@ -35,7 +37,8 @@ public class ShoulderControl extends CommandBase {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
+  public boolean isFinished() 
+  {
     return false;
   }
 }
