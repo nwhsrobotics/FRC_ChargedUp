@@ -9,7 +9,7 @@ public class ShoulderControl extends CommandBase {
   private double m_position;
 
   /** Creates a new ShoulderControl. */
-  public ShoulderControl(ShoulderSubsystem subsystem, double p_degree) 
+  public ShoulderControl(ShoulderSubsystem subsystem, double p_degree) //degree angle
   {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);

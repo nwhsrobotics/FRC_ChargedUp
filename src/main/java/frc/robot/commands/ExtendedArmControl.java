@@ -8,7 +8,7 @@ public class ExtendedArmControl extends CommandBase {
   private final ExtendArmSubsystem m_extendarmSubsystem;
   private double m_position;
 
-  public ExtendedArmControl(ExtendArmSubsystem subsystem, double p_length) 
+  public ExtendedArmControl(ExtendArmSubsystem subsystem, double p_length) //length in inches
   {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
