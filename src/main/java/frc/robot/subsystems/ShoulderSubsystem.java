@@ -26,8 +26,6 @@ public class ShoulderSubsystem extends SubsystemBase
   public static double currentPos = 0.0;
   // Set the desired position that user wants to go to for the shoulder motors
   public static double desiredPos = 0.0;
-  // Set the degree angel for the shoulder motors
-  public static double degree = 0.0;
 
   // Set the number of ticks per second
   private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
