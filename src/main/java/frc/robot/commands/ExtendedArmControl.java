@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.ExtendArmSubsystem;
 
 public class ExtendedArmControl extends CommandBase {
@@ -9,7 +8,8 @@ public class ExtendedArmControl extends CommandBase {
   private final ExtendArmSubsystem m_extendarmSubsystem;
   private double m_position;
 
-  public ExtendedArmControl(ExtendArmSubsystem subsystem, double length) {
+  public ExtendedArmControl(ExtendArmSubsystem subsystem, double length) 
+  {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     m_position = length;
@@ -23,7 +23,8 @@ public class ExtendedArmControl extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() 
+  {
     m_extendarmSubsystem.setPos(m_position);
   }
 
@@ -34,7 +35,8 @@ public class ExtendedArmControl extends CommandBase {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
+  public boolean isFinished() 
+  {
     return false;
   }
 
