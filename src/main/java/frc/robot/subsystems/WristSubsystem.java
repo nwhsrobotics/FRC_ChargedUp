@@ -13,6 +13,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.WristConstants;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //TODO: get arm position and adjust pitch
 
@@ -26,8 +27,8 @@ public class WristSubsystem extends SubsystemBase {
   private RelativeEncoder m_wristRelativeEncoderA = null;
   private RelativeEncoder m_wristRelativeEncoderB = null;
 
-  private CANCoder m_wristAbsoluteEncoderA = null;
-  private CANCoder m_wristAbsoluteEncoderB = null;
+  private DutyCycleEncoder m_wristAbsoluteEncoderA = null;
+  private DutyCycleEncoder m_wristAbsoluteEncoderB = null;
   
   private double m_pitch_deg = 0.0;
   private double m_roll_deg = 0.0;
@@ -35,6 +36,7 @@ public class WristSubsystem extends SubsystemBase {
   private double m_positionB = 0.0;
 
   public WristSubsystem() {
+    //TODO: Absolute encoders
     //TODO: Create repositioning for those
 
     m_wristmotorA = new CANSparkMax(WristConstants.WristCanIDA, CANSparkMax.MotorType.kBrushless);
@@ -44,6 +46,7 @@ public class WristSubsystem extends SubsystemBase {
       m_pidControllerA = m_wristmotorA.getPIDController();
       // getting the encoder instance from the wrist motor
       m_wristRelativeEncoderA = m_wristmotorA.getEncoder();
+      m_wristAbsoluteEncoderA = new DutyCycleEncoder(1);
       // setting the encoder position to zero
       m_wristRelativeEncoderA.setPosition(0);
 
@@ -75,6 +78,8 @@ public class WristSubsystem extends SubsystemBase {
       m_pidControllerB = m_wristmotorB.getPIDController();
       // getting the encoder instance from the Wrist motor
       m_wristRelativeEncoderB = m_wristmotorB.getEncoder();
+      m_wristAbsoluteEncoderA = new DutyCycleEncoder(2);
+
       // setting the encoder position to zero
       m_wristRelativeEncoderB.setPosition(0);
 
@@ -91,6 +96,7 @@ public class WristSubsystem extends SubsystemBase {
       m_pidControllerB.setOutputRange(WristConstants.kMinOutput, WristConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
       m_pidControllerB.setReference(0.0, ControlType.kPosition);
+
     }
   }
   
@@ -108,6 +114,13 @@ public void roll(double delta_deg) {
 
   @Override
   public void periodic() {
+    double absoultePositionA = m_wristAbsoluteEncoderA.getAbsolutePosition();
+    double absolutePositionB = m_wristAbsoluteEncoderB.getAbsolutePosition();
+
+    System.out.println(absoultePositionA);
+    System.out.println(absolutePositionB);
+
+
     m_positionA = m_pitch_deg + m_roll_deg;
     m_positionB = (m_pitch_deg - m_roll_deg) * WristConstants.REVS_PER_OUTPUT_DEGREE;
 
