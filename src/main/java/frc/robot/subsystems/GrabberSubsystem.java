@@ -17,12 +17,15 @@ public class GrabberSubsystem extends SubsystemBase {
   /** Creates a new GrabberSubsystem. */
   public GrabberSubsystem() {
 
+    
+    //Setting grabber variable to the actual solenoid controlling the pneumatics
     m_grabber = new DoubleSolenoid(0, null, 0, 0);
+    //Setting the current value of the solenoid to be off
     m_grabber.set(DoubleSolenoid.Value.kOff);
   }
 
   public void grabberTurnOn(){
-    
+
 
   }
 
