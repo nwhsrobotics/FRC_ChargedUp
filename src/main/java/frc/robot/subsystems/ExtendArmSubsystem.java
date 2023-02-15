@@ -31,10 +31,11 @@ public class ExtendArmSubsystem extends SubsystemBase {
   // Calculate the speed of rotation per tick (distance traveled per tick )
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
 
-  private double m_gearRatio = 48.0;
+  private double m_gearRatio = 10.0;
   private double m_oneRotationLength = 1.0; // Revisit this values!!!
 
   private boolean m_enabled = false;
+  private double m_resetDistance = 0.0;
 
   /** Creates a new ExtendArmSubsystem. */
   public ExtendArmSubsystem() {
@@ -49,7 +50,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
       // getting the encoder instance from the shoulder motor
       m_extendArmEncoder1 = m_extendArmMotor1.getEncoder();
       // setting the encoder position to zero
-      double resetDistance = m_extendArmEncoder1.getPosition();
       m_extendArmEncoder1.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the ShoulderConstants
@@ -64,14 +64,14 @@ public class ExtendArmSubsystem extends SubsystemBase {
       // setting the output range for the PIDController from the ShoulderConstants
       m_pidController1.setOutputRange(ExtendArmConstants.kMinOutput, ExtendArmConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
-      for (int i = 1; i <= 5; i++) 
+      /*for (int i = 1; i <= 5; i++) 
       {
         m_pidController1.setReference(resetDistance / i, ControlType.kPosition);
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
         }
-      }
+      }*/
       m_pidController1.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the extendArm motor 1
       System.out.println("ExtendArmMotor1 initialized");
@@ -85,8 +85,23 @@ public class ExtendArmSubsystem extends SubsystemBase {
     System.out.println("desiredPos: " + m_desiredPos);
   }
 
+  /*public void resetPos(){
+    
+    m_resetDistance = m_extendArmEncoder1.getPosition();
+
+    if(m_resetDistance > 0){
+
+      m_resetDistance = 0;
+      
+      m_pidController1.setReference(m_resetDistance, ControlType.kPosition);
+
+    }
+
+  } */
+
   @Override
   public void periodic() {
+    //resetDistance = m_extendArmEncoder1.getPosition();
     if (m_enabled == true) {
       // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.
 
@@ -110,13 +125,18 @@ public class ExtendArmSubsystem extends SubsystemBase {
         delta = -SPEED_ROT_PER_TICK;
       }
 
+      
+
       // Update the current position by adding delta
       m_currentPos += delta;
 
       // Set the reference position for the 2 PID controllers in two opposite directions
       m_pidController1.setReference(m_currentPos, ControlType.kPosition);
 
-      SmartDashboard.putNumber("Shoulder 1 Position", m_extendArmEncoder1.getPosition());
+      SmartDashboard.putNumber("Extending Arm", m_extendArmEncoder1.getPosition());
+    
+    
+    
     } 
     else
     {
