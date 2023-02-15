@@ -125,8 +125,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
         delta = -SPEED_ROT_PER_TICK;
       }
 
-      
-
       // Update the current position by adding delta
       m_currentPos += delta;
 
@@ -134,9 +132,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
       m_pidController1.setReference(m_currentPos, ControlType.kPosition);
 
       SmartDashboard.putNumber("Extending Arm", m_extendArmEncoder1.getPosition());
-    
-    
-    
     } 
     else
     {
