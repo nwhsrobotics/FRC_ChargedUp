@@ -54,7 +54,7 @@ public class ShoulderSubsystem extends SubsystemBase
       // getting the encoder instance from the shoulder motor
       m_shoulderEncoder1 = m_shoulderMotor1.getEncoder();
       // setting the encoder position to zero
-      double resetDistance1 = m_shoulderEncoder1.getPosition();
+      //double resetDistance1 = m_shoulderEncoder1.getPosition();
       m_shoulderEncoder1.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the ShoulderConstants
@@ -69,14 +69,14 @@ public class ShoulderSubsystem extends SubsystemBase
       // setting the output range for the PIDController from the ShoulderConstants
       m_pidController1.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
-      for (int i = 1; i <= 5; i++) 
+      /*for (int i = 1; i <= 5; i++) 
       {
         m_pidController1.setReference(resetDistance1 / i, ControlType.kPosition);
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
         }
-      }
+      }*/
       m_pidController1.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the shoulder motor 1
       System.out.println("ShoulderMotor1 initialized");
@@ -95,7 +95,7 @@ public class ShoulderSubsystem extends SubsystemBase
       // getting the encoder instance from the shoulder motor
       m_shoulderEncoder2 = m_shoulderMotor2.getEncoder();
       // setting the encoder position to zero
-      double resetDistance2 = m_shoulderEncoder1.getPosition();
+      //double resetDistance2 = m_shoulderEncoder1.getPosition();
       m_shoulderEncoder2.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the ShoulderConstants
@@ -111,13 +111,13 @@ public class ShoulderSubsystem extends SubsystemBase
       m_pidController2.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
       for (int i = 1; i <= 5; i++) 
-      {
+      /*{
         m_pidController2.setReference(resetDistance2 / i, ControlType.kPosition);
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
         }
-      }
+      }*/
       m_pidController2.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the shoulder motor 2
       System.out.println("ShoulderMotor2 initialized");
