@@ -27,4 +27,11 @@ public final class Constants {
         public static final int ExtendArmCanID24 = 3;
         public static final int ExtendArmCanID25 = 25;
     }
+
+    public static final class GrabberConstants {
+
+        
+        public static final int GrabberPCMCanID = 30;
+        public static final int GrabberCanID25 = 40;
+    }
 }
