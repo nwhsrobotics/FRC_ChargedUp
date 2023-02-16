@@ -94,7 +94,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
       m_resetDistance = 0;
       
       m_pidController1.setReference(m_resetDistance, ControlType.kPosition);
-
     }
 
   } */
