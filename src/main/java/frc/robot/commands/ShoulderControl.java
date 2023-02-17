@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShoulderSubsystem;
 
 public class ShoulderControl extends CommandBase {
-
   private final ShoulderSubsystem m_shoulderSubsystem;
   private double m_position;
 
