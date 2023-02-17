@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ExtendArmConstants;
@@ -35,7 +34,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private double m_oneRotationLength = 1.0; // Revisit this values!!!
 
   private boolean m_enabled = false;
-  private double m_resetDistance = 0.0;
+  //private double m_resetDistance = 0.0;
 
   /** Creates a new ExtendArmSubsystem. */
   public ExtendArmSubsystem() {

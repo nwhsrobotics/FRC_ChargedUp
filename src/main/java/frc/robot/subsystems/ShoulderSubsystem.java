@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -129,7 +128,6 @@ public class ShoulderSubsystem extends SubsystemBase
   {
     m_desiredPos = ((p_position / 360) * 200);
   }
-
 
   @Override
   public void periodic() 
