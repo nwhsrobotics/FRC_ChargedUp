@@ -39,9 +39,6 @@ public class GrabberSubsystem extends SubsystemBase {
   m_grabber.set(DoubleSolenoid.Value.kReverse);  
   }
 
-
-
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
