@@ -31,7 +31,7 @@ public final class Constants {
     public static final class GrabberConstants {
 
         
-        public static final int GrabberPCMCanID = 30;
-        public static final int GrabberCanID25 = 40;
+        public static final int forwardChannel = 30;
+        public static final int reverseChannel = 40;
     }
 }
