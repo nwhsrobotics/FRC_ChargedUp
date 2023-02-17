@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.Constants.GrabberConstants;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GrabberSubsystem extends SubsystemBase {
