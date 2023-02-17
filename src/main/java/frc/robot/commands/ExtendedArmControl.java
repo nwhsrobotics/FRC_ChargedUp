@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ExtendArmSubsystem;
 
 public class ExtendedArmControl extends CommandBase {
-
   private final ExtendArmSubsystem m_extendarmSubsystem;
   private double m_position;
 
@@ -19,16 +18,13 @@ public class ExtendedArmControl extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
     /*m_extendarmSubsystem.resetPos(); */
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
   {
-    
     m_extendarmSubsystem.setPos(m_position);
   }
 
