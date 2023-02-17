@@ -140,7 +140,7 @@ public class ShoulderSubsystem extends SubsystemBase
       if((m_desiredPos > ((110/360)*200)) && (m_desiredPos < ((0/360)*200))) {
         return;
       }
-      else {}
+      else {
       // Calculate the difference between the desired position and the current position
       double distance = (m_desiredPos - m_currentPos);
 
@@ -169,7 +169,8 @@ public class ShoulderSubsystem extends SubsystemBase
       m_pidController2.setReference(-m_currentPos, ControlType.kPosition);
 
       SmartDashboard.putNumber("Shoulder 1 Position", m_shoulderEncoder1.getPosition());
-      SmartDashboard.putNumber("Shoulder 2 Position", m_shoulderEncoder2.getPosition());
+      SmartDashboard.putNumber("Shoulder 2 Position", m_shoulderEncoder2.getPosition());        
+      }
     } 
     else 
     {
