@@ -2,17 +2,23 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
-    //CREATE SwerveModules
+    public boolean isFR = true;
     public final SwerveModule frontLeft = new SwerveModule(
             DriveConstants.kFrontLeftDriveMotorPort,
             DriveConstants.kFrontLeftTurningMotorPort,
@@ -48,31 +54,34 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightDriveAbsoluteEncoderPort,
             DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
             DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
-
-    public final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, new Rotation2d(0));
+    
+    public final SwerveModule[] swerveMods = {frontLeft, frontRight, backLeft, backRight};
+    public final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB);
+    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, Rotation2d.fromDegrees(getHeading()), getModulePositions());
 
     public SwerveSubsystem() {
-        new Thread(() -> { // delays navX recalibration by 1s as it will be busy recalibrating, placed on a new thread to prevent interruption
-            try {
-                Thread.sleep(1000);
-                zeroHeading();
-            } 
-            catch (Exception e) {
-            }
-        }).start();
-    }
+        try
+        {
+            Thread.sleep(500);
+        }
+        catch (InterruptedException e)
+        {
+        }
 
-    public void zeroHeading() {
-        gyro.reset();
+        m_gyro.zeroYaw();;
     }
 
     public double getHeading() {
-        return Math.IEEEremainder(gyro.getAngle(), 360);
+        return Math.IEEEremainder(m_gyro.getAngle(), 360) * -1;
     }
 
-    public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(getHeading());
+    public void resetHeadingAndPose() {
+        m_gyro.zeroYaw();
+        resetOdometry(new Pose2d());
+    }
+
+    public void switchFR() {
+        isFR = !isFR;
     }
 
     public Pose2d getPose() {
@@ -80,15 +89,49 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        odometer.resetPosition(pose, getRotation2d());
+        for (SwerveModule sModule : swerveMods)
+            sModule.driveEncoder.setPosition(0);
+        odometer.resetPosition(Rotation2d.fromDegrees(getHeading()), getModulePositions(), pose);
+    }
+
+    public void straighten() {
+        for (SwerveModule s_mod: swerveMods) {
+            s_mod.turningMotor.set(s_mod.turningPidController.calculate(s_mod.getAbsoluteEncoderRad(), 0));
+            s_mod.turningMotor.set(0);
+        }
+    }
+
+    public SwerveModulePosition[] getModulePositions() {
+        SwerveModulePosition[] positions = new SwerveModulePosition[4];
+        for (int i = 0; i < swerveMods.length; i++) {
+            positions[i] = swerveMods[i].getPosition();
+        }
+        return positions;
+    }
+
+    public SwerveControllerCommand getTrajCmd(Trajectory traj) {
+        var thetaController =
+            new ProfiledPIDController(
+                Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+        return new SwerveControllerCommand(
+            traj,
+            this::getPose,
+            Constants.DriveConstants.kDriveKinematics,
+            new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+            new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+            thetaController,
+            this::setModuleStates,
+            this);
     }
 
     @Override
     public void periodic() {
-        System.out.println(getHeading());
-        System.out.println(gyro.getAngle());
-        odometer.update(getRotation2d(), frontLeft.getState(), frontRight.getState(), backLeft.getState(), backRight.getState());
-        SmartDashboard.putNumber("Robot Heading", getHeading());
+        odometer.update(Rotation2d.fromDegrees(getHeading()), getModulePositions());
+        SmartDashboard.putNumber("fl drive", frontLeft.getDrivePosition());
+        SmartDashboard.putNumber("fr drive", frontRight.getDrivePosition());
+        SmartDashboard.putNumber("bl drive", backLeft.getDrivePosition());
+        SmartDashboard.putNumber("br drive", backRight.getDrivePosition());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
         SmartDashboard.putNumber("Front Left Encoder", frontLeft.getTurningPosition());
         SmartDashboard.putNumber("Front Right Encoder", frontRight.getTurningPosition());
@@ -97,10 +140,8 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void stopModules() {
-        frontLeft.stop();
-        frontRight.stop();
-        backLeft.stop();
-        backRight.stop();
+        for (SwerveModule sMod : swerveMods)
+            sMod.stop();
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
