@@ -23,9 +23,9 @@ public class RobotContainer {
 
     public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem();
     public final ExtendedArmControl m_extendedArmControl = new ExtendedArmControl(m_extendArmSubsystem, 0.0);
-    public final ExtendedArmControl m_extendedpresetlength1 = new ExtendedArmControl(m_extendArmSubsystem, 1.0);
-    public final ExtendedArmControl m_extendedpresetlength2 = new ExtendedArmControl(m_extendArmSubsystem, 2.0);
-    public final ExtendedArmControl m_extendedpresetlength3 = new ExtendedArmControl(m_extendArmSubsystem, -1.0);
+    public final ExtendedArmControl m_extendedpresetlength1 = new ExtendedArmControl(m_extendArmSubsystem, 50.0);
+    public final ExtendedArmControl m_extendedpresetlength2 = new ExtendedArmControl(m_extendArmSubsystem, 20.0);
+    public final ExtendedArmControl m_extendedpresetlength3 = new ExtendedArmControl(m_extendArmSubsystem, -10.0);
 
 
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
