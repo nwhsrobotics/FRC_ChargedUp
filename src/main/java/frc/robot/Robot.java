@@ -97,6 +97,10 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
+        if(m_robotContainer.xboxController.getRawButtonPressed(5))
+        {
+            m_robotContainer.m_extendedArmControl.m_position += 5;
+        }
         // System.out.println(m_robotContainer.swerveSubsystem.getPose());
     }
 
