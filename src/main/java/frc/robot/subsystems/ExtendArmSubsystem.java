@@ -97,12 +97,17 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
   } */
 
+  // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.  
   @Override
   public void periodic() {
     //resetDistance = m_extendArmEncoder1.getPosition();
     if (m_enabled == true) {
-      // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.
-
+      if((m_desiredPos > ((19 / m_oneRotationLength)* m_gearRatio)) || (m_desiredPos < ((0 / m_oneRotationLength)* m_gearRatio))) 
+      {
+        return;
+      }
+      else
+      {
       // Calculate the difference between the desired position and the current position
       double distance = (m_desiredPos - m_currentPos);
 
@@ -129,7 +134,8 @@ public class ExtendArmSubsystem extends SubsystemBase {
       // Set the reference position for the 2 PID controllers in two opposite directions
       m_pidController1.setReference(m_currentPos, ControlType.kPosition);
 
-      SmartDashboard.putNumber("Extending Arm", m_extendArmEncoder1.getPosition());
+      SmartDashboard.putNumber("Extending Arm", m_extendArmEncoder1.getPosition());        
+      } 
     } 
     else
     {
