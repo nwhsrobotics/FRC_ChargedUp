@@ -30,8 +30,8 @@ public class ExtendArmSubsystem extends SubsystemBase {
   // Calculate the speed of rotation per tick (distance traveled per tick )
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
 
-  private double m_gearRatio = 10.0;
-  private double m_oneRotationLength = 1.0; // Revisit this values!!!
+  private double m_gearRatio = 18.9;
+  private double m_oneRotationLength = 1.504; // in inches Revisit this values!!!
 
   private boolean m_enabled = false;
   //private double m_resetDistance = 0.0;
