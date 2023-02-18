@@ -3,8 +3,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ExtendedArmControl;
+import frc.robot.commands.GrabberExtendCommand;
+import frc.robot.commands.GrabberRetractCommand;
+import frc.robot.commands.GrabberTurnOffCommand;
 import frc.robot.commands.ShoulderControl;
 import frc.robot.subsystems.ExtendArmSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 
 public class RobotContainer {
@@ -22,6 +26,11 @@ public class RobotContainer {
     public final ExtendedArmControl m_extendedpresetlength1 = new ExtendedArmControl(m_extendArmSubsystem, 1.0);
     public final ExtendedArmControl m_extendedpresetlength2 = new ExtendedArmControl(m_extendArmSubsystem, 2.0);
     public final ExtendedArmControl m_extendedpresetlength3 = new ExtendedArmControl(m_extendArmSubsystem, 3.0);
+
+    public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
+    public final GrabberExtendCommand m_grabberExtendControl = new GrabberExtendCommand(m_grabberSubsystem);
+    public final GrabberRetractCommand m_grabberRetractControl = new GrabberRetractCommand(m_grabberSubsystem);
+    public final GrabberTurnOffCommand m_GrabberTurnOffCommand = new GrabberTurnOffCommand(m_grabberSubsystem);
 
 
     public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); // button A
