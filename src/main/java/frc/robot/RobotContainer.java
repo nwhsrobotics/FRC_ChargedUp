@@ -43,8 +43,6 @@ public class RobotContainer {
     public final JoystickButton m_joyVB = new JoystickButton(xboxController, 7); // View Button
     public final JoystickButton m_joyMB = new JoystickButton(xboxController, 8); // Menu Button
 
-    public final static double buttonMapSwitch = 0;
-
     public RobotContainer() 
     {
         configureButtonBindings();
