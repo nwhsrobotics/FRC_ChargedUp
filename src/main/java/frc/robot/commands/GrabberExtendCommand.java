@@ -12,10 +12,10 @@ public class GrabberExtendCommand extends CommandBase {
 
   
   /** Creates a new GrabberCommand. */
-  public GrabberExtendCommand(GrabberSubsystem subsystem) {
+  public GrabberExtendCommand(GrabberSubsystem subsystem) 
+  {
     addRequirements(subsystem);
     m_grabberSubsystem = subsystem;
-
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,9 +25,9 @@ public class GrabberExtendCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() 
+  {
     m_grabberSubsystem.grabberExtend();
-
   }
 
   // Called once the command ends or is interrupted.
