@@ -27,7 +27,7 @@ public final class Constants {
     }
 
     public static final class GrabberConstants {
-        public static final int forwardChannel = 30;
-        public static final int reverseChannel = 40;
+        public static final int forwardChannel = 0;
+        public static final int reverseChannel = 1;
     }
 }
