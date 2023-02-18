@@ -11,7 +11,8 @@ public class GrabberRetractCommand extends CommandBase {
 
   private final GrabberSubsystem m_grabberSubsystem;
   /** Creates a new GrabberRetractCommand. */
-  public GrabberRetractCommand(GrabberSubsystem subsystem) {
+  public GrabberRetractCommand(GrabberSubsystem subsystem) 
+  {
     addRequirements(subsystem);
     m_grabberSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -23,10 +24,9 @@ public class GrabberRetractCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() 
+  {
     m_grabberSubsystem.grabberRetract();
-
-
   }
 
   // Called once the command ends or is interrupted.
