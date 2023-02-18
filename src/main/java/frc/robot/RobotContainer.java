@@ -45,6 +45,7 @@ public class RobotContainer {
 
     public RobotContainer() 
     {
+        m_extendArmSubsystem.setDefaultCommand(m_extendedArmControl);
         configureButtonBindings();
     }
 
