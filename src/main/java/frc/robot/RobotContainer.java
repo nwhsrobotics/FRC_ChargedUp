@@ -55,6 +55,7 @@ public class RobotContainer {
         m_joyB.onTrue(m_shoulderPreset55deg);
         m_joyX.onTrue(m_shoulderPreset110deg);
 
+        m_joyLB.onTrue(m_extendedpresetlength1);
         m_joyRB.onTrue(m_extendedpresetlength3);
     }
 }
