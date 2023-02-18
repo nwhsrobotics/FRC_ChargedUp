@@ -30,7 +30,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   // Calculate the speed of rotation per tick (distance traveled per tick )
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
 
-  private double m_gearRatio = 18.9;
+  private double m_gearRatio = 1;
   private double m_oneRotationLength = 1.504; // in inches Revisit this values!!!
 
   private boolean m_enabled = false;
@@ -102,12 +102,14 @@ public class ExtendArmSubsystem extends SubsystemBase {
   public void periodic() {
     //resetDistance = m_extendArmEncoder1.getPosition();
     if (m_enabled == true) {
-      if((m_desiredPos > ((19 / m_oneRotationLength)* m_gearRatio)) || (m_desiredPos < ((0 / m_oneRotationLength)* m_gearRatio))) 
+      if((m_desiredPos > ((19 / m_oneRotationLength)* m_gearRatio))) 
       {
-        return;
+        m_desiredPos = ((19 / m_oneRotationLength)* m_gearRatio);
       }
-      else
+      else if (m_desiredPos < ((0 / m_oneRotationLength)* m_gearRatio))
       {
+        m_desiredPos = ((0 / m_oneRotationLength)* m_gearRatio);
+      }
       // Calculate the difference between the desired position and the current position
       double distance = (m_desiredPos - m_currentPos);
 
@@ -135,7 +137,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
       m_pidController1.setReference(m_currentPos, ControlType.kPosition);
 
       SmartDashboard.putNumber("Extending Arm", m_extendArmEncoder1.getPosition());        
-      } 
     } 
     else
     {

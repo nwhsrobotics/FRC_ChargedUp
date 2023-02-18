@@ -10,7 +10,6 @@ import frc.robot.subsystems.GrabberSubsystem;
 public class GrabberExtendCommand extends CommandBase {
   private final GrabberSubsystem m_grabberSubsystem;
 
-  
   /** Creates a new GrabberCommand. */
   public GrabberExtendCommand(GrabberSubsystem subsystem) 
   {
