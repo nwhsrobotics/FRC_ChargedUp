@@ -68,14 +68,6 @@ public class ShoulderSubsystem extends SubsystemBase
       // setting the output range for the PIDController from the ShoulderConstants
       m_pidController1.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
-      /*for (int i = 1; i <= 5; i++) 
-      {
-        m_pidController1.setReference(resetDistance1 / i, ControlType.kPosition);
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-        }
-      }*/
       m_pidController1.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the shoulder motor 1
       System.out.println("ShoulderMotor1 initialized");
@@ -109,14 +101,6 @@ public class ShoulderSubsystem extends SubsystemBase
       // setting the output range for the PIDController from the ShoulderConstants
       m_pidController2.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
-      for (int i = 1; i <= 5; i++) 
-      /*{
-        m_pidController2.setReference(resetDistance2 / i, ControlType.kPosition);
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-        }
-      }*/
       m_pidController2.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the shoulder motor 2
       System.out.println("ShoulderMotor2 initialized");
