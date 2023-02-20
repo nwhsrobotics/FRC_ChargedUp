@@ -99,7 +99,7 @@ public class Robot extends LoggedRobot {
     public void teleopPeriodic() {
         if(m_robotContainer.xboxController.getRawButtonPressed(5))
         {
-            m_robotContainer.m_extendedArmControl.m_position += 5;
+            m_robotContainer.m_extendedArmControl.m_position += 5;  //increase postion by 5 more inches with each button press
         }
         // System.out.println(m_robotContainer.swerveSubsystem.getPose());
     }
