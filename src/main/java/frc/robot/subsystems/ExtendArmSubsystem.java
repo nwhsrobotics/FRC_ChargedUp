@@ -63,14 +63,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
       // setting the output range for the PIDController from the ShoulderConstants
       m_pidController1.setOutputRange(ExtendArmConstants.kMinOutput, ExtendArmConstants.kMaxOutput);
       // setting the reference for the PIDController to 0.0, using position control
-      /*for (int i = 1; i <= 5; i++) 
-      {
-        m_pidController1.setReference(resetDistance / i, ControlType.kPosition);
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-        }
-      }*/
       m_pidController1.setReference(0.0, ControlType.kPosition);
       // printing a message to indicate the initialization of the extendArm motor 1
       System.out.println("ExtendArmMotor1 initialized");
@@ -83,19 +75,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
     System.out.println("desiredPos: " + m_desiredPos);
   }
-
-  /*public void resetPos(){
-    
-    m_resetDistance = m_extendArmEncoder1.getPosition();
-
-    if(m_resetDistance > 0){
-
-      m_resetDistance = 0;
-      
-      m_pidController1.setReference(m_resetDistance, ControlType.kPosition);
-    }
-
-  } */
 
   // This method is called once per scheduler run. It is used to periodically update the motor position to match the desired position.  
   @Override
