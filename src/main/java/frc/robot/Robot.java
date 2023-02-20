@@ -80,7 +80,6 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        // System.out.println(m_robotContainer.swerveSubsystem.getPose());
     }
 
     @Override
@@ -101,7 +100,6 @@ public class Robot extends LoggedRobot {
         {
             m_robotContainer.m_extendedArmControl.m_position += 5;  //increase postion by 5 more inches with each button press
         }
-        // System.out.println(m_robotContainer.swerveSubsystem.getPose());
     }
 
     @Override
