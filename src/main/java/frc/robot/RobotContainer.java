@@ -52,10 +52,5 @@ public class RobotContainer {
 
     private void configureButtonBindings() 
     {
-        m_joyA.onTrue(m_shoulderPreset0deg);
-        m_joyB.onTrue(m_shoulderPreset55deg);
-        m_joyX.onTrue(m_shoulderPreset110deg);
-
-        m_joyRB.onTrue(m_extendedpresetlength3);
     }
 }
