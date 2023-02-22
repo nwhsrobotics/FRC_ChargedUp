@@ -138,11 +138,9 @@ public class Robot extends LoggedRobot {
 
     /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {
-        if(xboxController.getRawButtonPressed(6))// when right bumper is pressed increase the extendArm distance by 5 inches
-        {
-            m_extendedArmControl.m_position += 5;
-        }        
+    public void teleopPeriodic() {    
+        String Mode = "Default";
+        SmartDashboard.putString("Mode", Mode);
         if (xboxController.getRawButtonPressed(5)) {
             // Switch to mapping 1
             currentmapping += 1;
@@ -154,14 +152,19 @@ public class Robot extends LoggedRobot {
 
         if(currentmapping == 1)
         {
-            SmartDashboard.putString("Mode", "ExtendArm");
+            Mode = "ExtendArm";
             System.out.println("ExtendArm Mode");
             m_joyA.onTrue(m_extendedpresetlength1);
             m_joyB.onTrue(m_extendedpresetlength2);
             m_joyX.onTrue(m_extendedpresetlength3);
+            if(xboxController.getRawButtonPressed(6))// when right bumper is pressed increase the extendArm distance by 5 inches
+            {
+                m_extendedArmControl.m_position += 5;
+            }   
         }
         else if(currentmapping == 2)
         {
+            Mode = "Grabber";
             SmartDashboard.putString("Mode", "Grabber");
             System.out.println("Grabber Mode");
             m_joyA.onTrue(m_grabberExtendControl);
@@ -170,6 +173,7 @@ public class Robot extends LoggedRobot {
         }
         else if(currentmapping == 3)
         {
+            Mode = "Shoulder";
             SmartDashboard.putString("Mode", "Shoulder");
             System.out.println("Shoulder Mode");
             m_joyA.onTrue(m_shoulderPreset0deg);
