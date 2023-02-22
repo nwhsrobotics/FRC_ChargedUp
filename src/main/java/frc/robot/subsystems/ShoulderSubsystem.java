@@ -53,7 +53,6 @@ public class ShoulderSubsystem extends SubsystemBase
       // getting the encoder instance from the shoulder motor
       m_shoulderEncoder1 = m_shoulderMotor1.getEncoder();
       // setting the encoder position to zero
-      //double resetDistance1 = m_shoulderEncoder1.getPosition();
       m_shoulderEncoder1.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the ShoulderConstants
@@ -86,7 +85,6 @@ public class ShoulderSubsystem extends SubsystemBase
       // getting the encoder instance from the shoulder motor
       m_shoulderEncoder2 = m_shoulderMotor2.getEncoder();
       // setting the encoder position to zero
-      //double resetDistance2 = m_shoulderEncoder1.getPosition();
       m_shoulderEncoder2.setPosition(0);
 
       // setting the P, I, and D values for the PIDController from the ShoulderConstants
