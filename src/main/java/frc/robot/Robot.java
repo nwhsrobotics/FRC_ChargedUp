@@ -145,7 +145,7 @@ public class Robot extends LoggedRobot {
         }        
         if (xboxController.getRawButtonPressed(5)) {
             // Switch to mapping 1
-            currentmapping = currentmapping + 1;
+            currentmapping += 1;
 
             if(currentmapping > 3){
                 currentmapping = 0;
