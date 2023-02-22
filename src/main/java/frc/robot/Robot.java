@@ -105,15 +105,18 @@ public class Robot extends LoggedRobot {
         String Mode = "Default";
         SmartDashboard.putString("Mode", Mode);
         if (m_robotContainer.xboxController.getRawButtonPressed(5)) {
-            // Switch to mapping 1
+            // Adding 1 to the mapping
             currentmapping += 1;
 
             if(currentmapping > 3){
                 currentmapping = 0;
             }
         }
-
-        if(currentmapping == 1)
+        if(currentmapping == 0)
+        {
+            Mode = "Default";
+        }
+        else if(currentmapping == 1)
         {
             Mode = "ExtendArm";
             System.out.println("ExtendArm Mode");
