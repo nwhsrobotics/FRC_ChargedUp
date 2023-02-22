@@ -18,7 +18,7 @@ public class ExtendedArmControl extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    /*m_extendarmSubsystem.resetPos(); */
+    m_extendarmSubsystem.setPos(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
