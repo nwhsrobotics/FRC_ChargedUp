@@ -1,19 +1,9 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ExtendedArmControl;
-import frc.robot.commands.GrabberExtendCommand;
-import frc.robot.commands.GrabberRetractCommand;
-import frc.robot.commands.GrabberTurnOffCommand;
-import frc.robot.commands.ShoulderControl;
-import frc.robot.subsystems.ExtendArmSubsystem;
-import frc.robot.subsystems.GrabberSubsystem;
-import frc.robot.subsystems.ShoulderSubsystem;
+
 
 import org.littletonrobotics.junction.LoggedRobot;
 
@@ -27,33 +17,6 @@ import org.littletonrobotics.junction.LoggedRobot;
  * project.
  */
 public class Robot extends LoggedRobot {
-
-    public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
-    public final GrabberExtendCommand m_grabberExtendControl = new GrabberExtendCommand(m_grabberSubsystem);
-    public final GrabberRetractCommand m_grabberRetractControl = new GrabberRetractCommand(m_grabberSubsystem);
-    public final GrabberTurnOffCommand m_grabberTurnOffControl = new GrabberTurnOffCommand(m_grabberSubsystem);
-
-    public final XboxController xboxController = new XboxController(0);
-    public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); // button A
-    public final JoystickButton m_joyB = new JoystickButton(xboxController, 2); // button B
-    public final JoystickButton m_joyX = new JoystickButton(xboxController, 3); // button X
-    public final JoystickButton m_joyY = new JoystickButton(xboxController, 4); // button Y
-    public final JoystickButton m_joyLB = new JoystickButton(xboxController, 5); // Left bumper
-    public final JoystickButton m_joyRB = new JoystickButton(xboxController, 6); // Right bumper
-    public final JoystickButton m_joyVB = new JoystickButton(xboxController, 7); // View Button
-    public final JoystickButton m_joyMB = new JoystickButton(xboxController, 8); // Menu Button
-
-    public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem();
-    public final ExtendedArmControl m_extendedArmControl = new ExtendedArmControl(m_extendArmSubsystem, 0.0);
-    public final ExtendedArmControl m_extendedpresetlength1 = new ExtendedArmControl(m_extendArmSubsystem, 50.0);
-    public final ExtendedArmControl m_extendedpresetlength2 = new ExtendedArmControl(m_extendArmSubsystem, 20.0);
-    public final ExtendedArmControl m_extendedpresetlength3 = new ExtendedArmControl(m_extendArmSubsystem, -10.0);
-
-    public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem();
-    public final ShoulderControl m_shoulderControl = new ShoulderControl(m_shoulderSubsystem,0);
-    public final ShoulderControl m_shoulderPreset0deg = new ShoulderControl(m_shoulderSubsystem,0);
-    public final ShoulderControl m_shoulderPreset55deg = new ShoulderControl(m_shoulderSubsystem,55);
-    public final ShoulderControl m_shoulderPreset110deg = new ShoulderControl(m_shoulderSubsystem,110);
 
     int currentmapping = 0;
     private Command m_autonomousCommand;
@@ -141,7 +104,7 @@ public class Robot extends LoggedRobot {
     public void teleopPeriodic() {    
         String Mode = "Default";
         SmartDashboard.putString("Mode", Mode);
-        if (xboxController.getRawButtonPressed(5)) {
+        if (m_robotContainer.xboxController.getRawButtonPressed(5)) {
             // Switch to mapping 1
             currentmapping += 1;
 
@@ -154,12 +117,12 @@ public class Robot extends LoggedRobot {
         {
             Mode = "ExtendArm";
             System.out.println("ExtendArm Mode");
-            m_joyA.onTrue(m_extendedpresetlength1);
-            m_joyB.onTrue(m_extendedpresetlength2);
-            m_joyX.onTrue(m_extendedpresetlength3);
-            if(xboxController.getRawButtonPressed(6))// when right bumper is pressed increase the extendArm distance by 5 inches
+            m_robotContainer.m_joyA.onTrue(m_robotContainer.m_extendedpresetlength1);
+            m_robotContainer.m_joyB.onTrue(m_robotContainer.m_extendedpresetlength2);
+            m_robotContainer.m_joyX.onTrue(m_robotContainer.m_extendedpresetlength3);
+            if(m_robotContainer.xboxController.getRawButtonPressed(6))// when right bumper is pressed increase the extendArm distance by 5 inches
             {
-                m_extendedArmControl.m_position += 5;
+                m_robotContainer.m_extendedArmControl.m_position += 5;
             }   
         }
         else if(currentmapping == 2)
@@ -167,18 +130,18 @@ public class Robot extends LoggedRobot {
             Mode = "Grabber";
             SmartDashboard.putString("Mode", "Grabber");
             System.out.println("Grabber Mode");
-            m_joyA.onTrue(m_grabberExtendControl);
-            m_joyB.onTrue(m_grabberRetractControl);
-            m_joyX.onTrue(m_grabberTurnOffControl);                        
+            m_robotContainer.m_joyA.onTrue(m_robotContainer.m_grabberExtendControl);
+            m_robotContainer.m_joyB.onTrue(m_robotContainer.m_grabberRetractControl);
+            m_robotContainer.m_joyX.onTrue(m_robotContainer.m_grabberTurnOffControl);                        
         }
         else if(currentmapping == 3)
         {
             Mode = "Shoulder";
             SmartDashboard.putString("Mode", "Shoulder");
             System.out.println("Shoulder Mode");
-            m_joyA.onTrue(m_shoulderPreset0deg);
-            m_joyB.onTrue(m_shoulderPreset55deg);
-            m_joyX.onTrue(m_shoulderPreset110deg);               
+            m_robotContainer.m_joyA.onTrue(m_robotContainer.m_shoulderPreset0deg);
+            m_robotContainer.m_joyB.onTrue(m_robotContainer.m_shoulderPreset55deg);
+            m_robotContainer.m_joyX.onTrue(m_robotContainer.m_shoulderPreset110deg);               
         }
 
         /*switch (currentmapping) {
