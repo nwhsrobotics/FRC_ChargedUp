@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -138,6 +139,10 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
+        if(xboxController.getRawButtonPressed(6))// when right bumper is pressed increase the extendArm distance by 5 inches
+        {
+            m_extendedArmControl.m_position += 5;
+        }        
         if (xboxController.getRawButtonPressed(5)) {
             // Switch to mapping 1
             currentmapping = currentmapping + 1;
@@ -149,11 +154,27 @@ public class Robot extends LoggedRobot {
 
         if(currentmapping == 1)
         {
-            System.out.println("Mode 1");
+            SmartDashboard.putString("Mode", "ExtendArm");
+            System.out.println("ExtendArm Mode");
+            m_joyA.onTrue(m_extendedpresetlength1);
+            m_joyB.onTrue(m_extendedpresetlength2);
+            m_joyX.onTrue(m_extendedpresetlength3);
         }
         else if(currentmapping == 2)
         {
-            System.out.println("Mode 2");            
+            SmartDashboard.putString("Mode", "Grabber");
+            System.out.println("Grabber Mode");
+            m_joyA.onTrue(m_grabberExtendControl);
+            m_joyB.onTrue(m_grabberRetractControl);
+            m_joyX.onTrue(m_grabberTurnOffControl);                        
+        }
+        else if(currentmapping == 3)
+        {
+            SmartDashboard.putString("Mode", "Shoulder");
+            System.out.println("Shoulder Mode");
+            m_joyA.onTrue(m_shoulderPreset0deg);
+            m_joyB.onTrue(m_shoulderPreset55deg);
+            m_joyX.onTrue(m_shoulderPreset110deg);               
         }
 
         /*switch (currentmapping) {
@@ -178,11 +199,8 @@ public class Robot extends LoggedRobot {
             //m_joyA.onTrue(m_shoulderPreset0deg);
             //m_joyB.onTrue(m_shoulderPreset55deg);
             //m_joyX.onTrue(m_shoulderPreset110deg);
-              break;
-             
+              break;     
         } */
-
-
 
         // System.out.println(m_robotContainer.swerveSubsystem.getPose());
     }
