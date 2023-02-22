@@ -54,6 +54,7 @@ public class Robot extends LoggedRobot {
     public final ShoulderControl m_shoulderPreset55deg = new ShoulderControl(m_shoulderSubsystem,55);
     public final ShoulderControl m_shoulderPreset110deg = new ShoulderControl(m_shoulderSubsystem,110);
 
+    int currentmapping = 0;
     private Command m_autonomousCommand;
     public RobotContainer m_robotContainer;
 
@@ -137,37 +138,49 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        int currentmapping = 0;
-        if (m_robotContainer.xboxController.getRawButtonPressed(5)) {
+        if (xboxController.getRawButtonPressed(5)) {
             // Switch to mapping 1
-            currentmapping += 1;
+            currentmapping = currentmapping + 1;
 
             if(currentmapping > 3){
                 currentmapping = 0;
             }
         }
 
-        switch (currentmapping) {
+        if(currentmapping == 1)
+        {
+            System.out.println("Mode 1");
+        }
+        else if(currentmapping == 2)
+        {
+            System.out.println("Mode 2");            
+        }
+
+        /*switch (currentmapping) {
             case 1:
-            m_joyA.onTrue(m_extendedpresetlength1);
-            m_joyB.onTrue(m_extendedpresetlength2);
-            m_joyX.onTrue(m_extendedpresetlength3);
+            //m_joyA.onTrue(m_extendedpresetlength1);
+            System.out.println("Mode 1");
+            //m_joyB.onTrue(m_extendedpresetlength2);
+            //m_joyX.onTrue(m_extendedpresetlength3);
               break;
             case 2:
-            m_joyA.onTrue(m_grabberExtendControl);
-            m_joyB.onTrue(m_grabberRetractControl);
-            m_joyX.onTrue(m_grabberTurnOffControl);
+            System.out.println("Mode 2");
+            //m_joyA.onTrue(m_grabberExtendControl);
+            //m_joyB.onTrue(m_grabberRetractControl);
+            //m_joyX.onTrue(m_grabberTurnOffControl);
               break;
             case 3:
+            System.out.println("Mode 3");
               //Wrist control code will go here when finished
               break;
             default:
-            m_joyA.onTrue(m_shoulderPreset0deg);
-            m_joyB.onTrue(m_shoulderPreset55deg);
-            m_joyX.onTrue(m_shoulderPreset110deg);
+            System.out.println("Default");
+            //m_joyA.onTrue(m_shoulderPreset0deg);
+            //m_joyB.onTrue(m_shoulderPreset55deg);
+            //m_joyX.onTrue(m_shoulderPreset110deg);
               break;
-
-        }
+             
+        } */
 
 
 
