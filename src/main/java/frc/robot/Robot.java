@@ -18,7 +18,6 @@ import org.littletonrobotics.junction.LoggedRobot;
  */
 public class Robot extends LoggedRobot {
 
-    int currentmapping = 0;
     private Command m_autonomousCommand;
     public RobotContainer m_robotContainer;
 
@@ -65,7 +64,7 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void disabledPeriodic() {
-        
+    
     }
 
     /**
@@ -99,6 +98,8 @@ public class Robot extends LoggedRobot {
 
 
     }
+
+    int currentmapping = 0;
 
     /** This function is called periodically during operator control. */
     @Override
@@ -172,8 +173,6 @@ public class Robot extends LoggedRobot {
             //m_joyX.onTrue(m_shoulderPreset110deg);
               break;     
         } */
-
-        // System.out.println(m_robotContainer.swerveSubsystem.getPose());
     }
 
     @Override
