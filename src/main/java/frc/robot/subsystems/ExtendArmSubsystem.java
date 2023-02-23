@@ -70,8 +70,8 @@ public class ExtendArmSubsystem extends SubsystemBase {
     }
   }
 
-  public void setPos(double p_position) {
-    m_desiredPos = ((p_position / m_oneRotationLength) * m_gearRatio);
+  public void setPos(double p_distInches) {
+    m_desiredPos = ((p_distInches / m_oneRotationLength) * m_gearRatio);
 
     System.out.println("desiredPos: " + m_desiredPos);
   }
