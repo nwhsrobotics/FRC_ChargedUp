@@ -100,11 +100,11 @@ public class Robot extends LoggedRobot {
     }
 
     int currentmapping = 0;
+    String Mode = "Default";
 
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {    
-        String Mode = "Default";
         SmartDashboard.putString("Mode", Mode);
         if (m_robotContainer.xboxController.getRawButtonPressed(5)) {
             // Adding 1 to the mapping
