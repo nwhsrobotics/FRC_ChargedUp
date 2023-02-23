@@ -8,8 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ShoulderSubsystem extends SubsystemBase 
-{
+public class ShoulderSubsystem extends SubsystemBase {
   private CANSparkMax m_shoulderMotor1 = null;
   public CANSparkMax m_shoulderMotor2 = null;
   private SparkMaxPIDController m_pidController1 = null;
@@ -26,12 +25,10 @@ public class ShoulderSubsystem extends SubsystemBase
   private boolean m_enabled = false;
 
   /** Creates a new ShoulderSubsystem. */
-  public ShoulderSubsystem() 
-  {
+  public ShoulderSubsystem() {
     m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
 
-    if (m_shoulderMotor1 != null) 
-    {
+    if (m_shoulderMotor1 != null) {
       m_pidController1 = m_shoulderMotor1.getPIDController();
       m_shoulderEncoder1 = m_shoulderMotor1.getEncoder();
       m_shoulderEncoder1.setPosition(0);
@@ -49,8 +46,7 @@ public class ShoulderSubsystem extends SubsystemBase
 
     m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.ShoulderCanID21, CANSparkMax.MotorType.kBrushless);
 
-    if (m_shoulderMotor2 != null) 
-    {
+    if (m_shoulderMotor2 != null) {
       m_pidController2 = m_shoulderMotor2.getPIDController();
       m_shoulderEncoder2 = m_shoulderMotor2.getEncoder();
       m_shoulderEncoder2.setPosition(0);
@@ -68,35 +64,27 @@ public class ShoulderSubsystem extends SubsystemBase
     }
   }
 
-  public void setPos(double p_degree) 
-  {
+  public void setPos(double p_degree) {
     m_desiredPos = ((p_degree / 360) * 200);
   }
 
   @Override
-  public void periodic() 
-  {
-    if (m_enabled == true) 
-    {
-      if(m_desiredPos > ((110 / 360) * 200))
-      {
+  public void periodic() {
+    if (m_enabled == true) {
+      if (m_desiredPos > ((110 / 360) * 200)) {
         m_desiredPos = ((110 / 360) * 200);
-      }
-      else if (m_desiredPos > ((0 / 360) * 200))
-      {
+      } else if (m_desiredPos > ((0 / 360) * 200)) {
         m_desiredPos = ((0 / 360) * 200);
       }
       double distance = (m_desiredPos - m_currentPos);
 
       double delta = distance;
 
-      if (delta > SPEED_ROT_PER_TICK) 
-      {
+      if (delta > SPEED_ROT_PER_TICK) {
         delta = SPEED_ROT_PER_TICK;
       }
 
-      if (delta < -SPEED_ROT_PER_TICK) 
-      {
+      if (delta < -SPEED_ROT_PER_TICK) {
         delta = -SPEED_ROT_PER_TICK;
       }
 
@@ -106,10 +94,8 @@ public class ShoulderSubsystem extends SubsystemBase
       m_pidController2.setReference(-m_currentPos, ControlType.kPosition);
 
       SmartDashboard.putNumber("Shoulder 1 Position", m_shoulderEncoder1.getPosition());
-      SmartDashboard.putNumber("Shoulder 2 Position", m_shoulderEncoder2.getPosition());        
-    } 
-    else 
-    {
+      SmartDashboard.putNumber("Shoulder 2 Position", m_shoulderEncoder2.getPosition());
+    } else {
       return;
     }
   }
