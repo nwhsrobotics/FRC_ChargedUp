@@ -96,6 +96,7 @@ public class Robot extends LoggedRobot {
             m_autonomousCommand.cancel();
         }
 
+        m_robotContainer.m_extendedArmControl.m_position = 0;
 
     }
 
