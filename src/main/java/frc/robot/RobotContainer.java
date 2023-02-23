@@ -7,11 +7,16 @@ import frc.robot.commands.GrabberExtendCommand;
 import frc.robot.commands.GrabberRetractCommand;
 import frc.robot.commands.GrabberTurnOffCommand;
 import frc.robot.commands.ShoulderControl;
+import frc.robot.commands.ShoulderControlAuto;
 import frc.robot.subsystems.ExtendArmSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 
 public class RobotContainer {
+
+
+
+
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
     public final GrabberExtendCommand m_grabberExtendControl = new GrabberExtendCommand(m_grabberSubsystem);
     public final GrabberRetractCommand m_grabberRetractControl = new GrabberRetractCommand(m_grabberSubsystem);
@@ -39,6 +44,7 @@ public class RobotContainer {
     public final ShoulderControl m_shoulderPreset55deg = new ShoulderControl(m_shoulderSubsystem,55);
     public final ShoulderControl m_shoulderPreset110deg = new ShoulderControl(m_shoulderSubsystem,110);
     
+    public final ShoulderControlAuto m_shoulderAutoCmd = new ShoulderControlAuto(m_shoulderSubsystem);
     public RobotContainer() 
     {
         configureButtonBindings();
