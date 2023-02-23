@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
@@ -13,19 +14,19 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.WristConstants;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //TODO: get arm position and adjust pitch
 
 public class WristSubsystem extends SubsystemBase {
-  private CANSparkMax m_wristmotorA = null;
-  private CANSparkMax m_wristmotorB = null;
+  public CANSparkMax m_wristmotorA = null;
+  public CANSparkMax m_wristmotorB = null;
 
   private SparkMaxPIDController m_pidControllerA = null;
   private SparkMaxPIDController m_pidControllerB = null;
 
   private RelativeEncoder m_wristRelativeEncoderA = null;
   private RelativeEncoder m_wristRelativeEncoderB = null;
-
   private CANCoder m_wristAbsoluteEncoderA = null;
   private CANCoder m_wristAbsoluteEncoderB = null;
   
@@ -38,10 +39,12 @@ public class WristSubsystem extends SubsystemBase {
     //TODO: Create repositioning for those
 
     m_wristmotorA = new CANSparkMax(WristConstants.WristCanIDA, CANSparkMax.MotorType.kBrushless);
+    m_wristmotorA.setIdleMode(IdleMode.kBrake);
   
     if (m_wristmotorA != null) {
       // getting PIDController instance from the wrist motor
       m_pidControllerA = m_wristmotorA.getPIDController();
+
       // getting the encoder instance from the wrist motor
       m_wristRelativeEncoderA = m_wristmotorA.getEncoder();
       // setting the encoder position to zero
@@ -68,6 +71,7 @@ public class WristSubsystem extends SubsystemBase {
 
     // creating an instance of CANSparkMax for the Wrist motor with ID WristCanID21
     m_wristmotorB = new CANSparkMax(WristConstants.WristCanIDB, CANSparkMax.MotorType.kBrushless);
+    m_wristmotorB.setIdleMode(IdleMode.kBrake);
 
     // checking if the Wrist motor instance is not null
     if (m_wristmotorB != null) {
@@ -101,6 +105,7 @@ public void pitch(double delta_deg) {
 }
 
 public void roll(double delta_deg) {
+  System.out.println("running");
   if(m_roll_deg + delta_deg <= WristConstants.kMaxRoll && m_roll_deg + delta_deg >= WristConstants.kMinRoll) {
     m_roll_deg += delta_deg;
   }
@@ -108,8 +113,15 @@ public void roll(double delta_deg) {
 
   @Override
   public void periodic() {
-    m_positionA = m_pitch_deg + m_roll_deg;
+    m_positionA = (m_pitch_deg + m_roll_deg) * WristConstants.REVS_PER_OUTPUT_DEGREE;
     m_positionB = (m_pitch_deg - m_roll_deg) * WristConstants.REVS_PER_OUTPUT_DEGREE;
+
+    SmartDashboard.putNumber("m_pitch_deg", m_pitch_deg);
+    SmartDashboard.putNumber("m_roll_deg", m_roll_deg);
+    SmartDashboard.putNumber("m_positiona", m_positionA);
+    SmartDashboard.putNumber("m_positionB", m_positionB);
+    SmartDashboard.putNumber("Encoder A", m_wristRelativeEncoderA.getPosition());
+    SmartDashboard.putNumber("Encoder B", m_wristRelativeEncoderB.getPosition());
 
     m_pidControllerA.setReference(m_positionA, ControlType.kPosition);
     m_pidControllerB.setReference(m_positionB, ControlType.kPosition);

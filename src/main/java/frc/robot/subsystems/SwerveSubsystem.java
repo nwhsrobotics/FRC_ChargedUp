@@ -11,7 +11,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
@@ -128,15 +127,6 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(Rotation2d.fromDegrees(getHeading()), getModulePositions());
-        SmartDashboard.putNumber("fl drive", frontLeft.getDrivePosition());
-        SmartDashboard.putNumber("fr drive", frontRight.getDrivePosition());
-        SmartDashboard.putNumber("bl drive", backLeft.getDrivePosition());
-        SmartDashboard.putNumber("br drive", backRight.getDrivePosition());
-        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-        SmartDashboard.putNumber("Front Left Encoder", frontLeft.getTurningPosition());
-        SmartDashboard.putNumber("Front Right Encoder", frontRight.getTurningPosition());
-        SmartDashboard.putNumber("Back Left Encoder", backLeft.getTurningPosition());
-        SmartDashboard.putNumber("Back Right Encoder", backRight.getTurningPosition());
     }
 
     public void stopModules() {
