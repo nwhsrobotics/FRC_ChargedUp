@@ -76,15 +76,13 @@ public class ShoulderSubsystem extends SubsystemBase {
       } else if (m_desiredPos > ((0 / 360) * 200)) {
         m_desiredPos = ((0 / 360) * 200);
       }
-      double distance = (m_desiredPos - m_currentPos);
 
+      double distance = (m_desiredPos - m_currentPos);
       double delta = distance;
 
       if (delta > SPEED_ROT_PER_TICK) {
         delta = SPEED_ROT_PER_TICK;
-      }
-
-      if (delta < -SPEED_ROT_PER_TICK) {
+      } else if(delta < -SPEED_ROT_PER_TICK) {
         delta = -SPEED_ROT_PER_TICK;
       }
 

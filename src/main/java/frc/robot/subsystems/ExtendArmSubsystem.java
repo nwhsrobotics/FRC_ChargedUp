@@ -60,15 +60,13 @@ public class ExtendArmSubsystem extends SubsystemBase {
       } else if (m_desiredPos < ((0 / m_oneRotationLength) * m_gearRatio)) {
         m_desiredPos = ((0 / m_oneRotationLength) * m_gearRatio);
       }
-      double distance = (m_desiredPos - m_currentPos);
 
+      double distance = (m_desiredPos - m_currentPos);
       double delta = distance;
 
       if (delta > SPEED_ROT_PER_TICK) {
         delta = SPEED_ROT_PER_TICK;
-      }
-
-      if (delta < -SPEED_ROT_PER_TICK) {
+      } else if(delta < -SPEED_ROT_PER_TICK) {
         delta = -SPEED_ROT_PER_TICK;
       }
 
