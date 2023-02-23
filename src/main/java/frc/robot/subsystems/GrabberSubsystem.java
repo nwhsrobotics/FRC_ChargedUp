@@ -10,24 +10,20 @@ public class GrabberSubsystem extends SubsystemBase {
   private DoubleSolenoid m_grabber;
 
   /** Creates a new GrabberSubsystem. */
-  public GrabberSubsystem() 
-  {
+  public GrabberSubsystem() {
     m_grabber = new DoubleSolenoid(PneumaticsModuleType.REVPH, GrabberConstants.forwardChannel, GrabberConstants.reverseChannel);
     m_grabber.set(DoubleSolenoid.Value.kOff);
   }
 
-  public void grabberTurnOff() 
-  {
+  public void grabberTurnOff() {
     m_grabber.set(DoubleSolenoid.Value.kOff);
   }
 
-  public void grabberExtend() 
-  {
+  public void grabberExtend() {
     m_grabber.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void grabberRetract() 
-  {
+  public void grabberRetract() {
     m_grabber.set(DoubleSolenoid.Value.kReverse);
   }
 

@@ -12,7 +12,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
   private CANSparkMax m_extendArmMotor1 = null;
   private SparkMaxPIDController m_pidController1 = null;
-  private RelativeEncoder m_extendArmEncoder1 = null; 
+  private RelativeEncoder m_extendArmEncoder1 = null;
   private static double m_currentPos = 0.0;
   private static double m_desiredPos = 0.0;
   private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
@@ -55,25 +55,20 @@ public class ExtendArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (m_enabled == true) {
-      if((m_desiredPos > ((19 / m_oneRotationLength)* m_gearRatio))) 
-      {
-        m_desiredPos = ((19 / m_oneRotationLength)* m_gearRatio);
-      }
-      else if (m_desiredPos < ((0 / m_oneRotationLength)* m_gearRatio))
-      {
-        m_desiredPos = ((0 / m_oneRotationLength)* m_gearRatio);
+      if ((m_desiredPos > ((19 / m_oneRotationLength) * m_gearRatio))) {
+        m_desiredPos = ((19 / m_oneRotationLength) * m_gearRatio);
+      } else if (m_desiredPos < ((0 / m_oneRotationLength) * m_gearRatio)) {
+        m_desiredPos = ((0 / m_oneRotationLength) * m_gearRatio);
       }
       double distance = (m_desiredPos - m_currentPos);
 
       double delta = distance;
 
-      if (delta > SPEED_ROT_PER_TICK) 
-      {
+      if (delta > SPEED_ROT_PER_TICK) {
         delta = SPEED_ROT_PER_TICK;
       }
 
-      if (delta < -SPEED_ROT_PER_TICK) 
-      {
+      if (delta < -SPEED_ROT_PER_TICK) {
         delta = -SPEED_ROT_PER_TICK;
       }
 
@@ -81,10 +76,8 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
       m_pidController1.setReference(m_currentPos, ControlType.kPosition);
 
-      SmartDashboard.putNumber("Extending Arm", m_extendArmEncoder1.getPosition());        
-    } 
-    else
-    {
+      SmartDashboard.putNumber("Extending Arm", m_extendArmEncoder1.getPosition());
+    } else {
       return;
     }
   }
