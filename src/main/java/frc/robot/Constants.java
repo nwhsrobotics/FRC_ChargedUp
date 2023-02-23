@@ -117,7 +117,7 @@ public final class Constants {
     
     } */
         public static final class WristConstants {
-        public static final double kp = 0.1;
+        public static final double kp = 0.05;
         public static final double ki = 0.0;
         public static final double kd = 0.0;
         public static final double kIz = 0.0;
