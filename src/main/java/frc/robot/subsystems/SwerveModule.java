@@ -95,9 +95,14 @@ public class SwerveModule {
         return angle;
     }
 
+    public void resetTurnEncoder() {
+        // reset turning encoders to the previous value of the absolute encoders
+        turningEncoder.setPosition(getAbsoluteEncoderRad());
+    }
+
     public void resetEncoders() {
         driveEncoder.setPosition(0);
-        turningEncoder.setPosition(getAbsoluteEncoderRad()); //reset turning encoders to the previous value of the absolute encoders
+        resetTurnEncoder();
     }
 
     public SwerveModuleState getState() {
