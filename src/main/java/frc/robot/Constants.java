@@ -74,6 +74,35 @@ public final class Constants {
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond;
     }
 
+    public static final class ShoulderConstants {
+        public static final double kp = 1;
+        public static final double ki = 0.0;
+        public static final double kd = 0.0;
+        public static final double kIz = 0.0;
+        public static final double kFFz = 0.0;
+        public static final double kMaxOutput = 1.0;
+        public static final double kMinOutput = -1.0;
+        public static final int ShoulderCanID20 = 20;
+        public static final int ShoulderCanID21 = 21;
+    }
+
+    public static final class ExtendArmConstants {
+        public static final double kp = 1;
+        public static final double ki = 0.0;
+        public static final double kd = 0.0;
+        public static final double kIz = 0.0;
+        public static final double kFFz = 0.0;
+        public static final double kMaxOutput = 1.0;
+        public static final double kMinOutput = -1.0;
+        public static final int ExtendArmCanID24 = 24;
+        public static final int ExtendArmCanID25 = 25;
+    }
+
+    public static final class GrabberConstants {
+        public static final int forwardChannel = 1;
+        public static final int reverseChannel = 3;
+    }
+
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 2;
         public static final double kMaxAngularSpeedRadiansPerSecond = DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond;
@@ -103,47 +132,23 @@ public final class Constants {
         public static final int kJoystickPort = 2;
         public static final double kPreciseSpdMetersPerSecond = 0.5;
     }
-/* 
-    public static final class ShoulderConstants {
-        public static final double kp = 0.005;
-        public static final double ki = 0.0;
-        public static final double kd = 0.0;
-        public static final double kIz = 0.0;
-        public static final double kFFz = 0.0;
-        public static final double kMaxOutput = 1.0;
-        public static final double kMinOutput = -1.0;
-        public static final int ShoulderCanID20 = 20; //changed id from 3 to 20 to avoid conflicts with other id values
-        public static final int ShoulderCanID21 = 21;
-    
-    } */
-        public static final class WristConstants {
-        public static final double kp = 0.05;
-        public static final double ki = 0.0;
-        public static final double kd = 0.0;
-        public static final double kIz = 0.0;
-        public static final double kFFz = 0.0;
-        public static final double kMaxOutput = 1.0;
-        public static final double kMinOutput = -1.0;
-        public static final double kMaxRoll = 115.0;
-        public static final double kMinRoll = -115.0;
-        public static final double kMaxPitch = 15.0;
-        public static final double kMinPitch = -15.0;
-        public static final int WristCanIDA = 5;
-        public static final int WristCanIDB = 7;
-        public static final double WRIST_GEAR_RATIO = 60.0;
-        public static final double REVS_PER_OUTPUT_DEGREE = WRIST_GEAR_RATIO / 360.0;
-    }
 
-    public static final class ExtendArmConstants {
-        public static final double kp = 1.0;
-        public static final double ki = 0.0;
-        public static final double kd = 0.0;
-        public static final double kIz = 0.0;
-        public static final double kFFz = 0.0;
-        public static final double kMaxOutput = 1.0;
-        public static final double kMinOutput = -1.0;
-        public static final int ExtendArmCanID24 = 24;
-        public static final int ExtendArmCanID25 = 25;
+    public static final class WristConstants {
+    public static final double kp = 0.05;
+    public static final double ki = 0.0;
+    public static final double kd = 0.0;
+    public static final double kIz = 0.0;
+    public static final double kFFz = 0.0;
+    public static final double kMaxOutput = 1.0;
+    public static final double kMinOutput = -1.0;
+    public static final double kMaxRoll = 115.0;
+    public static final double kMinRoll = -115.0;
+    public static final double kMaxPitch = 15.0;
+    public static final double kMinPitch = -15.0;
+    public static final int WristCanIDA = 5;
+    public static final int WristCanIDB = 7;
+    public static final double WRIST_GEAR_RATIO = 60.0;
+    public static final double REVS_PER_OUTPUT_DEGREE = WRIST_GEAR_RATIO / 360.0;
 
     }
 }
