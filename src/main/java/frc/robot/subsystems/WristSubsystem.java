@@ -15,11 +15,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.WristConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//TODO: get arm position and adjust pitch
+//TODO: get arm position and adjust pitch to keep it straight
 
 public class WristSubsystem extends SubsystemBase {
+  private XboxController xboxController;
+
   public CANSparkMax m_wristmotorA = null;
   public CANSparkMax m_wristmotorB = null;
 
@@ -37,9 +40,11 @@ public class WristSubsystem extends SubsystemBase {
   private double m_positionA = 0.0;
   private double m_positionB = 0.0;
 
-  public WristSubsystem() {
+  public WristSubsystem(XboxController m_controller) {
     //TODO: Absolute encoders
     //TODO: Create repositioning for those
+
+    xboxController = m_controller;
 
     m_wristmotorA = new CANSparkMax(WristConstants.WristCanIDA, CANSparkMax.MotorType.kBrushless);
     m_wristmotorA.setIdleMode(IdleMode.kBrake);
@@ -120,6 +125,16 @@ public void roll(double delta_deg) {
 
   @Override
   public void periodic() {
+    if (xboxController.getLeftY() > 0.15)
+      pitch(0.1);
+    else if (xboxController.getLeftY() < -0.15)
+      pitch(-0.1);
+
+    if (xboxController.getRightX() > 0.15)
+      roll(2.5);
+    else if (xboxController.getRightX() < -0.15)
+      roll(-2.5);
+      
     double absoultePositionA = m_wristAbsoluteEncoderA.getAbsolutePosition();
     double absolutePositionB = m_wristAbsoluteEncoderB.getAbsolutePosition();
 

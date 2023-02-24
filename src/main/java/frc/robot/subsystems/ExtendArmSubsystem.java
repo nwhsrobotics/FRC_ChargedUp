@@ -4,12 +4,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ExtendArmConstants;
 
 public class ExtendArmSubsystem extends SubsystemBase {
-
+  private XboxController xboxController;
   private CANSparkMax m_extendArmMotor1 = null;
   private SparkMaxPIDController m_pidController1 = null;
   private RelativeEncoder m_extendArmEncoder1 = null;
@@ -24,8 +26,8 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private boolean m_enabled = false;
 
   /** Creates a new ExtendArmSubsystem. */
-  public ExtendArmSubsystem() {
-
+  public ExtendArmSubsystem(XboxController m_controller) {
+    xboxController = m_controller;
     m_extendArmMotor1 = new CANSparkMax(ExtendArmConstants.ExtendArmCanID24, CANSparkMax.MotorType.kBrushless);
 
     if (m_extendArmMotor1 != null) {
@@ -54,6 +56,12 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if (xboxController.getPOV() == 90 && m_currentPos < 48) {
+      setPos(m_currentPos + 2);
+    }
+    else if (xboxController.getPOV() == 270 && m_currentPos > -8) {
+      setPos(m_currentPos - 2);
+    }
     if (m_enabled == true) {
       if ((m_desiredPos > ((19 / m_oneRotationLength) * m_gearRatio))) {
         m_desiredPos = ((19 / m_oneRotationLength) * m_gearRatio);

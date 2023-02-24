@@ -6,6 +6,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShoulderConstants;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShoulderSubsystem extends SubsystemBase {
@@ -21,13 +22,14 @@ public class ShoulderSubsystem extends SubsystemBase {
   private static final double TOTAL_DISTANCE = 61.1;
   private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
+  private XboxController xboxController;
 
   private boolean m_enabled = false;
 
   /** Creates a new ShoulderSubsystem. */
-  public ShoulderSubsystem() {
+  public ShoulderSubsystem(XboxController m_controller) {
+    this.xboxController = m_controller;
     m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
-
     if (m_shoulderMotor1 != null) {
       m_pidController1 = m_shoulderMotor1.getPIDController();
       m_shoulderEncoder1 = m_shoulderMotor1.getEncoder();
@@ -70,6 +72,12 @@ public class ShoulderSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if (xboxController.getPOV() == 0 && m_currentPos < 105) {
+      setPos(m_currentPos + 5);
+    }
+    else if (xboxController.getPOV() == 180 && m_currentPos > 5) {
+      setPos(m_currentPos - 5);
+    }
     if (m_enabled == true) {
       if (m_desiredPos > ((110 / 360) * 200)) {
         m_desiredPos = ((110 / 360) * 200);
