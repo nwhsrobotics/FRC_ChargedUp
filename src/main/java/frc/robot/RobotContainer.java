@@ -17,18 +17,8 @@ public class RobotContainer {
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem);
     public final Joystick m_joystick = new Joystick(1);
-    public final XboxController xboxController = new XboxController(2);/*
-    public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem();
-    public final ShoulderControl m_shoulderControl = new ShoulderControl(m_shoulderSubsystem, 0);
-    public final ShoulderControl m_shoulderPreset0deg = new ShoulderControl(m_shoulderSubsystem, 0);
-    public final ShoulderControl m_shoulderPreset55deg = new ShoulderControl(m_shoulderSubsystem, 30.5);
-    public final ShoulderControl m_shoulderPreset110deg = new ShoulderControl(m_shoulderSubsystem, 61.1);
-    
-  
-    public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); //button A
-    public final JoystickButton m_joyB = new JoystickButton(xboxController, 2); // button B
-    public final JoystickButton m_joyX = new JoystickButton(xboxController, 3); // button X
-    public final JoystickButton m_joyY = new JoystickButton(xboxController, 4); // button Y*/
+
+    public final XboxController xboxController = new XboxController(2);
     public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); //button A
     public final JoystickButton m_joyBK = new JoystickButton(xboxController, 7); // Back Button
     public final JoystickButton m_joyST = new JoystickButton(xboxController, 8); // Start Button
