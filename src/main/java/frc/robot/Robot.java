@@ -108,7 +108,10 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {    
-        SmartDashboard.putString("Mode", Mode);
+        /*if (m_robotContainer.xboxController.getPOV(0)) {
+            // Adding 1 to the mapping
+            currentmapping += 1; } */
+       /* SmartDashboard.putString("Mode", Mode);
         if (m_robotContainer.xboxController.getRawButtonPressed(5)) {
             // Adding 1 to the mapping
             currentmapping += 1;
@@ -150,7 +153,7 @@ public class Robot extends LoggedRobot {
             m_robotContainer.m_joyA.onTrue(m_robotContainer.m_shoulderPreset0deg);
             m_robotContainer.m_joyB.onTrue(m_robotContainer.m_shoulderPreset55deg);
             m_robotContainer.m_joyX.onTrue(m_robotContainer.m_shoulderPreset110deg);               
-        }
+        } */
 
         /*switch (currentmapping) {
             case 1:

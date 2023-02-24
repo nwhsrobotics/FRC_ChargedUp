@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.ExtendedArmControl;
 import frc.robot.commands.GrabberExtendCommand;
 import frc.robot.commands.GrabberRetractCommand;
@@ -31,6 +32,10 @@ public class RobotContainer {
     public final JoystickButton m_joyRB = new JoystickButton(xboxController, 6); // Right bumper
     public final JoystickButton m_joyVB = new JoystickButton(xboxController, 7); // View Button
     public final JoystickButton m_joyMB = new JoystickButton(xboxController, 8); // Menu Button
+    public final POVButton m_dPadUp = new POVButton(xboxController, 0);
+    public final POVButton m_dPadRight = new POVButton(xboxController, 90);
+    public final POVButton m_dPadDown = new POVButton(xboxController, 180);
+    public final POVButton m_dPadLeft = new POVButton(xboxController, 270);
 
     public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem();
     public final ExtendedArmControl m_extendedArmControl = new ExtendedArmControl(m_extendArmSubsystem, 0.0);
@@ -52,5 +57,7 @@ public class RobotContainer {
 
     private void configureButtonBindings() 
     {
+        m_joyLB.onTrue(m_grabberRetractControl);
+        m_joyRB.onTrue(m_grabberExtendControl);
     }
 }
