@@ -5,14 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.WristSubsystem;
 
 public class WristPitchCommand extends CommandBase {
 
   private final WristSubsystem m_wristSubsystem;
-  private double m_nextPosition;
-
   private double m_delta_deg;
 
   public WristPitchCommand(WristSubsystem subsystem, double delta_deg) {
