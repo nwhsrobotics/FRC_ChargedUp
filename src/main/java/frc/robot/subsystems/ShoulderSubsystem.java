@@ -56,6 +56,7 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController2.setP(ShoulderConstants.kp);
             m_pidController2.setI(ShoulderConstants.ki);
             m_pidController2.setD(ShoulderConstants.kd);
+            
             m_pidController2.setIZone(ShoulderConstants.kIz);
             m_pidController2.setFF(ShoulderConstants.kFFz);
 
