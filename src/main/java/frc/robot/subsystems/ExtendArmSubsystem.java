@@ -58,9 +58,9 @@ public class ExtendArmSubsystem extends SubsystemBase {
   public void periodic() {
     if (m_enabled == true) {
       if (xboxController.getPOV() == 90) {
-        setPos(m_desiredPos + ((2 / m_oneRotationLength) * m_gearRatio));
+        setPos(m_desiredPos + ((2 / m_oneRotationLength) * m_gearRatio));     //take the arm exactly by 2 inches forward when RIGHT D-Pad button pressed
       } else if (xboxController.getPOV() == 270) {
-        setPos(m_desiredPos - ((2 / m_oneRotationLength) * m_gearRatio));
+        setPos(m_desiredPos - ((2 / m_oneRotationLength) * m_gearRatio));     //take the arm exactly by 2 inches backwars when LEFT D-Pad button pressed
       }
       if ((m_desiredPos > ((19 / m_oneRotationLength) * m_gearRatio))) {
         m_desiredPos = ((19 / m_oneRotationLength) * m_gearRatio);
