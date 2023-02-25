@@ -7,13 +7,10 @@ package frc.robot.subsystems;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.ctre.phoenix.sensors.CANCoder;
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.WristConstants;
-import edu.wpi.first.math.controller.PIDController;
+import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class WristSubsystem extends SubsystemBase {
   private XboxController xboxController;
+
+  private ShoulderSubsystem m_shoulder;
 
   public CANSparkMax m_wristmotorA = null;
   public CANSparkMax m_wristmotorB = null;
@@ -40,11 +39,13 @@ public class WristSubsystem extends SubsystemBase {
   private double m_positionA = 0.0;
   private double m_positionB = 0.0;
 
-  public WristSubsystem(XboxController m_controller) {
+  public WristSubsystem(XboxController m_controller, ShoulderSubsystem m_shoulder) {
     //TODO: Absolute encoders
     //TODO: Create repositioning for those
 
     xboxController = m_controller;
+
+    this.m_shoulder = m_shoulder;
 
     m_wristmotorA = new CANSparkMax(WristConstants.WristCanIDA, CANSparkMax.MotorType.kBrushless);
     m_wristmotorA.setIdleMode(IdleMode.kBrake);
@@ -125,6 +126,7 @@ public void roll(double delta_deg) {
 
   @Override
   public void periodic() {
+    pitch(ShoulderConstants.kAngleRange - m_shoulder.m_desiredPos);
     if (xboxController.getLeftY() > 0.15)
       pitch(0.1);
     else if (xboxController.getLeftY() < -0.15)
