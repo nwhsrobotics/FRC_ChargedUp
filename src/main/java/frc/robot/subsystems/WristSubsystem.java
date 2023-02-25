@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//TODO: get arm position and adjust pitch to keep it straight
+//TODO: test the automatic pitch adjust
 
 public class WristSubsystem extends SubsystemBase {
   private XboxController xboxController;
@@ -40,8 +40,7 @@ public class WristSubsystem extends SubsystemBase {
   private double m_positionB = 0.0;
 
   public WristSubsystem(XboxController m_controller, ShoulderSubsystem m_shoulder) {
-    //TODO: Absolute encoders
-    //TODO: Create repositioning for those
+    //TODO: Test everything
 
     xboxController = m_controller;
 
