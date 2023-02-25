@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.ExtendArmSubsystem;
+import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -14,11 +15,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 public class SwerveAuto extends SequentialCommandGroup {
-    public SwerveAuto(SwerveSubsystem s_Swerve, ShoulderSubsystem m_shoulder, ExtendArmSubsystem m_arm){
+    public SwerveAuto(SwerveSubsystem s_Swerve, ShoulderSubsystem m_shoulder, ExtendArmSubsystem m_arm, GrabberSubsystem m_grabber){
         var trajectoryOne =
         TrajectoryGenerator.generateTrajectory(
         new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
@@ -72,8 +74,11 @@ public class SwerveAuto extends SequentialCommandGroup {
             new InstantCommand(() -> s_Swerve.stopModules()),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
-            new InstantCommand(() -> m_shoulder.setPos(55.0)),
-            new InstantCommand(() -> m_arm.setPos(19.0))
+            new ParallelCommandGroup(
+                new InstantCommand(() -> m_shoulder.setPos(55.0)),
+                new InstantCommand(() -> m_arm.setPos(19.0))
+            ),
+            new InstantCommand(() -> m_grabber.grabberExtend())
         );
     }
 }
