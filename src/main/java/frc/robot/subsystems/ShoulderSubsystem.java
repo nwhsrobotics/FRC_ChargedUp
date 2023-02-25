@@ -73,10 +73,10 @@ public class ShoulderSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (m_enabled == true) {
-            if (xboxController.getPOV() == 0 && m_currentPos < 105) {
-                setPos(m_currentPos + 5);
-            } else if (xboxController.getPOV() == 180 && m_currentPos > 5) {
-                setPos(m_currentPos - 5);
+            if (xboxController.getPOV() == 0) {
+                setPos(m_desiredPos + ((5 / 360) * 200));
+            } else if (xboxController.getPOV() == 180) {
+                setPos(m_desiredPos - ((5 / 360) * 200));
             }
             if (m_desiredPos > ((110 / 360) * 200)) {
                 m_desiredPos = ((110 / 360) * 200);
