@@ -15,7 +15,7 @@ import frc.robot.subsystems.WristSubsystem;
 public class RobotContainer {
 
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem);
+    
     public final Joystick m_joystick = new Joystick(1);
 
     public final XboxController xboxController = new XboxController(2);
@@ -32,6 +32,8 @@ public class RobotContainer {
     public final WristSubsystem m_wristSubsystem = new WristSubsystem(xboxController, m_shoulderSubsystem);
 
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
+
+    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem);
     /*
     public final WristPitchCommand wristPF = new WristPitchCommand(m_wristSubsystem, 0.1); // pitch forward (up)
     public final WristPitchCommand wristPB = new WristPitchCommand(m_wristSubsystem, -0.1); // pitch backward (down)

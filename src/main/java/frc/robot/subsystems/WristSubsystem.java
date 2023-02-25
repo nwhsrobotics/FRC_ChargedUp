@@ -34,8 +34,8 @@ public class WristSubsystem extends SubsystemBase {
   private DutyCycleEncoder m_wristAbsoluteEncoderA = null;
   private DutyCycleEncoder m_wristAbsoluteEncoderB = null;
   
-  private double m_pitch_deg = 0.0;
-  private double m_roll_deg = 0.0;
+  public double m_pitch_deg = 0.0;
+  public double m_roll_deg = 0.0;
   private double m_positionA = 0.0;
   private double m_positionB = 0.0;
 
@@ -125,7 +125,7 @@ public void roll(double delta_deg) {
 
   @Override
   public void periodic() {
-    pitch(ShoulderConstants.kAngleRange - m_shoulder.m_desiredPos);
+    m_pitch_deg = ShoulderConstants.kAngleRange - m_shoulder.m_desiredPos;
     if (xboxController.getLeftY() > 0.15)
       pitch(0.1);
     else if (xboxController.getLeftY() < -0.15)
