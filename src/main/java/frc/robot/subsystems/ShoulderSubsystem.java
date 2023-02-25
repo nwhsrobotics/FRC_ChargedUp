@@ -16,8 +16,8 @@ public class ShoulderSubsystem extends SubsystemBase {
     private SparkMaxPIDController m_pidController2 = null;
     private RelativeEncoder m_shoulderEncoder1 = null;
     private RelativeEncoder m_shoulderEncoder2 = null;
-    private static double m_currentPos = 0.0;
-    public static double m_desiredPos = 0.0;
+    public double m_currentPos = 0.0;
+    public double m_desiredPos = 0.0;
     private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
     private static final double TOTAL_DISTANCE = 61.1;
     private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!

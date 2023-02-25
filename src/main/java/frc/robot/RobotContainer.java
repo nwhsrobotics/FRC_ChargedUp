@@ -3,11 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.SwerveAuto;
-import frc.robot.commands.WristPitchCommand;
-import frc.robot.commands.WristRollCommand;
 import frc.robot.commands.SwerveJoystickDefaultCmd;
 import frc.robot.subsystems.ExtendArmSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
@@ -32,7 +29,7 @@ public class RobotContainer {
 
     public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(xboxController);
 
-    public final WristSubsystem m_wristSubsystem = new WristSubsystem(xboxController);
+    public final WristSubsystem m_wristSubsystem = new WristSubsystem(xboxController, m_shoulderSubsystem);
 
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
     /*

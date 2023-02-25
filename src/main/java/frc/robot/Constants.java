@@ -84,6 +84,7 @@ public final class Constants {
         public static final double kMinOutput = -1.0;
         public static final int ShoulderCanID20 = 20;
         public static final int ShoulderCanID21 = 21;
+        public static final double kAngleRange = 55.0;
     }
 
     public static final class ExtendArmConstants {
