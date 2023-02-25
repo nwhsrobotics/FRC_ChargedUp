@@ -1,6 +1,8 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.ExtendArmSubsystem;
+import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 import java.util.List;
@@ -16,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 public class SwerveAuto extends SequentialCommandGroup {
-    public SwerveAuto(SwerveSubsystem s_Swerve){
+    public SwerveAuto(SwerveSubsystem s_Swerve, ShoulderSubsystem m_shoulder, ExtendArmSubsystem m_arm){
         var trajectoryOne =
         TrajectoryGenerator.generateTrajectory(
         new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
@@ -69,7 +71,9 @@ public class SwerveAuto extends SequentialCommandGroup {
             swerveControllerCommand2,
             new InstantCommand(() -> s_Swerve.stopModules()),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
-            new InstantCommand(() -> System.out.println(s_Swerve.getHeading()))
+            new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
+            new InstantCommand(() -> m_shoulder.setPos(55.0)),
+            new InstantCommand(() -> m_arm.setPos(19.0))
         );
     }
 }
