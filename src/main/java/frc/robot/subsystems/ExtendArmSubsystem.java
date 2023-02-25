@@ -18,7 +18,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private static double m_currentPos = 0.0;
   private static double m_desiredPos = 0.0;
   private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
-  private static final double TOTAL_DISTANCE = 25.0; // Revisit this value!!!
+  private static final double TOTAL_DISTANCE = 25.0; // Revisit this value!!! 100 would be best for 2.4 seconds and 50 would be 4.8 seconds 150 for 1.6 seconds
   private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
   private double m_gearRatio = 18.9;

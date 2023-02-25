@@ -19,7 +19,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     public double m_currentPos = 0.0;
     public double m_desiredPos = 0.0;
     private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
-    private static final double TOTAL_DISTANCE = 50.0;
+    private static final double TOTAL_DISTANCE = 50.0; // 50 for 1.222 seconds 25 for 2.4 seconds
     private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
     private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
     private XboxController xboxController;
