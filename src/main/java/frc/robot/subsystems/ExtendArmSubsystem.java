@@ -57,10 +57,10 @@ public class ExtendArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (m_enabled == true) {
-      if (xboxController.getPOV() == 90 && m_currentPos < 48) {
-        setPos(m_currentPos + 2);
-      } else if (xboxController.getPOV() == 270 && m_currentPos > -8) {
-        setPos(m_currentPos - 2);
+      if (xboxController.getPOV() == 90) {
+        setPos(m_desiredPos + ((2 / m_oneRotationLength) * m_gearRatio));
+      } else if (xboxController.getPOV() == 270) {
+        setPos(m_desiredPos - ((2 / m_oneRotationLength) * m_gearRatio));
       }
       if ((m_desiredPos > ((19 / m_oneRotationLength) * m_gearRatio))) {
         m_desiredPos = ((19 / m_oneRotationLength) * m_gearRatio);
