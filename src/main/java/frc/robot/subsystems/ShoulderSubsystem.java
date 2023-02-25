@@ -74,9 +74,9 @@ public class ShoulderSubsystem extends SubsystemBase {
     public void periodic() {
         if (m_enabled == true) {
             if (xboxController.getPOV() == 0) {
-                setPos(m_desiredPos + ((5 / 360) * 200));
+                setPos(m_desiredPos + ((5 / 360) * 200));   //take the shoulder up exactly by 5 degrees when UP D-Pad button pressed
             } else if (xboxController.getPOV() == 180) {
-                setPos(m_desiredPos - ((5 / 360) * 200));
+                setPos(m_desiredPos - ((5 / 360) * 200));   //take the shoulder down exactly by 5 degrees when DOWN D-Pad button pressed
             }
             if (m_desiredPos > ((110 / 360) * 200)) {
                 m_desiredPos = ((110 / 360) * 200);
