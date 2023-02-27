@@ -99,8 +99,10 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController1.setReference(m_currentPos, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos, ControlType.kPosition);
 
-            SmartDashboard.putNumber("Shoulder 1 Position", m_shoulderEncoder1.getPosition());
-            SmartDashboard.putNumber("Shoulder 2 Position", m_shoulderEncoder2.getPosition());
+            SmartDashboard.putNumber("Shoulder 1 Rotations", m_shoulderEncoder1.getPosition());
+            SmartDashboard.putNumber("Shoulder 2 Rotations", m_shoulderEncoder2.getPosition());
+            SmartDashboard.putNumber("Shouler 1 Inches", (m_shoulderEncoder1.getPosition() / 200) * 360);
+            SmartDashboard.putNumber("Shouler 1 Inches", (m_shoulderEncoder2.getPosition() / 200) * 360);
         } else {
             return;
         }
