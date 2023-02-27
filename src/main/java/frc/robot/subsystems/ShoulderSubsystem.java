@@ -22,6 +22,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private static final double TOTAL_DISTANCE = 50.0; // 50 for 1.222 seconds 25 for 2.4 seconds
     private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
     private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
+    private double m_gearRatio = 200;
     private XboxController xboxController;
 
     private boolean m_enabled = false;
@@ -68,21 +69,21 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
 
     public void setPos(double p_degree) {
-        m_desiredPos = ((p_degree / 360) * 200);
+        m_desiredPos = ((p_degree / 360) * m_gearRatio);
     }
 
     @Override
     public void periodic() {
         if (m_enabled == true) {
             if (xboxController.getPOV() == 0) {
-                setPos(m_desiredPos + ((5 / 360) * 200));   //take the shoulder up exactly by 5 degrees when UP D-Pad button pressed
+                setPos(m_desiredPos + ((5 / 360) * m_gearRatio));   //take the shoulder up exactly by 5 degrees when UP D-Pad button pressed
             } else if (xboxController.getPOV() == 180) {
-                setPos(m_desiredPos - ((5 / 360) * 200));   //take the shoulder down exactly by 5 degrees when DOWN D-Pad button pressed
+                setPos(m_desiredPos - ((5 / 360) * m_gearRatio));   //take the shoulder down exactly by 5 degrees when DOWN D-Pad button pressed
             }
-            if (m_desiredPos > ((110 / 360) * 200)) {
-                m_desiredPos = ((110 / 360) * 200);
-            } else if (m_desiredPos > ((0 / 360) * 200)) {
-                m_desiredPos = ((0 / 360) * 200);
+            if (m_desiredPos > ((110 / 360) * m_gearRatio)) {
+                m_desiredPos = ((110 / 360) * m_gearRatio);
+            } else if (m_desiredPos > ((0 / 360) * m_gearRatio)) {
+                m_desiredPos = ((0 / 360) * m_gearRatio);
             }
 
             double distance = (m_desiredPos - m_currentPos);
@@ -101,8 +102,8 @@ public class ShoulderSubsystem extends SubsystemBase {
 
             SmartDashboard.putNumber("Shoulder 1 Rotations", m_shoulderEncoder1.getPosition());
             SmartDashboard.putNumber("Shoulder 2 Rotations", m_shoulderEncoder2.getPosition());
-            SmartDashboard.putNumber("Shouler 1 Inches", (m_shoulderEncoder1.getPosition() / 200) * 360);
-            SmartDashboard.putNumber("Shouler 2 Inches", (m_shoulderEncoder2.getPosition() / 200) * 360);
+            SmartDashboard.putNumber("Shouler 1 Inches", (m_shoulderEncoder1.getPosition() / m_gearRatio) * 360);
+            SmartDashboard.putNumber("Shouler 2 Inches", (m_shoulderEncoder2.getPosition() / m_gearRatio) * 360);
         } else {
             return;
         }
