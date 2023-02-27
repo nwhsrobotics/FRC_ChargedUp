@@ -80,7 +80,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
       m_pidController1.setReference(m_currentPos, ControlType.kPosition);
 
       SmartDashboard.putNumber("ExtendArm Rotations", m_extendArmEncoder1.getPosition());
-      SmartDashboard.putNumber("ExtendArm Inches", (m_extendArmEncoder1.getPosition() / m_gearRatio)* m_oneRotationLength);
+      SmartDashboard.putNumber("ExtendArm Inches", (m_extendArmEncoder1.getPosition() / m_gearRatio)* m_oneRotationLength * 2);
     } else {
       return;
     }
