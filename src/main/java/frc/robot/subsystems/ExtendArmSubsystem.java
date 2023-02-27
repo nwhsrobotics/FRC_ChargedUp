@@ -22,7 +22,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
   private double m_gearRatio = 18.9;
-  private double m_oneRotationLength = 1.504; // in inches Revisit this values!!!
+  private double m_oneRotationLength = 1.504; // in inches
   private boolean m_enabled = false;
 
   /** Creates a new ExtendArmSubsystem. */
@@ -49,9 +49,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   }
 
   public void setPos(double p_distInches) {
-    m_desiredPos = ((p_distInches / m_oneRotationLength) * m_gearRatio);
-
-    System.out.println("desiredPos: " + m_desiredPos);
+    m_desiredPos = (((p_distInches / 2) / m_oneRotationLength) * m_gearRatio);
   }
 
   @Override
