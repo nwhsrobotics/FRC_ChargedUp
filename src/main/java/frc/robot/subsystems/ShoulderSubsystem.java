@@ -102,7 +102,7 @@ public class ShoulderSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Shoulder 1 Rotations", m_shoulderEncoder1.getPosition());
             SmartDashboard.putNumber("Shoulder 2 Rotations", m_shoulderEncoder2.getPosition());
             SmartDashboard.putNumber("Shouler 1 Inches", (m_shoulderEncoder1.getPosition() / 200) * 360);
-            SmartDashboard.putNumber("Shouler 1 Inches", (m_shoulderEncoder2.getPosition() / 200) * 360);
+            SmartDashboard.putNumber("Shouler 2 Inches", (m_shoulderEncoder2.getPosition() / 200) * 360);
         } else {
             return;
         }
