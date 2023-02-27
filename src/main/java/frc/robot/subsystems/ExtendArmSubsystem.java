@@ -49,21 +49,21 @@ public class ExtendArmSubsystem extends SubsystemBase {
   }
 
   public void setPos(double p_distInches) {
-    m_desiredPos = (((p_distInches / 2) / m_oneRotationLength) * m_gearRatio);
+    m_desiredPos = (((p_distInches / 2) / m_oneRotationLength) * m_gearRatio);      //basically takes the user input for inches and converts it to the first part of arm rotations because the caluclations are relative to the first part of the arm because the third part moves relatively to the first part and moves twice the distance of the first part of the arm with the same motor
   }
 
   @Override
   public void periodic() {
     if (m_enabled == true) {
       if (xboxController.getPOV() == 90) {
-        setPos(m_desiredPos + ((2 / m_oneRotationLength) * m_gearRatio));     //take the arm exactly by 2 inches forward when RIGHT D-Pad button pressed
+        setPos(m_desiredPos + (((4 / 2) / m_oneRotationLength) * m_gearRatio));     //take the arm exactly by 4 inches forward when RIGHT D-Pad button pressed
       } else if (xboxController.getPOV() == 270) {
-        setPos(m_desiredPos - ((2 / m_oneRotationLength) * m_gearRatio));     //take the arm exactly by 2 inches backwars when LEFT D-Pad button pressed
+        setPos(m_desiredPos - (((4 / 2) / m_oneRotationLength) * m_gearRatio));     //take the arm exactly by 4 inches backwars when LEFT D-Pad button pressed
       }
-      if ((m_desiredPos > ((19 / m_oneRotationLength) * m_gearRatio))) {
-        m_desiredPos = ((19 / m_oneRotationLength) * m_gearRatio);
-      } else if (m_desiredPos < ((0 / m_oneRotationLength) * m_gearRatio)) {
-        m_desiredPos = ((0 / m_oneRotationLength) * m_gearRatio);
+      if ((m_desiredPos > (((38 / 2) / m_oneRotationLength) * m_gearRatio))) {      //if desired pos for arm is greater than 38 make it 38 and if less than 0 inches make it 0
+        m_desiredPos = (((38 / 2) / m_oneRotationLength) * m_gearRatio);
+      } else if (m_desiredPos < (((0 / 2) / m_oneRotationLength) * m_gearRatio)) {
+        m_desiredPos = (((0 / 2) / m_oneRotationLength) * m_gearRatio);
       }
 
       double distance = (m_desiredPos - m_currentPos);
