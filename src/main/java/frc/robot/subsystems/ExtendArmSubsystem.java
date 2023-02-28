@@ -29,9 +29,9 @@ public class ExtendArmSubsystem extends SubsystemBase {
   public ExtendArmSubsystem(XboxController m_controller) {
     xboxController = m_controller;
     m_extendArmMotor1 = new CANSparkMax(ExtendArmConstants.ExtendArmCanID24, CANSparkMax.MotorType.kBrushless);
-    m_extendArmMotor1.setSmartCurrentLimit(1);
 
     if (m_extendArmMotor1 != null) {
+      m_extendArmMotor1.setSmartCurrentLimit(1);
       m_pidController1 = m_extendArmMotor1.getPIDController();
       m_extendArmEncoder1 = m_extendArmMotor1.getEncoder();
       m_extendArmEncoder1.setPosition(0);
