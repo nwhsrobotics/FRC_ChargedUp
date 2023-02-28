@@ -22,7 +22,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
   private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
   private double m_gearRatio = 18.9;
-  private double m_oneRotationLength = 1.504; // in inches Revisit this values!!!
+  private double m_oneRotationLength = 1.504; // in inches
   private boolean m_enabled = false;
 
   /** Creates a new ExtendArmSubsystem. */
@@ -31,6 +31,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
     m_extendArmMotor1 = new CANSparkMax(ExtendArmConstants.ExtendArmCanID24, CANSparkMax.MotorType.kBrushless);
 
     if (m_extendArmMotor1 != null) {
+      m_extendArmMotor1.setSmartCurrentLimit(1);
       m_pidController1 = m_extendArmMotor1.getPIDController();
       m_extendArmEncoder1 = m_extendArmMotor1.getEncoder();
       m_extendArmEncoder1.setPosition(0);
@@ -49,23 +50,21 @@ public class ExtendArmSubsystem extends SubsystemBase {
   }
 
   public void setPos(double p_distInches) {
-    m_desiredPos = ((p_distInches / m_oneRotationLength) * m_gearRatio);
-
-    System.out.println("desiredPos: " + m_desiredPos);
+    m_desiredPos = (((p_distInches / 2) / m_oneRotationLength) * m_gearRatio);      //basically takes the user input for inches and converts it to the first part of arm rotations because the caluclations are relative to the first part of the arm because the third part moves relatively to the first part and moves twice the distance of the first part of the arm with the same motor
   }
 
   @Override
   public void periodic() {
     if (m_enabled == true) {
       if (xboxController.getPOV() == 90) {
-        setPos(m_desiredPos + ((2 / m_oneRotationLength) * m_gearRatio));     //take the arm exactly by 2 inches forward when RIGHT D-Pad button pressed
+        setPos(m_desiredPos + (((4 / 2) / m_oneRotationLength) * m_gearRatio));     //take the arm exactly by 4 inches forward when RIGHT D-Pad button pressed
       } else if (xboxController.getPOV() == 270) {
-        setPos(m_desiredPos - ((2 / m_oneRotationLength) * m_gearRatio));     //take the arm exactly by 2 inches backwars when LEFT D-Pad button pressed
+        setPos(m_desiredPos - (((4 / 2) / m_oneRotationLength) * m_gearRatio));     //take the arm exactly by 4 inches backwars when LEFT D-Pad button pressed
       }
-      if ((m_desiredPos > ((19 / m_oneRotationLength) * m_gearRatio))) {
-        m_desiredPos = ((19 / m_oneRotationLength) * m_gearRatio);
-      } else if (m_desiredPos < ((0 / m_oneRotationLength) * m_gearRatio)) {
-        m_desiredPos = ((0 / m_oneRotationLength) * m_gearRatio);
+      if ((m_desiredPos > (((38 / 2) / m_oneRotationLength) * m_gearRatio))) {      //if desired pos for arm is greater than 38 make it 38 and if less than 0 inches make it 0
+        m_desiredPos = (((38 / 2) / m_oneRotationLength) * m_gearRatio);
+      } else if (m_desiredPos < (((0 / 2) / m_oneRotationLength) * m_gearRatio)) {
+        m_desiredPos = (((0 / 2) / m_oneRotationLength) * m_gearRatio);
       }
 
       double distance = (m_desiredPos - m_currentPos);
@@ -81,7 +80,8 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
       m_pidController1.setReference(m_currentPos, ControlType.kPosition);
 
-      SmartDashboard.putNumber("Extending Arm", m_extendArmEncoder1.getPosition());
+      SmartDashboard.putNumber("ExtendArm Rotations", m_extendArmEncoder1.getPosition());
+      SmartDashboard.putNumber("ExtendArm Inches", (m_extendArmEncoder1.getPosition() / m_gearRatio)* m_oneRotationLength * 2);
     } else {
       return;
     }

@@ -34,6 +34,11 @@ public class RobotContainer {
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
 
     public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
+    /*
+    public final WristPitchCommand wristPF = new WristPitchCommand(m_wristSubsystem, 0.1); // pitch forward (up)
+    public final WristPitchCommand wristPB = new WristPitchCommand(m_wristSubsystem, -0.1); // pitch backward (down)
+    public final WristRollCommand wristRR = new WristRollCommand(m_wristSubsystem, 2.5); // roll right
+    public final WristRollCommand wristRL = new WristRollCommand(m_wristSubsystem, -2.5); // roll left*/
 
 
 
