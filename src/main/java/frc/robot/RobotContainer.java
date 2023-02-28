@@ -16,48 +16,40 @@ public class RobotContainer {
 
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     
-    public final Joystick m_joystick = new Joystick(1);
 
-    public final XboxController xboxController = new XboxController(2);
-    public final JoystickButton m_joyA = new JoystickButton(xboxController, 1); //button A
-    public final JoystickButton m_joyBK = new JoystickButton(xboxController, 7); // Back Button
-    public final JoystickButton m_joyST = new JoystickButton(xboxController, 8); // Start Button
-    public final JoystickButton m_joyLB = new JoystickButton(xboxController, 5); // Left bumper
-    public final JoystickButton m_joyRB = new JoystickButton(xboxController, 6); // Right bumper
+    public final XboxController m_driver = new XboxController(0);
+    public final XboxController m_operator = new XboxController(1);
+    public final JoystickButton m_joyA = new JoystickButton(m_operator, 1); //button A
+    public final JoystickButton m_joyBK = new JoystickButton(m_operator, 7); // Back Button
+    public final JoystickButton m_joyST = new JoystickButton(m_operator, 8); // Start Button
+    public final JoystickButton m_joyLB = new JoystickButton(m_operator, 5); // Left bumper
+    public final JoystickButton m_joyRB = new JoystickButton(m_operator, 6); // Right bumper
 
-    public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem(xboxController);
+    public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem(m_operator);
 
-    public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(xboxController);
+    public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(m_operator);
 
-    public final WristSubsystem m_wristSubsystem = new WristSubsystem(xboxController, m_shoulderSubsystem);
+    public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator);
 
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
 
-    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem);
-    /*
-    public final WristPitchCommand wristPF = new WristPitchCommand(m_wristSubsystem, 0.1); // pitch forward (up)
-    public final WristPitchCommand wristPB = new WristPitchCommand(m_wristSubsystem, -0.1); // pitch backward (down)
-    public final WristRollCommand wristRR = new WristRollCommand(m_wristSubsystem, 2.5); // roll right
-    public final WristRollCommand wristRL = new WristRollCommand(m_wristSubsystem, -2.5); // roll left*/
+    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
 
 
 
     public RobotContainer() {
-        swerveSubsystem.setDefaultCommand(new SwerveJoystickDefaultCmd(swerveSubsystem, m_joystick));
+        swerveSubsystem.setDefaultCommand(new SwerveJoystickDefaultCmd(swerveSubsystem, m_driver));
         configureButtonBindings();
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(m_joystick,3).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
-        new JoystickButton(m_joystick, 2).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR()));
-        new JoystickButton(m_joystick, 4).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
+        new JoystickButton(m_driver, 8).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose())); //menu
+        new JoystickButton(m_driver, 1).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR())); //A
+        new JoystickButton(m_driver, 7).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose())); //start
 
         m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
         m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
 
-
-        //m_joyST.whileTrue(new RepeatCommand(wristPF));
-        //m_joyBK.whileTrue(new RepeatCommand(wristPB));
 
     }
 }

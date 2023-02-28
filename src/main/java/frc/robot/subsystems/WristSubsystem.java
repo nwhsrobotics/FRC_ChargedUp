@@ -20,10 +20,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class WristSubsystem extends SubsystemBase {
   private XboxController xboxController;
 
-  private ShoulderSubsystem m_shoulder;
+  //private ShoulderSubsystem m_shoulder;
 
-  public CANSparkMax m_wristmotorA = null;
-  public CANSparkMax m_wristmotorB = null;
+  public CANSparkMax m_wristmotorA;
+  public CANSparkMax m_wristmotorB;
 
   private SparkMaxPIDController m_pidControllerA = null;
   private SparkMaxPIDController m_pidControllerB = null;
@@ -31,22 +31,22 @@ public class WristSubsystem extends SubsystemBase {
   private RelativeEncoder m_wristRelativeEncoderA = null;
   private RelativeEncoder m_wristRelativeEncoderB = null;
 
-  private DutyCycleEncoder m_wristAbsoluteEncoderA = null;
-  private DutyCycleEncoder m_wristAbsoluteEncoderB = null;
+  private DutyCycleEncoder m_wristAbsoluteEncoderA = new DutyCycleEncoder(1);
+  private DutyCycleEncoder m_wristAbsoluteEncoderB = new DutyCycleEncoder(2);
   
   public double m_pitch_deg = 0.0;
   public double m_roll_deg = 0.0;
   private double m_positionA = 0.0;
   private double m_positionB = 0.0;
 
-  public WristSubsystem(XboxController m_controller, ShoulderSubsystem m_shoulder) {
+  public WristSubsystem(XboxController m_controller) {
     //TODO: Test everything
 
     xboxController = m_controller;
 
-    this.m_shoulder = m_shoulder;
+    //this.m_shoulder = m_shoulder;
 
-    m_wristmotorA = new CANSparkMax(WristConstants.WristCanIDA, CANSparkMax.MotorType.kBrushless);
+    m_wristmotorA = new CANSparkMax(3, CANSparkMax.MotorType.kBrushless);
     m_wristmotorA.setIdleMode(IdleMode.kBrake);
   
     if (m_wristmotorA != null) {
@@ -55,7 +55,7 @@ public class WristSubsystem extends SubsystemBase {
 
       // getting the encoder instance from the wrist motor
       m_wristRelativeEncoderA = m_wristmotorA.getEncoder();
-      m_wristAbsoluteEncoderA = new DutyCycleEncoder(1);
+      //m_wristAbsoluteEncoderA = new DutyCycleEncoder(1);
       // setting the encoder position to zero
       m_wristRelativeEncoderA.setPosition(0);
 
@@ -79,7 +79,7 @@ public class WristSubsystem extends SubsystemBase {
     // Initialize the second motor and set its PID controller and encoder
 
     // creating an instance of CANSparkMax for the Wrist motor with ID WristCanID21
-    m_wristmotorB = new CANSparkMax(WristConstants.WristCanIDB, CANSparkMax.MotorType.kBrushless);
+    m_wristmotorB = new CANSparkMax(4, CANSparkMax.MotorType.kBrushless);
     m_wristmotorB.setIdleMode(IdleMode.kBrake);
 
     // checking if the Wrist motor instance is not null
@@ -88,7 +88,7 @@ public class WristSubsystem extends SubsystemBase {
       m_pidControllerB = m_wristmotorB.getPIDController();
       // getting the encoder instance from the Wrist motor
       m_wristRelativeEncoderB = m_wristmotorB.getEncoder();
-      m_wristAbsoluteEncoderA = new DutyCycleEncoder(2);
+      //m_wristAbsoluteEncoderA = new DutyCycleEncoder(2);
 
       // setting the encoder position to zero
       m_wristRelativeEncoderB.setPosition(0);
@@ -125,7 +125,7 @@ public void roll(double delta_deg) {
 
   @Override
   public void periodic() {
-    m_pitch_deg = ShoulderConstants.kAngleRange - m_shoulder.m_desiredPos;
+    //m_pitch_deg = ShoulderConstants.kAngleRange - m_shoulder.m_desiredPos;
     if (xboxController.getLeftY() > 0.15)
       pitch(0.1);
     else if (xboxController.getLeftY() < -0.15)
@@ -136,15 +136,19 @@ public void roll(double delta_deg) {
     else if (xboxController.getRightX() < -0.15)
       roll(-2.5);
       
+      
     double absoultePositionA = m_wristAbsoluteEncoderA.getAbsolutePosition();
     double absolutePositionB = m_wristAbsoluteEncoderB.getAbsolutePosition();
 
-    System.out.println(absoultePositionA);
-    System.out.println(absolutePositionB);
+    //System.out.println(absoultePositionA);
+    //System.out.println(absolutePositionB);
 
 
     m_positionA = m_pitch_deg + m_roll_deg;
     m_positionB = (m_pitch_deg - m_roll_deg) * WristConstants.REVS_PER_OUTPUT_DEGREE;
+
+    SmartDashboard.putNumber("motor A power", m_wristmotorA.get());
+    SmartDashboard.putNumber("motor B power", m_wristmotorB.get());
 
     SmartDashboard.putNumber("m_pitch_deg", m_pitch_deg);
     SmartDashboard.putNumber("m_roll_deg", m_roll_deg);
