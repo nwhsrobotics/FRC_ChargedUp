@@ -31,9 +31,9 @@ public class ShoulderSubsystem extends SubsystemBase {
     public ShoulderSubsystem(XboxController m_controller) {
         this.xboxController = m_controller;
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
-        m_shoulderMotor1.setSmartCurrentLimit(1);
         
         if (m_shoulderMotor1 != null) {
+            m_shoulderMotor1.setSmartCurrentLimit(1);
             m_pidController1 = m_shoulderMotor1.getPIDController();
             m_shoulderEncoder1 = m_shoulderMotor1.getEncoder();
             m_shoulderEncoder1.setPosition(0);
@@ -50,9 +50,9 @@ public class ShoulderSubsystem extends SubsystemBase {
         }
 
         m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.ShoulderCanID21, CANSparkMax.MotorType.kBrushless);
-        m_shoulderMotor2.setSmartCurrentLimit(1);
 
         if (m_shoulderMotor2 != null) {
+            m_shoulderMotor2.setSmartCurrentLimit(1);
             m_pidController2 = m_shoulderMotor2.getPIDController();
             m_shoulderEncoder2 = m_shoulderMotor2.getEncoder();
             m_shoulderEncoder2.setPosition(0);
