@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 //TODO: test the automatic pitch adjust
 
 public class WristSubsystem extends SubsystemBase {
@@ -110,18 +111,18 @@ public class WristSubsystem extends SubsystemBase {
     }
   }
   
-public void pitch(double delta_deg) {
-  if(m_pitch_deg + delta_deg <= WristConstants.kMaxPitch && m_pitch_deg + delta_deg >= WristConstants.kMinPitch) {
-    m_pitch_deg += delta_deg;
+  public void pitch(double delta_deg) {
+    if (m_pitch_deg + delta_deg <= WristConstants.kMaxPitch && m_pitch_deg + delta_deg >= WristConstants.kMinPitch) {
+      m_pitch_deg += delta_deg;
+    }
   }
-}
 
-public void roll(double delta_deg) {
-  System.out.println("running");
-  if(m_roll_deg + delta_deg <= WristConstants.kMaxRoll && m_roll_deg + delta_deg >= WristConstants.kMinRoll) {
-    m_roll_deg += delta_deg;
+  public void roll(double delta_deg) {
+    System.out.println("running");
+    if(m_roll_deg + delta_deg <= WristConstants.kMaxRoll && m_roll_deg + delta_deg >= WristConstants.kMinRoll) {
+      m_roll_deg += delta_deg;
+    }
   }
-}
 
   @Override
   public void periodic() {
@@ -143,22 +144,20 @@ public void roll(double delta_deg) {
     //System.out.println(absoultePositionA);
     //System.out.println(absolutePositionB);
 
-
     m_positionA = m_pitch_deg + m_roll_deg;
     m_positionB = (m_pitch_deg - m_roll_deg) * WristConstants.REVS_PER_OUTPUT_DEGREE;
 
-    SmartDashboard.putNumber("motor A power", m_wristmotorA.get());
-    SmartDashboard.putNumber("motor B power", m_wristmotorB.get());
-
-    SmartDashboard.putNumber("m_pitch_deg", m_pitch_deg);
-    SmartDashboard.putNumber("m_roll_deg", m_roll_deg);
-    SmartDashboard.putNumber("m_positiona", m_positionA);
-    SmartDashboard.putNumber("m_positionB", m_positionB);
-    SmartDashboard.putNumber("Encoder A", m_wristRelativeEncoderA.getPosition());
-    SmartDashboard.putNumber("Encoder B", m_wristRelativeEncoderB.getPosition());
-
+    Logger logger = Logger.getInstance();
+    logger.recordOutput("wrist.motors.a.power", m_wristmotorA.get());
+    logger.recordOutput("wrist.motors.b.power", m_wristmotorB.get());
+    logger.recordOutput("wrist.pitch", m_pitch_deg);
+    logger.recordOutput("wrist.roll", m_roll_deg);
+    logger.recordOutput("wrist.motors.a.position", m_positionA);
+    logger.recordOutput("wrist.motors.b.position", m_positionB);
+    logger.recordOutput("wrist.encoders.a.position", m_wristRelativeEncoderA.getPosition());
+    logger.recordOutput("wrist.encoders.b.position", m_wristRelativeEncoderB.getPosition());
+    
     m_pidControllerA.setReference(m_positionA, ControlType.kPosition);
     m_pidControllerB.setReference(m_positionB, ControlType.kPosition);
-    
   }
 }
