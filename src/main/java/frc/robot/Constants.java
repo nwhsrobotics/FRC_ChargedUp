@@ -152,4 +152,17 @@ public final class Constants {
     public static final double REVS_PER_OUTPUT_DEGREE = WRIST_GEAR_RATIO / 360.0;
 
     }
+
+    public static enum RuntimeEnvironment {
+        /** Running on physical robot. */
+        REAL,
+        /** Running on simulated robot. */
+        SIMULATION,
+        /** Replaying robot from log file. */
+        REPLAY
+    }
+    public static final class LoggerConstants {
+        public static final RuntimeEnvironment MODE = RuntimeEnvironment.REAL;
+        public static final String RUNNING_UNDER = "2023.dev";
+    }
 }
