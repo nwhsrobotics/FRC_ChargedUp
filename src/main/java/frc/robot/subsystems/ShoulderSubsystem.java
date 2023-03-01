@@ -6,6 +6,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShoulderConstants;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,6 +25,9 @@ public class ShoulderSubsystem extends SubsystemBase {
     private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
     private double m_gearRatio = 200;
     private XboxController xboxController;
+    private final DutyCycleEncoder m_shoulderAbsoluteEncoderA = new DutyCycleEncoder(1); //TBD
+    private final DutyCycleEncoder m_shoulderAbsoluteEncoderB = new DutyCycleEncoder(2); //TBD
+
 
     private boolean m_enabled = false;
 
@@ -99,6 +103,11 @@ public class ShoulderSubsystem extends SubsystemBase {
             }
 
             m_currentPos += delta;
+
+            double absoluteShoulderPosA = m_shoulderAbsoluteEncoderA.getAbsolutePosition();
+            double absoluteShoulderPosB = m_shoulderAbsoluteEncoderB.getAbsolutePosition();
+
+            
 
             m_pidController1.setReference(m_currentPos, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos, ControlType.kPosition);
