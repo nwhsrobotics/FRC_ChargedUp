@@ -21,7 +21,7 @@ import org.littletonrobotics.junction.Logger;
 public class WristSubsystem extends SubsystemBase {
   private XboxController xboxController;
 
-  //private ShoulderSubsystem m_shoulder;
+  private ShoulderSubsystem m_shoulder;
 
   public CANSparkMax m_wristmotorA;
   public CANSparkMax m_wristmotorB;
@@ -40,12 +40,12 @@ public class WristSubsystem extends SubsystemBase {
   private double m_positionA = 0.0;
   private double m_positionB = 0.0;
 
-  public WristSubsystem(XboxController m_controller) {
+  public WristSubsystem(XboxController m_controller, ShoulderSubsystem m_shoulder) {
     //TODO: Test everything
 
     xboxController = m_controller;
 
-    //this.m_shoulder = m_shoulder;
+    this.m_shoulder = m_shoulder;
 
     m_wristmotorA = new CANSparkMax(3, CANSparkMax.MotorType.kBrushless);
     m_wristmotorA.setIdleMode(IdleMode.kBrake);
@@ -126,7 +126,7 @@ public class WristSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //m_pitch_deg = ShoulderConstants.kAngleRange - m_shoulder.m_desiredPos;
+    m_pitch_deg = ShoulderConstants.kAngleRange - m_shoulder.m_desiredPos;
     if (xboxController.getLeftY() > 0.15)
       pitch(0.1);
     else if (xboxController.getLeftY() < -0.15)
