@@ -29,7 +29,7 @@ public class RobotContainer {
 
     public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(m_operator);
 
-    public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator);
+    public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator, m_shoulderSubsystem);
 
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
 
