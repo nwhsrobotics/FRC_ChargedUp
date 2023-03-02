@@ -15,8 +15,8 @@ public class ShoulderSubsystem extends SubsystemBase {
     public CANSparkMax m_shoulderMotor2 = null;
     private SparkMaxPIDController m_pidController1 = null;
     private SparkMaxPIDController m_pidController2 = null;
-    private RelativeEncoder m_shoulderEncoder1 = null;
-    private RelativeEncoder m_shoulderEncoder2 = null;
+    private RelativeEncoder m_shoulderRelativeEncoder1 = null;
+    private RelativeEncoder m_shoulderRelativeEncoder2 = null;
     public double m_currentPos = 0.0;
     public double m_desiredPos = 0.0;
     private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
@@ -39,8 +39,8 @@ public class ShoulderSubsystem extends SubsystemBase {
         if (m_shoulderMotor1 != null) {
             m_shoulderMotor1.setSmartCurrentLimit(1);
             m_pidController1 = m_shoulderMotor1.getPIDController();
-            m_shoulderEncoder1 = m_shoulderMotor1.getEncoder();
-            m_shoulderEncoder1.setPosition(0);
+            m_shoulderRelativeEncoder1 = m_shoulderMotor1.getEncoder();
+            m_shoulderRelativeEncoder1.setPosition(0);
 
             m_pidController1.setP(ShoulderConstants.kp);
             m_pidController1.setI(ShoulderConstants.ki);
@@ -58,8 +58,8 @@ public class ShoulderSubsystem extends SubsystemBase {
         if (m_shoulderMotor2 != null) {
             m_shoulderMotor2.setSmartCurrentLimit(1);
             m_pidController2 = m_shoulderMotor2.getPIDController();
-            m_shoulderEncoder2 = m_shoulderMotor2.getEncoder();
-            m_shoulderEncoder2.setPosition(0);
+            m_shoulderRelativeEncoder2 = m_shoulderMotor2.getEncoder();
+            m_shoulderRelativeEncoder2.setPosition(0);
 
             m_pidController2.setP(ShoulderConstants.kp);
             m_pidController2.setI(ShoulderConstants.ki);
@@ -112,10 +112,10 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController1.setReference(m_currentPos, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos, ControlType.kPosition);
 
-            SmartDashboard.putNumber("Shoulder 1 Rotations", m_shoulderEncoder1.getPosition());
-            SmartDashboard.putNumber("Shoulder 2 Rotations", m_shoulderEncoder2.getPosition());
-            SmartDashboard.putNumber("Shouler 1 Inches", (m_shoulderEncoder1.getPosition() / m_gearRatio) * 360);
-            SmartDashboard.putNumber("Shouler 2 Inches", (m_shoulderEncoder2.getPosition() / m_gearRatio) * 360);
+            SmartDashboard.putNumber("Shoulder 1 Rotations", m_shoulderRelativeEncoder1.getPosition());
+            SmartDashboard.putNumber("Shoulder 2 Rotations", m_shoulderRelativeEncoder2.getPosition());
+            SmartDashboard.putNumber("Shouler 1 Inches", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
+            SmartDashboard.putNumber("Shouler 2 Inches", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
         } else {
             return;
         }
