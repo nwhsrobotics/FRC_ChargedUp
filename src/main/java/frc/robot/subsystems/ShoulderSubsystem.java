@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
@@ -8,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShoulderSubsystem extends SubsystemBase {
     private CANSparkMax m_shoulderMotor1 = null;
@@ -112,10 +114,12 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController1.setReference(m_currentPos, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos, ControlType.kPosition);
 
-            SmartDashboard.putNumber("Shoulder 1 Rotations", m_shoulderRelativeEncoder1.getPosition());
-            SmartDashboard.putNumber("Shoulder 2 Rotations", m_shoulderRelativeEncoder2.getPosition());
-            SmartDashboard.putNumber("Shouler 1 Inches", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
-            SmartDashboard.putNumber("Shouler 2 Inches", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
+            Logger logger = Logger.getInstance();
+
+            logger.recordOutput("Shoulder 1 Rotations", m_shoulderRelativeEncoder1.getPosition());
+            logger.recordOutput("Shoulder 2 Rotations", m_shoulderRelativeEncoder2.getPosition());
+            logger.recordOutput("Shouler 1 Inches", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
+            logger.recordOutput("Shouler 2 Inches", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
         } else {
             return;
         }
