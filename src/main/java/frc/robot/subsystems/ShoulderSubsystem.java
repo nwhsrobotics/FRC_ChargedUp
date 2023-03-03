@@ -122,17 +122,15 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_currentPos += delta;
 
 
-            
-
             m_pidController1.setReference(m_currentPos, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos, ControlType.kPosition);
 
             Logger logger = Logger.getInstance();
 
-            logger.recordOutput("Shoulder 1 Rotations", m_shoulderRelativeEncoder1.getPosition());
-            logger.recordOutput("Shoulder 2 Rotations", m_shoulderRelativeEncoder2.getPosition());
-            logger.recordOutput("Shouler 1 Inches", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
-            logger.recordOutput("Shouler 2 Inches", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
+            logger.recordOutput("Shoulder 1 Motor Rotations", m_shoulderRelativeEncoder1.getPosition());
+            logger.recordOutput("Shoulder 2 Motor Rotations", m_shoulderRelativeEncoder2.getPosition());
+            logger.recordOutput("Shouler 1 Degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
+            logger.recordOutput("Shouler 2 Degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
         } else {
             return;
         }
