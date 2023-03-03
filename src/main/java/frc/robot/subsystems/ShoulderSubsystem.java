@@ -9,6 +9,7 @@ import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,6 +30,10 @@ public class ShoulderSubsystem extends SubsystemBase {
     private XboxController xboxController;
     private final DutyCycleEncoder m_shoulderAbsoluteEncoderA = new DutyCycleEncoder(1); //TBD
     private final DutyCycleEncoder m_shoulderAbsoluteEncoderB = new DutyCycleEncoder(2); //TBD
+    private static double m_resetPosition = 0.0;
+    double absoluteShoulderPosA = m_shoulderAbsoluteEncoderA.getAbsolutePosition();
+    double absoluteShoulderPosB = m_shoulderAbsoluteEncoderB.getAbsolutePosition();
+
 
 
     private boolean m_enabled = false;
@@ -81,6 +86,11 @@ public class ShoulderSubsystem extends SubsystemBase {
         m_desiredPos = ((p_degree / 360) * m_gearRatio);
     }
 
+    public void resetPos() {
+        m_resetPosition = ((absoluteShoulderPosA - absoluteShoulderPosA));
+        m_pidController1.setReference(m_resetPosition, ControlType.kPosition);
+    }
+
     @Override
     public void periodic() {
         if (m_enabled == true) {
@@ -106,8 +116,6 @@ public class ShoulderSubsystem extends SubsystemBase {
 
             m_currentPos += delta;
 
-            double absoluteShoulderPosA = m_shoulderAbsoluteEncoderA.getAbsolutePosition();
-            double absoluteShoulderPosB = m_shoulderAbsoluteEncoderB.getAbsolutePosition();
 
             
 
