@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
@@ -80,8 +82,13 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
       m_pidController1.setReference(m_currentPos, ControlType.kPosition);
 
-      SmartDashboard.putNumber("Arm Motor Rotations", m_extendArmEncoder1.getPosition());
-      SmartDashboard.putNumber("Arm Inches Extended", (m_extendArmEncoder1.getPosition() / m_gearRatio)* m_oneRotationLength * 2);
+
+      Logger logger = Logger.getInstance();
+
+      logger.recordOutput("Arm Motor Rotations", m_extendArmEncoder1.getPosition());
+      logger.recordOutput("Arm Inches Extended", (m_extendArmEncoder1.getPosition() / m_gearRatio)* m_oneRotationLength * 2);
+      //SmartDashboard.putNumber("Arm Motor Rotations", m_extendArmEncoder1.getPosition());
+      //SmartDashboard.putNumber("Arm Inches Extended", (m_extendArmEncoder1.getPosition() / m_gearRatio)* m_oneRotationLength * 2);
     } else {
       return;
     }
