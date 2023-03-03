@@ -35,7 +35,6 @@ public class ShoulderSubsystem extends SubsystemBase {
     double absoluteShoulderPosB = m_shoulderAbsoluteEncoderB.getAbsolutePosition();
 
 
-
     private boolean m_enabled = false;
 
     /** Creates a new ShoulderSubsystem. */
@@ -44,6 +43,7 @@ public class ShoulderSubsystem extends SubsystemBase {
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
         
         if (m_shoulderMotor1 != null) {
+            m_shoulderAbsoluteEncoderA.setDistancePerRotation(1.8);//1.8 degrees per rotation
             m_shoulderMotor1.setSmartCurrentLimit(25);
             m_pidController1 = m_shoulderMotor1.getPIDController();
             m_shoulderRelativeEncoder1 = m_shoulderMotor1.getEncoder();
@@ -63,6 +63,7 @@ public class ShoulderSubsystem extends SubsystemBase {
         m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.ShoulderCanID21, CANSparkMax.MotorType.kBrushless);
 
         if (m_shoulderMotor2 != null) {
+            m_shoulderAbsoluteEncoderB.setDistancePerRotation(1.8);//1.8 degrees per rotation
             m_shoulderMotor2.setSmartCurrentLimit(25);
             m_pidController2 = m_shoulderMotor2.getPIDController();
             m_shoulderRelativeEncoder2 = m_shoulderMotor2.getEncoder();
@@ -87,8 +88,12 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
 
     public void resetPos() {
-        m_resetPosition = ((absoluteShoulderPosA - absoluteShoulderPosA));
-        m_pidController1.setReference(m_resetPosition, ControlType.kPosition);
+        //m_resetPosition = ((absoluteShoulderPosA - absoluteShoulderPosA));
+        //double m_offset = m_shoulderAbsoluteEncoderA.getDistance();
+        //m_pidController1.setReference(0, ControlType.kPosition);
+        //m_shoulderRelativeEncoder1.setPosition(m_offset);
+        //m_shoulderAbsoluteEncoderA.setPositionOffset();
+        m_desiredPos = 0;
     }
 
     @Override
