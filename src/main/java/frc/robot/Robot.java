@@ -10,6 +10,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.LoggerConstants;
 
 /**
@@ -32,7 +33,7 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void robotInit() {
-        Logger logger = Logger.getInstance();
+        /*Logger logger = Logger.getInstance();
         logger.recordMetadata("version", LoggerConstants.RUNNING_UNDER);
 
         switch (LoggerConstants.MODE) {
@@ -52,12 +53,13 @@ public class Robot extends LoggedRobot {
                 break;
         }
         
-        logger.start();
+        logger.start(); */
 
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
+        
     }
 
     /**
@@ -98,9 +100,9 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void autonomousInit() {
-        m_robotContainer.swerveSubsystem.resetHeadingAndPose();
+        //m_robotContainer.swerveSubsystem.resetHeadingAndPose();
         
-        m_autonomousCommand = m_robotContainer.autoCmd;
+       // m_autonomousCommand = m_robotContainer.autoCmd;
         //m_autonomousCommand = null;
 
         // schedule the autonomous command (example)
@@ -117,6 +119,9 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void teleopInit() {
+        
+        //new InstantCommand(() -> m_robotContainer.m_shoulderSubsystem.resetPos());
+        //m_robotContainer.m_shoulderSubsystem.resetPos();
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
