@@ -50,8 +50,6 @@ public class ShoulderSubsystem extends SubsystemBase {
         if(m_shoulderMotor1.getOutputCurrent() >= currentLimit && m_shoulderMotor2.getOutputCurrent() >= currentLimit) {
                 m_shoulderMotor1.stopMotor();
                 m_shoulderMotor2.stopMotor();
-                System.out.println("stopped");
-                SmartDashboard.putString("Stopped", "Finally");
         }
 
             //m_shoulderRelativeEncoder1.setPosition(0.0);
@@ -96,24 +94,12 @@ public class ShoulderSubsystem extends SubsystemBase {
             System.out.println("ShoulderMotor2 initialized");
             m_enabled = true;
         }
-            resetPos();
     }
 
     public void setPos(double p_degree) {
         m_desiredPos = ((p_degree / 360) * m_gearRatio);
     }
 
-    public void resetPos() {
-        //if(stalled == false)
-        //{
-    //m_pidController1.setReference(10.0, ControlType.kPosition);
-    //m_shoulderMotor2.set(-0.2);
-        //}
-        //else if(stalled == true)
-        //{
-            //return;
-        //}
-    }
 
     @Override
     public void periodic() {
