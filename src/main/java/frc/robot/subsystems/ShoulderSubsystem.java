@@ -46,8 +46,6 @@ public class ShoulderSubsystem extends SubsystemBase {
 
         while(m_shoulderMotor1.getOutputCurrent() < currentLimit && m_shoulderMotor2.getOutputCurrent() < currentLimit) {
             m_shoulderMotor1.set(0.2);
-            System.out.println("while");
-            SmartDashboard.putString("While", "Finallyomg");
         }
         if(m_shoulderMotor1.getOutputCurrent() >= currentLimit && m_shoulderMotor2.getOutputCurrent() >= currentLimit) {
                 m_shoulderMotor1.stopMotor();
@@ -144,15 +142,6 @@ public class ShoulderSubsystem extends SubsystemBase {
 
             m_pidController1.setReference(m_currentPos, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos, ControlType.kPosition);
-
-            if(m_shoulderMotor1.getOutputCurrent() >= currentLimit || m_shoulderMotor2.getOutputCurrent() >= currentLimit) {
-                 m_shoulderMotor1.stopMotor();
-                 m_shoulderMotor2.stopMotor();
-                 m_shoulderRelativeEncoder1.setPosition(0.0);
-                 m_shoulderRelativeEncoder2.setPosition(0.0);
-                 stalled = true;
-                // System.out.println("Motor Stalled; Encoder Position Reset and Motor Stopped");
-            }
 
             SmartDashboard.putNumber("ShoulderMotor 1 Encoder Position", m_shoulderRelativeEncoder1.getPosition());
             SmartDashboard.putNumber("Current", m_shoulderMotor1.getOutputCurrent());
