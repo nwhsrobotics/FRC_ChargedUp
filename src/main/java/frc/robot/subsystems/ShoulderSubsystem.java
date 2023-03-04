@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import org.littletonrobotics.junction.Logger;
+//import org.littletonrobotics.junction.Logger;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
@@ -46,16 +46,12 @@ public class ShoulderSubsystem extends SubsystemBase {
 
         while(m_shoulderMotor1.getOutputCurrent() < currentLimit && m_shoulderMotor2.getOutputCurrent() < currentLimit) {
             m_shoulderMotor1.set(0.2);
+            m_shoulderMotor2.set(-0.2);
         }
-        if(m_shoulderMotor1.getOutputCurrent() >= currentLimit && m_shoulderMotor2.getOutputCurrent() >= currentLimit) {
+        if(m_shoulderMotor1.getOutputCurrent() >= currentLimit || m_shoulderMotor2.getOutputCurrent() >= currentLimit) {
                 m_shoulderMotor1.stopMotor();
                 m_shoulderMotor2.stopMotor();
         }
-
-            //m_shoulderRelativeEncoder1.setPosition(0.0);
-            //m_shoulderRelativeEncoder2.setPosition(0.0);
-            //stalled = true;
-            //System.out.println("Motor Stalled; Encoder Position Reset and Motor Stopped");
 
         
         if (m_shoulderMotor1 != null) {
