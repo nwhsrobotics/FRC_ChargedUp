@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ShoulderHoming;
 import frc.robot.commands.SwerveAuto;
 import frc.robot.commands.SwerveJoystickDefaultCmd;
 import frc.robot.subsystems.ExtendArmSubsystem;
@@ -33,7 +32,6 @@ public class RobotContainer {
     //public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator, m_shoulderSubsystem);
 
     //public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
-    public final ShoulderHoming m_shoulderHoming = new ShoulderHoming(m_shoulderSubsystem);
 
     //public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
     /*
