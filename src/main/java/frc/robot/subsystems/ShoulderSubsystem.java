@@ -12,10 +12,11 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class ShoulderSubsystem extends SubsystemBase {
-    private CANSparkMax m_shoulderMotor1 = null;
+    public CANSparkMax m_shoulderMotor1 = null;
     public CANSparkMax m_shoulderMotor2 = null;
     private SparkMaxPIDController m_pidController1 = null;
     private SparkMaxPIDController m_pidController2 = null;
@@ -33,18 +34,17 @@ public class ShoulderSubsystem extends SubsystemBase {
     private final DutyCycleEncoder m_shoulderAbsoluteEncoderB = new DutyCycleEncoder(2); //TBD
     double absoluteShoulderPosA = m_shoulderAbsoluteEncoderA.getAbsolutePosition();
     double absoluteShoulderPosB = m_shoulderAbsoluteEncoderB.getAbsolutePosition();
-
-
+    public double currentLimit = 25;
     private boolean m_enabled = false;
+    public boolean stalled = false;
 
     /** Creates a new ShoulderSubsystem. */
-    public ShoulderSubsystem(XboxController m_controller) {
-        this.xboxController = m_controller;
+    public ShoulderSubsystem(XboxController m_operator) {
+        this.xboxController = m_operator;
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
         
         if (m_shoulderMotor1 != null) {
             m_shoulderAbsoluteEncoderA.setDistancePerRotation(1.8);//1.8 degrees per rotation
-            m_shoulderMotor1.setSmartCurrentLimit(25);
             m_pidController1 = m_shoulderMotor1.getPIDController();
             m_shoulderRelativeEncoder1 = m_shoulderMotor1.getEncoder();
             m_shoulderRelativeEncoder1.setPosition(0);
@@ -58,13 +58,13 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController1.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
             m_pidController1.setReference(0.0, ControlType.kPosition);
             System.out.println("ShoulderMotor1 initialized");
+            
         }
 
         m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.ShoulderCanID21, CANSparkMax.MotorType.kBrushless);
 
         if (m_shoulderMotor2 != null) {
             m_shoulderAbsoluteEncoderB.setDistancePerRotation(1.8);//1.8 degrees per rotation
-            m_shoulderMotor2.setSmartCurrentLimit(25);
             m_pidController2 = m_shoulderMotor2.getPIDController();
             m_shoulderRelativeEncoder2 = m_shoulderMotor2.getEncoder();
             m_shoulderRelativeEncoder2.setPosition(0);
@@ -81,6 +81,7 @@ public class ShoulderSubsystem extends SubsystemBase {
             System.out.println("ShoulderMotor2 initialized");
             m_enabled = true;
         }
+
     }
 
     public void setPos(double p_degree) {
@@ -88,6 +89,15 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
 
     public void resetPos() {
+        //if(stalled == false)
+        //{
+    m_pidController1.setReference(10.0, ControlType.kPosition);
+    //m_shoulderMotor2.set(-0.2);
+        //}
+        //else if(stalled == true)
+        //{
+            //return;
+        //}
     }
 
     @Override
@@ -115,16 +125,26 @@ public class ShoulderSubsystem extends SubsystemBase {
 
             m_currentPos += delta;
 
-
             m_pidController1.setReference(m_currentPos, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos, ControlType.kPosition);
 
-            Logger logger = Logger.getInstance();
+            //if(m_shoulderMotor1.getOutputCurrent() >= currentLimit || m_shoulderMotor2.getOutputCurrent() >= currentLimit) {
+                 //m_shoulderMotor1.stopMotor();
+                 //m_shoulderMotor2.stopMotor();
+                 //m_shoulderRelativeEncoder1.setPosition(0.0);
+                 //m_shoulderRelativeEncoder2.setPosition(0.0);
+                 //stalled = true;
+                 //System.out.println("Motor Stalled; Encoder Position Reset and Motor Stopped");
+            //}
+
+            //SmartDashboard.putNumber("ShoulderMotor 1 Encoder Position", m_shoulderRelativeEncoder1.getPosition());
+            //SmartDashboard.putNumber("Current", m_shoulderMotor1.getOutputCurrent());
+            /*Logger logger = Logger.getInstance();
 
             logger.recordOutput("Shoulder 1 Motor Rotations", m_shoulderRelativeEncoder1.getPosition());
             logger.recordOutput("Shoulder 2 Motor Rotations", m_shoulderRelativeEncoder2.getPosition());
             logger.recordOutput("Shouler 1 Degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
-            logger.recordOutput("Shouler 2 Degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
+            logger.recordOutput("Shouler 2 Degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);*/
         } else {
             return;
         }

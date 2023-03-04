@@ -138,8 +138,8 @@ public class WristSubsystem extends SubsystemBase {
       roll(-2.5);
       
       
-    double absoultePositionA = m_wristAbsoluteEncoderA.getAbsolutePosition();
-    double absolutePositionB = m_wristAbsoluteEncoderB.getAbsolutePosition();
+    //double absoultePositionA = m_wristAbsoluteEncoderA.getAbsolutePosition();
+    //double absolutePositionB = m_wristAbsoluteEncoderB.getAbsolutePosition();
 
     //System.out.println(absoultePositionA);
     //System.out.println(absolutePositionB);

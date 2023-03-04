@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ShoulderHoming;
 import frc.robot.commands.SwerveAuto;
 import frc.robot.commands.SwerveJoystickDefaultCmd;
 import frc.robot.subsystems.ExtendArmSubsystem;
@@ -27,13 +28,14 @@ public class RobotContainer {
 
     public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem(m_operator);
 
-    public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(m_operator);
+    //public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(m_operator);
 
-    public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator, m_shoulderSubsystem);
+    //public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator, m_shoulderSubsystem);
 
-    public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
+    //public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
+    public final ShoulderHoming m_shoulderHoming = new ShoulderHoming(m_shoulderSubsystem);
 
-    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
+    //public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
     /*
     public final WristPitchCommand wristPF = new WristPitchCommand(m_wristSubsystem, 0.1); // pitch forward (up)
     public final WristPitchCommand wristPB = new WristPitchCommand(m_wristSubsystem, -0.1); // pitch backward (down)
@@ -43,17 +45,17 @@ public class RobotContainer {
 
 
     public RobotContainer() {
-        swerveSubsystem.setDefaultCommand(new SwerveJoystickDefaultCmd(swerveSubsystem, m_driver));
+        //swerveSubsystem.setDefaultCommand(new SwerveJoystickDefaultCmd(swerveSubsystem, m_driver));
         configureButtonBindings();
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(m_driver, 8).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose())); //menu
-        new JoystickButton(m_driver, 1).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR())); //A
-        new JoystickButton(m_driver, 7).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose())); //start
+        //new JoystickButton(m_driver, 8).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose())); //menu
+        //new JoystickButton(m_driver, 1).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR())); //A
+        //new JoystickButton(m_driver, 7).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose())); //start
 
-        m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
-        m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
+        //m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
+        //m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
 
 
     }
