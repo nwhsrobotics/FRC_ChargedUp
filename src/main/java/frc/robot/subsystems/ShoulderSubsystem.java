@@ -44,7 +44,8 @@ public class ShoulderSubsystem extends SubsystemBase {
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
         
         if (m_shoulderMotor1 != null) {
-            m_shoulderAbsoluteEncoderA.setDistancePerRotation(1.8);//1.8 degrees per rotation
+            m_shoulderMotor1.set(0.2);
+            /*m_shoulderAbsoluteEncoderA.setDistancePerRotation(1.8);//1.8 degrees per rotation
             m_pidController1 = m_shoulderMotor1.getPIDController();
             m_shoulderRelativeEncoder1 = m_shoulderMotor1.getEncoder();
             m_shoulderRelativeEncoder1.setPosition(0);
@@ -57,7 +58,7 @@ public class ShoulderSubsystem extends SubsystemBase {
 
             m_pidController1.setOutputRange(ShoulderConstants.kMinOutput, ShoulderConstants.kMaxOutput);
             m_pidController1.setReference(0.0, ControlType.kPosition);
-            System.out.println("ShoulderMotor1 initialized");
+            System.out.println("ShoulderMotor1 initialized");*/
             
         }
 
@@ -81,7 +82,7 @@ public class ShoulderSubsystem extends SubsystemBase {
             System.out.println("ShoulderMotor2 initialized");
             m_enabled = true;
         }
-
+            resetPos();
     }
 
     public void setPos(double p_degree) {
@@ -91,7 +92,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     public void resetPos() {
         //if(stalled == false)
         //{
-    m_pidController1.setReference(10.0, ControlType.kPosition);
+    //m_pidController1.setReference(10.0, ControlType.kPosition);
     //m_shoulderMotor2.set(-0.2);
         //}
         //else if(stalled == true)
@@ -103,7 +104,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (m_enabled == true) {
-            if (xboxController.getPOV() == 0) {
+            /*if (xboxController.getPOV() == 0) {
                 setPos(m_desiredPos + ((5 / 360) * m_gearRatio));   //take the shoulder up exactly by 5 degrees when UP D-Pad button pressed
             } else if (xboxController.getPOV() == 180) {
                 setPos(m_desiredPos - ((5 / 360) * m_gearRatio));   //take the shoulder down exactly by 5 degrees when DOWN D-Pad button pressed
@@ -135,7 +136,7 @@ public class ShoulderSubsystem extends SubsystemBase {
                  //m_shoulderRelativeEncoder2.setPosition(0.0);
                  //stalled = true;
                  //System.out.println("Motor Stalled; Encoder Position Reset and Motor Stopped");
-            //}
+            //} */
 
             //SmartDashboard.putNumber("ShoulderMotor 1 Encoder Position", m_shoulderRelativeEncoder1.getPosition());
             //SmartDashboard.putNumber("Current", m_shoulderMotor1.getOutputCurrent());
