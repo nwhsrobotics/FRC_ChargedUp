@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 public class ShoulderSubsystem extends SubsystemBase {
     private CANSparkMax m_shoulderMotor1 = null;
     public CANSparkMax m_shoulderMotor2 = null;
@@ -30,7 +31,6 @@ public class ShoulderSubsystem extends SubsystemBase {
     private XboxController xboxController;
     private final DutyCycleEncoder m_shoulderAbsoluteEncoderA = new DutyCycleEncoder(1); //TBD
     private final DutyCycleEncoder m_shoulderAbsoluteEncoderB = new DutyCycleEncoder(2); //TBD
-    private static double m_resetPosition = 0.0;
     double absoluteShoulderPosA = m_shoulderAbsoluteEncoderA.getAbsolutePosition();
     double absoluteShoulderPosB = m_shoulderAbsoluteEncoderB.getAbsolutePosition();
 
@@ -88,12 +88,6 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
 
     public void resetPos() {
-        //m_resetPosition = ((absoluteShoulderPosA - absoluteShoulderPosA));
-        //double m_offset = m_shoulderAbsoluteEncoderA.getDistance();
-        //m_pidController1.setReference(0, ControlType.kPosition);
-        //m_shoulderRelativeEncoder1.setPosition(m_offset);
-        //m_shoulderAbsoluteEncoderA.setPositionOffset();
-        m_desiredPos = 0;
     }
 
     @Override
