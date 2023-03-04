@@ -16,7 +16,6 @@ public class RobotContainer {
     // TODO implement SIM and REPLAY subsystem I/O.
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     
-
     public final XboxController m_driver = new XboxController(0);
     public final XboxController m_operator = new XboxController(1);
     public final JoystickButton m_joyA = new JoystickButton(m_operator, 1); //button A
@@ -25,15 +24,15 @@ public class RobotContainer {
     public final JoystickButton m_joyLB = new JoystickButton(m_operator, 5); // Left bumper
     public final JoystickButton m_joyRB = new JoystickButton(m_operator, 6); // Right bumper
 
-    public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem(m_operator);
+    // public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem(m_operator);
 
-    public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(m_operator);
+    // public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(m_operator);
 
-    public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator, m_shoulderSubsystem);
+    // public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator, m_shoulderSubsystem);
 
-    public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
+    // public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
 
-    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
+    // public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
     /*
     public final WristPitchCommand wristPF = new WristPitchCommand(m_wristSubsystem, 0.1); // pitch forward (up)
     public final WristPitchCommand wristPB = new WristPitchCommand(m_wristSubsystem, -0.1); // pitch backward (down)
@@ -52,9 +51,7 @@ public class RobotContainer {
         new JoystickButton(m_driver, 1).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR())); //A
         new JoystickButton(m_driver, 7).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose())); //start
 
-        m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
-        m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
-
-
+        // m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
+        // m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
     }
 }
