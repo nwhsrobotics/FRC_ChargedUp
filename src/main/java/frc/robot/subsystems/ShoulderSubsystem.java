@@ -8,10 +8,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShoulderConstants;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 import edu.wpi.first.wpilibj.XboxController;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShoulderSubsystem extends SubsystemBase {
@@ -23,19 +21,11 @@ public class ShoulderSubsystem extends SubsystemBase {
     private RelativeEncoder m_shoulderRelativeEncoder2 = null;
     public double m_currentPos = 0.0;
     public double m_desiredPos = 0.0;
-    private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
-    private static final double TOTAL_DISTANCE = 50.0; // 50 for 1.222 seconds 25 for 2.4 seconds
-    private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
-    private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
+    private static final double SPEED_ROT_PER_TICK = 1.0; // 1 for 1.222 second, 0.5 for 2.4 seconds
     private double m_gearRatio = 200;
     private XboxController xboxController;
-    private final DutyCycleEncoder m_shoulderAbsoluteEncoderA = new DutyCycleEncoder(1); // TBD
-    private final DutyCycleEncoder m_shoulderAbsoluteEncoderB = new DutyCycleEncoder(2); // TBD
-    double absoluteShoulderPosA = m_shoulderAbsoluteEncoderA.getAbsolutePosition();
-    double absoluteShoulderPosB = m_shoulderAbsoluteEncoderB.getAbsolutePosition();
-    public double currentLimit = 25;
+    public double currentLimit = 25.0;
     private boolean m_enabled = false;
-    public boolean stalled = false;
 
     /** Creates a new ShoulderSubsystem. */
     public ShoulderSubsystem(XboxController m_operator) {
@@ -55,7 +45,6 @@ public class ShoulderSubsystem extends SubsystemBase {
         }
 
         if (m_shoulderMotor1 != null) {
-            // m_shoulderAbsoluteEncoderA.setDistancePerRotation(1.8); //1.8 degrees per rotation
             m_pidController1 = m_shoulderMotor1.getPIDController();
             m_shoulderRelativeEncoder1 = m_shoulderMotor1.getEncoder();
             m_shoulderRelativeEncoder1.setPosition(0);
@@ -72,7 +61,6 @@ public class ShoulderSubsystem extends SubsystemBase {
         }
 
         if (m_shoulderMotor2 != null) {
-            // m_shoulderAbsoluteEncoderB.setDistancePerRotation(1.8); //1.8 degrees per rotation
             m_pidController2 = m_shoulderMotor2.getPIDController();
             m_shoulderRelativeEncoder2 = m_shoulderMotor2.getEncoder();
             m_shoulderRelativeEncoder2.setPosition(0);
@@ -89,6 +77,7 @@ public class ShoulderSubsystem extends SubsystemBase {
             System.out.println("ShoulderMotor2 initialized");
             m_enabled = true;
         }
+
     }
 
     public void setPos(double p_degree) {

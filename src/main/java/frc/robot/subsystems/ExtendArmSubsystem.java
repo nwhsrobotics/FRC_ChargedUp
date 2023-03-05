@@ -19,14 +19,11 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private RelativeEncoder m_extendArmEncoder1 = null;
   private static double m_currentPos = 0.0;
   private static double m_desiredPos = 0.0;
-  private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
-  private static final double TOTAL_DISTANCE = 25.0; // Revisit this value!!! 100 would be best for 2.4 seconds and 50 would be 4.8 seconds 150 for 1.6 seconds
-  private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
-  private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
+  private static final double SPEED_ROT_PER_TICK = 0.5; // Revisit this value!!! SPEED_ROT_PER_TICK = 2 for 2.4 seconds fully arm extension and SPEED_ROT_PER_TICK = 1 would be 4.8 seconds for full arm extension SPEED_ROT_PER_TICK = 3 for 1.6 seconds full arm extension
   private double m_gearRatio = 18.9;
   private double m_oneRotationLength = 1.504; // in inches
   private boolean m_enabled = false;
-  private double currentLimit = 0.0;
+  private double currentLimit = 25.0;
 
   /** Creates a new ExtendArmSubsystem. */
   public ExtendArmSubsystem(XboxController m_controller) {
