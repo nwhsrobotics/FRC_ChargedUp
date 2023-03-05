@@ -26,11 +26,19 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private double m_gearRatio = 18.9;
   private double m_oneRotationLength = 1.504; // in inches
   private boolean m_enabled = false;
+  private double currentLimit = 0.0;
 
   /** Creates a new ExtendArmSubsystem. */
   public ExtendArmSubsystem(XboxController m_controller) {
     xboxController = m_controller;
     m_extendArmMotor1 = new CANSparkMax(ExtendArmConstants.ExtendArmCanID24, CANSparkMax.MotorType.kBrushless);
+
+    while(m_extendArmMotor1.getOutputCurrent() < currentLimit) {
+      m_extendArmMotor1.set(-0.2);
+    }
+    if(m_extendArmMotor1.getOutputCurrent() >= currentLimit) {
+          m_extendArmMotor1.stopMotor();
+    }
 
     if (m_extendArmMotor1 != null) {
       m_extendArmMotor1.setSmartCurrentLimit(25);
