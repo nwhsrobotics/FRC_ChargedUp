@@ -1,12 +1,7 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import frc.robot.Constants.WristConstants;
@@ -16,12 +11,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
-//TODO: test the automatic pitch adjust
 
 public class WristSubsystem extends SubsystemBase {
-  private XboxController xboxController;
+  private XboxController m_operator;
 
-  private ShoulderSubsystem m_shoulder;
+  private int periodicCycles = 0;
+
+  //TODO private ShoulderSubsystem m_shoulder;
 
   public CANSparkMax m_wristmotorA;
   public CANSparkMax m_wristmotorB;
@@ -29,86 +25,54 @@ public class WristSubsystem extends SubsystemBase {
   private SparkMaxPIDController m_pidControllerA = null;
   private SparkMaxPIDController m_pidControllerB = null;
 
+  private double maxCurrentMotorA = 0;
+  private double maxCurrentMotorB = 0;
+
   private RelativeEncoder m_wristRelativeEncoderA = null;
   private RelativeEncoder m_wristRelativeEncoderB = null;
 
-  private DutyCycleEncoder m_wristAbsoluteEncoderA = new DutyCycleEncoder(1);
-  private DutyCycleEncoder m_wristAbsoluteEncoderB = new DutyCycleEncoder(2);
+  private DutyCycleEncoder m_wristAbsoluteEncoderA;
+  private DutyCycleEncoder m_wristAbsoluteEncoderB;
   
   public double m_pitch_deg = 0.0;
   public double m_roll_deg = 0.0;
   private double m_positionA = 0.0;
   private double m_positionB = 0.0;
 
-  public WristSubsystem(XboxController m_controller, ShoulderSubsystem m_shoulder) {
-    //TODO: Test everything
+  public WristSubsystem(XboxController m_operator) { //TODO add shoulder here
 
-    xboxController = m_controller;
+    this.m_operator = m_operator;
 
-    this.m_shoulder = m_shoulder;
+    //TODO this.m_shoulder = m_shoulder;
 
     m_wristmotorA = new CANSparkMax(3, CANSparkMax.MotorType.kBrushless);
-    m_wristmotorA.setIdleMode(IdleMode.kBrake);
   
     if (m_wristmotorA != null) {
-      // getting PIDController instance from the wrist motor
       m_pidControllerA = m_wristmotorA.getPIDController();
 
-      // getting the encoder instance from the wrist motor
       m_wristRelativeEncoderA = m_wristmotorA.getEncoder();
-      //m_wristAbsoluteEncoderA = new DutyCycleEncoder(1);
-      // setting the encoder position to zero
-      m_wristRelativeEncoderA.setPosition(0);
+      m_wristAbsoluteEncoderA = new DutyCycleEncoder(1);
 
-      // setting the P, I, and D values for the PIDController from the wristConstants
-      m_pidControllerA.setP(WristConstants.kp);
-      m_pidControllerA.setI(WristConstants.ki);
-      m_pidControllerA.setD(WristConstants.kd);
 
-      // setting the IZone and FF values for the PIDController from the WristConstants
-      m_pidControllerA.setIZone(WristConstants.kIz);
-      m_pidControllerA.setFF(WristConstants.kFFz);
+      m_pidControllerA.setP(0.1);
 
-      // setting the output range for the PIDController from the WristConstants
       m_pidControllerA.setOutputRange(WristConstants.kMinOutput, WristConstants.kMaxOutput);
-      // setting the reference for the PIDController to 0.0, using position control
-      m_pidControllerA.setReference(0.0, ControlType.kPosition);
-      // printing a message to indicate the initialization of the Wrist motor 1
-      System.out.println("WristMotor1 initialized");
     }
 
-    // Initialize the second motor and set its PID controller and encoder
+    m_wristmotorB = new CANSparkMax(13, CANSparkMax.MotorType.kBrushless);
 
-    // creating an instance of CANSparkMax for the Wrist motor with ID WristCanID21
-    m_wristmotorB = new CANSparkMax(4, CANSparkMax.MotorType.kBrushless);
-    m_wristmotorB.setIdleMode(IdleMode.kBrake);
-
-    // checking if the Wrist motor instance is not null
     if (m_wristmotorB != null) {
-      // getting PIDController instance from the Wrist motor
       m_pidControllerB = m_wristmotorB.getPIDController();
-      // getting the encoder instance from the Wrist motor
+
       m_wristRelativeEncoderB = m_wristmotorB.getEncoder();
-      //m_wristAbsoluteEncoderA = new DutyCycleEncoder(2);
+      m_wristAbsoluteEncoderB = new DutyCycleEncoder(2);
 
-      // setting the encoder position to zero
-      m_wristRelativeEncoderB.setPosition(0);
+      m_pidControllerB.setP(0.1);
 
-      // setting the P, I, and D values for the PIDController from the WristConstants
-      m_pidControllerB.setP(WristConstants.kp);
-      m_pidControllerB.setI(WristConstants.ki);
-      m_pidControllerB.setD(WristConstants.kd);
-
-      // setting the IZone and FF values for the PIDController from the WristConstants
-      m_pidControllerB.setIZone(WristConstants.kIz);
-      m_pidControllerB.setFF(WristConstants.kFFz);
-
-      // setting the output range for the PIDController from the WristConstants
       m_pidControllerB.setOutputRange(WristConstants.kMinOutput, WristConstants.kMaxOutput);
-      // setting the reference for the PIDController to 0.0, using position control
-      m_pidControllerB.setReference(0.0, ControlType.kPosition);
-
     }
+
+
   }
   
   public void pitch(double delta_deg) {
@@ -118,7 +82,6 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   public void roll(double delta_deg) {
-    System.out.println("running");
     if(m_roll_deg + delta_deg <= WristConstants.kMaxRoll && m_roll_deg + delta_deg >= WristConstants.kMinRoll) {
       m_roll_deg += delta_deg;
     }
@@ -126,26 +89,87 @@ public class WristSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_pitch_deg = ShoulderConstants.kAngleRange - m_shoulder.m_desiredPos;
-    if (xboxController.getLeftY() > 0.15)
-      pitch(0.1);
-    else if (xboxController.getLeftY() < -0.15)
-      pitch(-0.1);
+    periodicCycles++;
+    if (periodicCycles == 150) {
+      double absPosA = m_wristAbsoluteEncoderA.getAbsolutePosition();
+      double incremDegA;
+      if (absPosA > 1 - (0.5 - WristConstants.absAOffset)) {
+        incremDegA = -360.0 * (1 - absPosA + WristConstants.absAOffset);
+      }
+      else {
+        incremDegA = (absPosA - WristConstants.absAOffset) * 360.0;
+      }
 
-    if (xboxController.getRightX() > 0.15)
-      roll(2.5);
-    else if (xboxController.getRightX() < -0.15)
-      roll(-2.5);
+      double incrementalPosA = incremDegA * WristConstants.REVS_PER_OUTPUT_DEGREE;
+      System.out.printf("========================== (%f - %f) * %f = %f\n\n", absPosA, WristConstants.absAOffset, WristConstants.WRIST_GEAR_RATIO, incrementalPosA);
+      m_wristRelativeEncoderA.setPosition(incrementalPosA);
+      SmartDashboard.putNumber("incremental Pos A", incrementalPosA);
+
+      double absPosB = m_wristAbsoluteEncoderB.getAbsolutePosition();
+      double incremDegB;
+      if (absPosB > 1 - (0.5 - WristConstants.absBOffset)) {
+        incremDegB = -360.0 * (1 - absPosB + WristConstants.absBOffset);
+      } else {
+        incremDegB = (absPosB - WristConstants.absBOffset) * 360.0;
+      }
+
+      double incrementalPosB = incremDegB * -WristConstants.REVS_PER_OUTPUT_DEGREE;
+      m_wristRelativeEncoderB.setPosition(incrementalPosB);
+
+      System.out.printf("======================= (%f - %f) * %f = %f\n\n", absPosB, WristConstants.absBOffset, WristConstants.WRIST_GEAR_RATIO, incrementalPosB);
+      SmartDashboard.putNumber("incremental Pos B", incrementalPosB);
+
+    }
+
+    else if (periodicCycles > 150){
+      //TODO m_pitch_deg = ShoulderConstants.kAngleRange - m_shoulder.m_desiredPos;
+      if (m_operator.getLeftY() > 0.1) {
+        pitch(m_operator.getLeftY()*5);
+      } else if (m_operator.getLeftY() < -0.1) {
+        pitch(m_operator.getLeftY()*5);
+      }
+
+      if (m_operator.getRightX() > 0.1){
+        roll(m_operator.getRightX()*5);
+      } else if (m_operator.getRightX() < -0.1){
+        roll(m_operator.getRightX()*5);
+      }
       
+      m_positionA = (m_pitch_deg + m_roll_deg) * -WristConstants.REVS_PER_OUTPUT_DEGREE;
+      m_positionB = (m_pitch_deg - m_roll_deg) * WristConstants.REVS_PER_OUTPUT_DEGREE;
+
+      m_pidControllerA.setReference(m_positionA, ControlType.kPosition);
+      m_pidControllerB.setReference(m_positionB, ControlType.kPosition);
+
+
+      // Below here is all nonrelevant dashboard stuff  
+      double absoultePositionA = m_wristAbsoluteEncoderA.getAbsolutePosition();
+      double absolutePositionB = m_wristAbsoluteEncoderB.getAbsolutePosition();
       
-    double absoultePositionA = m_wristAbsoluteEncoderA.getAbsolutePosition();
-    double absolutePositionB = m_wristAbsoluteEncoderB.getAbsolutePosition();
+      double relPositionA = m_wristRelativeEncoderA.getPosition();
+      double relPositionB = m_wristRelativeEncoderB.getPosition();
+      
+      SmartDashboard.putNumber("posA", m_positionA);
+      SmartDashboard.putNumber("posB", m_positionB);
+      SmartDashboard.putNumber("rel a", relPositionA);
+      SmartDashboard.putNumber("rel b", relPositionB);
+      SmartDashboard.putNumber("abs a", absoultePositionA);
+      SmartDashboard.putNumber("abs b", absolutePositionB);
+      SmartDashboard.putNumber("pitch", m_pitch_deg);
+      SmartDashboard.putNumber("roll", m_roll_deg);
 
-    //System.out.println(absoultePositionA);
-    //System.out.println(absolutePositionB);
+      SmartDashboard.putNumber("Motor A current", m_wristmotorA.getOutputCurrent());
+      SmartDashboard.putNumber("motor B current", m_wristmotorB.getOutputCurrent());
+      if (m_wristmotorA.getOutputCurrent() > maxCurrentMotorA)
+        maxCurrentMotorA = m_wristmotorA.getOutputCurrent();
+      if(m_wristmotorB.getOutputCurrent() > maxCurrentMotorB)
+        maxCurrentMotorB = m_wristmotorB.getOutputCurrent();
 
-    m_positionA = m_pitch_deg + m_roll_deg;
-    m_positionB = (m_pitch_deg - m_roll_deg) * WristConstants.REVS_PER_OUTPUT_DEGREE;
+      SmartDashboard.putNumber("Max Motor A current", maxCurrentMotorA);
+      SmartDashboard.putNumber("Motor B current", maxCurrentMotorB);
+    }
+
+    /*
 
     Logger logger = Logger.getInstance();
     logger.recordOutput("wrist.motors.a.power", m_wristmotorA.get());
@@ -155,9 +179,6 @@ public class WristSubsystem extends SubsystemBase {
     logger.recordOutput("wrist.motors.a.position", m_positionA);
     logger.recordOutput("wrist.motors.b.position", m_positionB);
     logger.recordOutput("wrist.encoders.a.position", m_wristRelativeEncoderA.getPosition());
-    logger.recordOutput("wrist.encoders.b.position", m_wristRelativeEncoderB.getPosition());
-    
-    m_pidControllerA.setReference(m_positionA, ControlType.kPosition);
-    m_pidControllerB.setReference(m_positionB, ControlType.kPosition);
+    logger.recordOutput("wrist.encoders.b.position", m_wristRelativeEncoderB.getPosition());*/
   }
 }
