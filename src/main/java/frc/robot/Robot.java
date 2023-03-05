@@ -98,10 +98,10 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void autonomousInit() {
-        m_robotContainer.swerveSubsystem.resetHeadingAndPose();
+        //TODO m_robotContainer.swerveSubsystem.resetHeadingAndPose();
         
-        m_autonomousCommand = m_robotContainer.autoCmd;
-        //m_autonomousCommand = null;
+        // TODO m_autonomousCommand = m_robotContainer.autoCmd;
+        m_autonomousCommand = null; //TODO COMMENT THIS OUT
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
