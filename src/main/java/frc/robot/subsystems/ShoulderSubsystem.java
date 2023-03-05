@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class ShoulderSubsystem extends SubsystemBase {
     public CANSparkMax m_shoulderMotor1 = null;
     public CANSparkMax m_shoulderMotor2 = null;
@@ -30,8 +29,8 @@ public class ShoulderSubsystem extends SubsystemBase {
     private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
     private double m_gearRatio = 200;
     private XboxController xboxController;
-    private final DutyCycleEncoder m_shoulderAbsoluteEncoderA = new DutyCycleEncoder(1); //TBD
-    private final DutyCycleEncoder m_shoulderAbsoluteEncoderB = new DutyCycleEncoder(2); //TBD
+    private final DutyCycleEncoder m_shoulderAbsoluteEncoderA = new DutyCycleEncoder(1); // TBD
+    private final DutyCycleEncoder m_shoulderAbsoluteEncoderB = new DutyCycleEncoder(2); // TBD
     double absoluteShoulderPosA = m_shoulderAbsoluteEncoderA.getAbsolutePosition();
     double absoluteShoulderPosB = m_shoulderAbsoluteEncoderB.getAbsolutePosition();
     public double currentLimit = 25;
@@ -44,18 +43,19 @@ public class ShoulderSubsystem extends SubsystemBase {
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.ShoulderCanID20, CANSparkMax.MotorType.kBrushless);
         m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.ShoulderCanID21, CANSparkMax.MotorType.kBrushless);
 
-        while(m_shoulderMotor1.getOutputCurrent() < currentLimit && m_shoulderMotor2.getOutputCurrent() < currentLimit) {
-            m_shoulderMotor1.set(0.2);
-            m_shoulderMotor2.set(-0.2);
+        while (m_shoulderMotor1.getOutputCurrent() < currentLimit
+                && m_shoulderMotor2.getOutputCurrent() < currentLimit) {
+            m_shoulderMotor1.set(-0.2);
+            m_shoulderMotor2.set(0.2);
         }
-        if(m_shoulderMotor1.getOutputCurrent() >= currentLimit || m_shoulderMotor2.getOutputCurrent() >= currentLimit) {
-                m_shoulderMotor1.stopMotor();
-                m_shoulderMotor2.stopMotor();
+        if (m_shoulderMotor1.getOutputCurrent() >= currentLimit
+                || m_shoulderMotor2.getOutputCurrent() >= currentLimit) {
+            m_shoulderMotor1.stopMotor();
+            m_shoulderMotor2.stopMotor();
         }
 
-        
         if (m_shoulderMotor1 != null) {
-            m_shoulderAbsoluteEncoderA.setDistancePerRotation(1.8);//1.8 degrees per rotation
+            // m_shoulderAbsoluteEncoderA.setDistancePerRotation(1.8); //1.8 degrees per rotation
             m_pidController1 = m_shoulderMotor1.getPIDController();
             m_shoulderRelativeEncoder1 = m_shoulderMotor1.getEncoder();
             m_shoulderRelativeEncoder1.setPosition(0);
@@ -71,9 +71,8 @@ public class ShoulderSubsystem extends SubsystemBase {
             System.out.println("ShoulderMotor1 initialized");
         }
 
-
         if (m_shoulderMotor2 != null) {
-            m_shoulderAbsoluteEncoderB.setDistancePerRotation(1.8);//1.8 degrees per rotation
+            // m_shoulderAbsoluteEncoderB.setDistancePerRotation(1.8); //1.8 degrees per rotation
             m_pidController2 = m_shoulderMotor2.getPIDController();
             m_shoulderRelativeEncoder2 = m_shoulderMotor2.getEncoder();
             m_shoulderRelativeEncoder2.setPosition(0);
@@ -81,7 +80,7 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController2.setP(ShoulderConstants.kp);
             m_pidController2.setI(ShoulderConstants.ki);
             m_pidController2.setD(ShoulderConstants.kd);
-            
+
             m_pidController2.setIZone(ShoulderConstants.kIz);
             m_pidController2.setFF(ShoulderConstants.kFFz);
 
@@ -96,14 +95,13 @@ public class ShoulderSubsystem extends SubsystemBase {
         m_desiredPos = ((p_degree / 360) * m_gearRatio);
     }
 
-
     @Override
     public void periodic() {
         if (m_enabled == true) {
             if (xboxController.getPOV() == 0) {
-                setPos(m_desiredPos + ((5 / 360) * m_gearRatio));   //take the shoulder up exactly by 5 degrees when UP D-Pad button pressed
+                setPos(m_desiredPos + ((5 / 360) * m_gearRatio)); // take the shoulder up exactly by 5 degrees when UP D-Pad button pressed                                      
             } else if (xboxController.getPOV() == 180) {
-                setPos(m_desiredPos - ((5 / 360) * m_gearRatio));   //take the shoulder down exactly by 5 degrees when DOWN D-Pad button pressed
+                setPos(m_desiredPos - ((5 / 360) * m_gearRatio)); // take the shoulder down exactly by 5 degrees when DOWN D-Pad button pressed                                                               
             }
             if (m_desiredPos > ((110 / 360) * m_gearRatio)) {
                 m_desiredPos = ((110 / 360) * m_gearRatio);
@@ -127,12 +125,18 @@ public class ShoulderSubsystem extends SubsystemBase {
 
             SmartDashboard.putNumber("ShoulderMotor 1 Encoder Position", m_shoulderRelativeEncoder1.getPosition());
             SmartDashboard.putNumber("Current", m_shoulderMotor1.getOutputCurrent());
-            /*Logger logger = Logger.getInstance();
-
-            logger.recordOutput("Shoulder 1 Motor Rotations", m_shoulderRelativeEncoder1.getPosition());
-            logger.recordOutput("Shoulder 2 Motor Rotations", m_shoulderRelativeEncoder2.getPosition());
-            logger.recordOutput("Shouler 1 Degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
-            logger.recordOutput("Shouler 2 Degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);*/
+            /*
+             * Logger logger = Logger.getInstance();
+             * 
+             * logger.recordOutput("Shoulder 1 Motor Rotations",
+             * m_shoulderRelativeEncoder1.getPosition());
+             * logger.recordOutput("Shoulder 2 Motor Rotations",
+             * m_shoulderRelativeEncoder2.getPosition());
+             * logger.recordOutput("Shouler 1 Degrees",
+             * (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
+             * logger.recordOutput("Shouler 2 Degrees",
+             * (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
+             */
         } else {
             return;
         }
