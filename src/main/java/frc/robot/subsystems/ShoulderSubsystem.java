@@ -26,6 +26,9 @@ public class ShoulderSubsystem extends SubsystemBase {
     private double m_gearRatio = 200;
     private XboxController xboxController;
     private boolean m_enabled = false;
+    private final double MAX_ROT = ((110.0 / 360.0) * m_gearRatio);
+    private final double MIN_ROT = ((0.0 / 360.0) * m_gearRatio);
+    
 
     /** Creates a new ShoulderSubsystem. */
     public ShoulderSubsystem(XboxController m_controller) {
@@ -83,10 +86,10 @@ public class ShoulderSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (m_enabled == true) {
-            if (m_desiredPos_rot > ((110.0 / 360.0) * m_gearRatio)) {
-                m_desiredPos_rot = ((110.0 / 360.0) * m_gearRatio);
-            } else if (m_desiredPos_rot < ((0.0 / 360.0) * m_gearRatio)) {
-                m_desiredPos_rot = ((0.0 / 360.0) * m_gearRatio);
+            if (m_desiredPos_rot > MAX_ROT) {
+                m_desiredPos_rot = MAX_ROT;
+            } else if (m_desiredPos_rot < MIN_ROT) {
+                m_desiredPos_rot = MIN_ROT;
             }
 
             System.out.println(m_desiredPos_rot);
