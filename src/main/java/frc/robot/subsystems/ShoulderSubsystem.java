@@ -20,7 +20,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private SparkMaxPIDController m_pidController2 = null;
     private RelativeEncoder m_shoulderRelativeEncoder1 = null;
     private RelativeEncoder m_shoulderRelativeEncoder2 = null;
-    public double m_currentPos_rot = 0.0;
+    public double m_currentPos_rot = 0.0;  // _rot means in rotation
     public double m_desiredPos_rot = 0.0;
     private static final double MAX_SPEED_ROT_PER_TICK = 1.0; // 1.0 for  least 1.222 seconds 0.5 for least 2.4 seconds (assuming bottlenecking max speed)
     private double m_gearRatio = 200;
@@ -112,15 +112,15 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController1.setReference(m_currentPos_rot, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos_rot, ControlType.kPosition);
 
-            SmartDashboard.putNumber("Shoulder Motor1 current", m_shoulderMotor1.getOutputCurrent());
-            SmartDashboard.putNumber("Shoulder Motor2 current", m_shoulderMotor2.getOutputCurrent());
+            SmartDashboard.putNumber("LeftShoulder Motor1 current", m_shoulderMotor1.getOutputCurrent());
+            SmartDashboard.putNumber("RightShoulder Motor2 current", m_shoulderMotor2.getOutputCurrent());
 
             Logger logger = Logger.getInstance();
 
-            logger.recordOutput("Shoulder 1 Motor Rotations", m_shoulderRelativeEncoder1.getPosition());
-            logger.recordOutput("Shoulder 2 Motor Rotations", m_shoulderRelativeEncoder2.getPosition());
-            logger.recordOutput("Shouler 1 Degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
-            logger.recordOutput("Shouler 2 Degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
+            logger.recordOutput("LeftShoulder Motor1 Rotations", m_shoulderRelativeEncoder1.getPosition());
+            logger.recordOutput("LeftShoulder Motor1 Rotations", m_shoulderRelativeEncoder2.getPosition());
+            logger.recordOutput("RightShoulder Motor2 Degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
+            logger.recordOutput("RightShoulder Motor2 Degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
         } else {
             return;
         }
