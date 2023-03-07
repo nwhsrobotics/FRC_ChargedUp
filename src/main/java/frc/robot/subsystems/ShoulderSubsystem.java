@@ -76,8 +76,9 @@ public class ShoulderSubsystem extends SubsystemBase {
         m_desiredPos_rot += ((p_degree / 360.0) * m_gearRatio);
     }
 
-    public void resetPos() {
-    }
+    public void setPos_deg(double p_degree) {
+        m_desiredPos_rot = ((p_degree / 360.0) * m_gearRatio);
+    }    
 
     @Override
     public void periodic() {
