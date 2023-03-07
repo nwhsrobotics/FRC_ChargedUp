@@ -119,8 +119,8 @@ public class ShoulderSubsystem extends SubsystemBase {
             Logger logger = Logger.getInstance();
 
             logger.recordOutput("LeftShoulder Motor1 Rotations", m_shoulderRelativeEncoder1.getPosition());
-            logger.recordOutput("LeftShoulder Motor1 Rotations", m_shoulderRelativeEncoder2.getPosition());
-            logger.recordOutput("RightShoulder Motor2 Degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
+            logger.recordOutput("RightShoulder Motor2 Rotations", m_shoulderRelativeEncoder2.getPosition());
+            logger.recordOutput("LeftShoulder Motor1 Degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
             logger.recordOutput("RightShoulder Motor2 Degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
         } else {
             return;

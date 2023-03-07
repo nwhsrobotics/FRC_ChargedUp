@@ -5,9 +5,9 @@ import frc.robot.subsystems.ShoulderSubsystem;
 
 public class ShoulderCmd extends CommandBase {
 
-  private final ShoulderSubsystem m_shoulder;
+  private ShoulderSubsystem m_shoulder;
   private double setPoint;
-  
+
   public ShoulderCmd(ShoulderSubsystem m_shoulder, double setPoint) {
     this.m_shoulder = m_shoulder;
     this.setPoint = setPoint;

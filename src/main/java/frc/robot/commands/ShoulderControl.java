@@ -5,13 +5,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShoulderSubsystem;
 
 public class ShoulderControl extends CommandBase {
-  private ShoulderSubsystem m_shoulder;
-  private XboxController m_operator;
+  private ShoulderSubsystem m_shoulderSubsystem;
+  private XboxController m_controller;
   
-  public ShoulderControl(ShoulderSubsystem m_shoulder, XboxController m_operator) {
-    this.m_shoulder = m_shoulder;
-    this.m_operator = m_operator;
-    addRequirements(m_shoulder);
+  public ShoulderControl(ShoulderSubsystem subsystem, XboxController m_operator) {
+    addRequirements(subsystem);
+    m_shoulderSubsystem = subsystem;
+    m_controller = m_operator;
   }
 
   @Override
