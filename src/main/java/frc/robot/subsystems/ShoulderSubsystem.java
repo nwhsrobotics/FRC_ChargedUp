@@ -76,11 +76,11 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
 
     public void changePos_deg(double p_degree) {
-        m_desiredPos_rot += ((p_degree / 360.0) * m_gearRatio);  //add or subtract specific degree from current degree of shoulder
+        m_desiredPos_rot += ((p_degree / 360.0) * m_gearRatio);  //converts degree into rotations and add or subtract specific degree from current degree of shoulder
     }
 
     public void setPos_deg(double p_degree) {
-        m_desiredPos_rot = ((p_degree / 360.0) * m_gearRatio);  //set desired Pos to a specific degree
+        m_desiredPos_rot = ((p_degree / 360.0) * m_gearRatio);  //converts degree into rotations and set desired Pos to a specific degree
     }    
 
     @Override
@@ -97,7 +97,7 @@ public class ShoulderSubsystem extends SubsystemBase {
             double distance_rot = (m_desiredPos_rot - m_currentPos_rot);
             double delta_rot = distance_rot;
 
-            if (delta_rot > MAX_SPEED_ROT_PER_TICK) {  //**NOTE: 1 rotation per tick is equivalent to 1.8 degrees per tick**
+            if (delta_rot > MAX_SPEED_ROT_PER_TICK) {  //**NOTE: 1 rotation per tick is equivalent to 1.8 degrees per tick** 1 rot = 1.8 deg
                 delta_rot = MAX_SPEED_ROT_PER_TICK;
             } else if (delta_rot < -MAX_SPEED_ROT_PER_TICK) {
                 delta_rot = -MAX_SPEED_ROT_PER_TICK;
