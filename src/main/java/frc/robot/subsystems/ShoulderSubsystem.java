@@ -22,7 +22,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private RelativeEncoder m_shoulderRelativeEncoder2 = null;
     public double m_currentPos_rot = 0.0;
     public double m_desiredPos_rot = 0.0;
-    private static final double SPEED_ROT_PER_TICK = 1.0; // 1.0 for  least 1.222 seconds 0.5 for least 2.4 seconds (assuming bottlenecking)
+    private static final double MAX_SPEED_ROT_PER_TICK = 1.0; // 1.0 for  least 1.222 seconds 0.5 for least 2.4 seconds (assuming bottlenecking max speed)
     private double m_gearRatio = 200;
     private XboxController xboxController;
     private boolean m_enabled = false;
@@ -81,16 +81,13 @@ public class ShoulderSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("motor1 current", m_shoulderMotor1.getOutputCurrent());
-        SmartDashboard.putNumber("motor 2 current", m_shoulderMotor2.getOutputCurrent());
-        //System.out.println(xboxController.getPOV());
         if (m_enabled == true) {
             if (xboxController.getPOV() == 0) {
                 System.out.println("up");
-                changePos_deg(1);   //take the shoulder up exactly by 5 degrees when UP D-Pad button pressed
+                changePos_deg(1);  
             } else if (xboxController.getPOV() == 180) {
                 System.out.println("down");
-                changePos_deg(-1);   //take the shoulder down exactly by 5 degrees when DOWN D-Pad button pressed
+                changePos_deg(-1); 
             }
 
             if (m_desiredPos_rot > ((110.0 / 360.0) * m_gearRatio)) {
@@ -101,19 +98,22 @@ public class ShoulderSubsystem extends SubsystemBase {
 
             System.out.println(m_desiredPos_rot);
 
-            double distance = (m_desiredPos_rot - m_currentPos_rot);
-            double delta = distance;
+            double distance_rot = (m_desiredPos_rot - m_currentPos_rot);
+            double delta_rot = distance_rot;
 
-            if (delta > SPEED_ROT_PER_TICK) {
-                delta = SPEED_ROT_PER_TICK;
-            } else if (delta < -SPEED_ROT_PER_TICK) {
-                delta = -SPEED_ROT_PER_TICK;
+            if (delta_rot > MAX_SPEED_ROT_PER_TICK) {
+                delta_rot = MAX_SPEED_ROT_PER_TICK;
+            } else if (delta_rot < -MAX_SPEED_ROT_PER_TICK) {
+                delta_rot = -MAX_SPEED_ROT_PER_TICK;
             }
 
-            m_currentPos_rot += delta;
+            m_currentPos_rot += delta_rot;
 
             m_pidController1.setReference(m_currentPos_rot, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos_rot, ControlType.kPosition);
+
+            SmartDashboard.putNumber("Shoulder Motor1 current", m_shoulderMotor1.getOutputCurrent());
+            SmartDashboard.putNumber("Shoulder Motor2 current", m_shoulderMotor2.getOutputCurrent());
 
             Logger logger = Logger.getInstance();
 
