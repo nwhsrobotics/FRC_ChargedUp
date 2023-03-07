@@ -22,10 +22,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private RelativeEncoder m_shoulderRelativeEncoder2 = null;
     public double m_currentPos_rot = 0.0;
     public double m_desiredPos_rot = 0.0;
-    private static final double TICKS_PER_SECOND = 50.0; // Revisit this value!!!
-    private static final double TOTAL_DISTANCE = 50.0; // 50 for 1.222 seconds 25 for 2.4 seconds
-    private static final double SECONDS_TO_MOVE = 1.0; // Revisit this value!!!
-    private static final double SPEED_ROT_PER_TICK = ((TOTAL_DISTANCE)) / (SECONDS_TO_MOVE * TICKS_PER_SECOND);
+    private static final double SPEED_ROT_PER_TICK = 1.0; // 1.0 for  least 1.222 seconds 0.5 for least 2.4 seconds (assuming bottlenecking)
     private double m_gearRatio = 200;
     private XboxController xboxController;
     private boolean m_enabled = false;
@@ -72,12 +69,10 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController2.setReference(0.0, ControlType.kPosition);
             System.out.println("ShoulderMotor2 initialized");
         }
-
         m_enabled = ((m_shoulderMotor1 != null) && (m_shoulderMotor2 != null));
     }
 
     public void changePos_deg(double p_degree) {
-
         m_desiredPos_rot += ((p_degree / 360.0) * m_gearRatio);
     }
 
@@ -116,7 +111,6 @@ public class ShoulderSubsystem extends SubsystemBase {
             }
 
             m_currentPos_rot += delta;
-
 
             m_pidController1.setReference(m_currentPos_rot, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos_rot, ControlType.kPosition);
