@@ -83,14 +83,6 @@ public class ShoulderSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (m_enabled == true) {
-            if (xboxController.getPOV() == 0) {
-                System.out.println("up");
-                changePos_deg(1);  
-            } else if (xboxController.getPOV() == 180) {
-                System.out.println("down");
-                changePos_deg(-1); 
-            }
-
             if (m_desiredPos_rot > ((110.0 / 360.0) * m_gearRatio)) {
                 m_desiredPos_rot = ((110.0 / 360.0) * m_gearRatio);
             } else if (m_desiredPos_rot < ((0.0 / 360.0) * m_gearRatio)) {

@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ExtendArmCmd;
 import frc.robot.commands.ExtendArmDPad;
+import frc.robot.commands.ShoulderCmd;
+import frc.robot.commands.ShoulderControl;
 import frc.robot.commands.SwerveAuto;
 import frc.robot.commands.SwerveJoystickDefaultCmd;
 import frc.robot.subsystems.ExtendArmSubsystem;
@@ -27,6 +29,9 @@ public class RobotContainer {
     public final JoystickButton m_joyRB = new JoystickButton(m_operator, 6); // Right bumper
 
     public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem(m_operator);
+    public final ShoulderCmd m_shoulderCmd0 = new ShoulderCmd(m_shoulderSubsystem, 0);
+    public final ShoulderCmd m_shoulderCmd55 = new ShoulderCmd(m_shoulderSubsystem, 55);
+    public final ShoulderCmd m_shoulderCmd110 = new ShoulderCmd(m_shoulderSubsystem, 110);
 
     //public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem();
     //public final ExtendArmCmd m_ExtendArmCmd0 = new ExtendArmCmd(m_extendArmSubsystem, 0);
@@ -44,6 +49,7 @@ public class RobotContainer {
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickDefaultCmd(swerveSubsystem, m_driver));
         //m_extendArmSubsystem.setDefaultCommand(new ExtendArmDPad(m_extendArmSubsystem, m_operator));
+        m_shoulderSubsystem.setDefaultCommand(new ShoulderControl(m_shoulderSubsystem, m_operator));
         configureButtonBindings();
     }
 
