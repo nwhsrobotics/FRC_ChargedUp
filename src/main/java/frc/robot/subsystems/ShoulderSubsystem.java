@@ -28,12 +28,23 @@ public class ShoulderSubsystem extends SubsystemBase {
     private boolean m_enabled = false;
     private final double MAX_ROT = ((110.0 / 360.0) * m_gearRatio);
     private final double MIN_ROT = ((0.0 / 360.0) * m_gearRatio);
+    private double currentLimit = 25.0;
     
 
     /** Creates a new ShoulderSubsystem. */
     public ShoulderSubsystem(XboxController m_controller) {
         this.xboxController = m_controller;
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.LeftShoulderCanID, CANSparkMax.MotorType.kBrushless);
+        m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.RightShoulderCanID, CANSparkMax.MotorType.kBrushless);
+
+      /*   while (m_shoulderMotor1.getOutputCurrent() < currentLimit && m_shoulderMotor2.getOutputCurrent() < currentLimit) {
+            m_shoulderMotor1.set(-0.2);
+            m_shoulderMotor2.set(0.2);
+        }
+        if (m_shoulderMotor1.getOutputCurrent() >= currentLimit || m_shoulderMotor2.getOutputCurrent() >= currentLimit) {
+            m_shoulderMotor1.stopMotor();
+            m_shoulderMotor2.stopMotor();
+        }    */    
         
         if (m_shoulderMotor1 != null) {
             m_shoulderMotor1.setSmartCurrentLimit(25);
@@ -53,7 +64,6 @@ public class ShoulderSubsystem extends SubsystemBase {
             System.out.println("ShoulderMotor1 initialized");
         }
 
-        m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.RightShoulderCanID, CANSparkMax.MotorType.kBrushless);
 
         if (m_shoulderMotor2 != null) {
             m_shoulderMotor2.setSmartCurrentLimit(25);
