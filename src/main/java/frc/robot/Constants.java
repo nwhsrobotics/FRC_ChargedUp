@@ -82,8 +82,8 @@ public final class Constants {
         public static final double kFFz = 0.0;
         public static final double kMaxOutput = 1.0;
         public static final double kMinOutput = -1.0;
-        public static final int ShoulderCanID20 = 20;
-        public static final int ShoulderCanID21 = 21;
+        public static final int LeftShoulderCanID = 8;
+        public static final int RightShoulderCanID = 6;
         public static final double kAngleRange = 55.0;
     }
 
@@ -93,10 +93,6 @@ public final class Constants {
         public static final double ACCEL_MAX_A_IPS2 = 180.0; //about 0.2gs @ 80 in/s
         public static final double SECONDS_PER_TICK = 0.02;
         public static final double kp = 0.2;
-        public static final double ki = 0.0;
-        public static final double kd = 0.0;
-        public static final double kIz = 0.0;
-        public static final double kFFz = 0.0;
         public static final double kMaxOutput = 1.0;
         public static final double kMinOutput = -1.0;
         public static final int ExtendArmCanID24 = 24;

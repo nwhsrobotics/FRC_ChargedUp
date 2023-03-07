@@ -23,12 +23,10 @@ public class ExtendArmSubsystem extends SubsystemBase {
   
   private boolean m_enabled = false;
 
-  /** Creates a new ExtendArmSubsystem. */
   public ExtendArmSubsystem() {
     m_extendArmMotor1 = new CANSparkMax(33, CANSparkMax.MotorType.kBrushless);
 
     if (m_extendArmMotor1 != null) {
-      //m_extendArmMotor1.setSmartCurrentLimit(1);
       m_pidController1 = m_extendArmMotor1.getPIDController();
       m_extendArmEncoder1 = m_extendArmMotor1.getEncoder();
       m_extendArmEncoder1.setPosition(0);
