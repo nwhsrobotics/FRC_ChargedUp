@@ -73,11 +73,11 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
 
     public void changePos_deg(double p_degree) {
-        m_desiredPos_rot += ((p_degree / 360.0) * m_gearRatio);
+        m_desiredPos_rot += ((p_degree / 360.0) * m_gearRatio);  //add or subtract specific degree from current degree of shoulder
     }
 
     public void setPos_deg(double p_degree) {
-        m_desiredPos_rot = ((p_degree / 360.0) * m_gearRatio);
+        m_desiredPos_rot = ((p_degree / 360.0) * m_gearRatio);  //set desired Pos to a specific degree
     }    
 
     @Override
