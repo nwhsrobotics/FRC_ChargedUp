@@ -61,6 +61,9 @@ public class RobotContainer {
         //new JoystickButton(m_operator, 3).onTrue(m_ExtendArmCmd0);
         //TODO m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
         //TODO m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
+        
+        //new JoystickButton(m_operator, 1).onTrue(m_shoulderCmd55);
+        //new JoystickButton(m_operator, 4).onTrue(m_shoulderCmd110);
 
 
     }
