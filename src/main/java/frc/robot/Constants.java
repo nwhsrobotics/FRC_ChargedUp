@@ -22,9 +22,9 @@ public final class Constants {
 
     public static final class DriveConstants {
         // left-to-right distance between the drivetrain wheels, should be measured from center to center AND IN METERS
-        public static final double kTrackWidth = 0.52;
+        public static final double kTrackWidth = 0.4445;
         // front-back distance between drivetrain wheels, should be measured from center to center AND IN METERS 
-        public static final double kWheelBase = 0.625;
+        public static final double kWheelBase = 0.5715;
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
                 new Translation2d(kWheelBase / 2, kTrackWidth / 2), //front left
                 new Translation2d(kWheelBase / 2, -kTrackWidth / 2), //front right
@@ -62,10 +62,10 @@ public final class Constants {
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 
         //FOR ALL OFFSETS: turn wheels until they become straight, replace with the value of encoderss
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad =  2.66 + Math.PI;
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 5.24 - Math.PI;
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.61 + Math.PI;
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 5.20 - Math.PI;
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad =  5.201;//2.66 + Math.PI;
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0.61;//5.24 - Math.PI;
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 5.23;//0.61 + Math.PI;
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 2.64;//5.20 - Math.PI;
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 6380.0 / 60.0 * (ModuleConstants.kDriveMotorGearRatio) * ModuleConstants.kWheelDiameterMeters * Math.PI; // set up for NEOs to drive
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond / Math.hypot(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0); //adapted from SDS

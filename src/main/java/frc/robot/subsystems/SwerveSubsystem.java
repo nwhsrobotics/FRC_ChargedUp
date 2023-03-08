@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -127,6 +128,10 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(Rotation2d.fromDegrees(getHeading()), getModulePositions());
+        SmartDashboard.putNumber("front left abs", frontLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("front right abs", frontRight.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("back left abs", backLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("back right abs", backRight.getAbsoluteEncoderRad());
     }
 
     public void stopModules() {

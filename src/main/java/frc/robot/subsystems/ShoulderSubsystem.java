@@ -102,7 +102,7 @@ public class ShoulderSubsystem extends SubsystemBase {
                 m_desiredPos_rot = MIN_ROT;
             }
 
-            System.out.println(m_desiredPos_rot);
+            //System.out.println(m_desiredPos_rot);
 
             double distance_rot = (m_desiredPos_rot - m_currentPos_rot);
             double delta_rot = distance_rot;
