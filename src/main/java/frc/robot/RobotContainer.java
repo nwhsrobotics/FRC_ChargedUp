@@ -20,8 +20,8 @@ public class RobotContainer {
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
     
 
-    public final XboxController m_driver = new XboxController(0);
-    public final XboxController m_operator = new XboxController(2);
+    public final XboxController m_driver = new XboxController(2);
+    public final XboxController m_operator = new XboxController(0);
     public final JoystickButton m_joyA = new JoystickButton(m_operator, 1); //button A
     public final JoystickButton m_joyBK = new JoystickButton(m_operator, 7); // Back Button
     public final JoystickButton m_joyST = new JoystickButton(m_operator, 8); // Start Button
