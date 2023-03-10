@@ -34,6 +34,7 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
         SmartDashboard.putNumber("xSpeed", xSpeed);
         SmartDashboard.putNumber("ySpeed", ySpeed);
         SmartDashboard.putNumber("rotspeed", rotatingSpeed);
+        SmartDashboard.putBoolean("FIELD RELATIVE", swerveSubsystem.isFR);
 
         ChassisSpeeds chassisSpeeds = (swerveSubsystem.isFR) ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotatingSpeed, Rotation2d.fromDegrees(swerveSubsystem.getHeading())) : ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotatingSpeed, new Rotation2d(0));
 
