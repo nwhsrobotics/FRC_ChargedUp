@@ -28,7 +28,8 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
 
   public ExtendArmSubsystem() {
-    m_extendArmMotor1 = new CANSparkMax(33, CANSparkMax.MotorType.kBrushless);
+    // TODO CHANGE SPARKMAX CANID TO USE CONSTANTS
+    m_extendArmMotor1 = new CANSparkMax(16, CANSparkMax.MotorType.kBrushless);
 
     input = new DigitalInput(3);
 
@@ -147,7 +148,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
       m_extendArmMotor1.set(-0.2);
     }
 
-    m_extendArmEncoder1.setPosition(0);
+    // m_extendArmEncoder1.setPosition(0);
 
     m_homed = true;
     m_extendArmMotor1.stopMotor();
