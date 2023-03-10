@@ -21,19 +21,19 @@ public class GrabberSubsystem extends SubsystemBase {
 
   public void grabberTurnOff() {
     m_grabber.set(DoubleSolenoid.Value.kOff);
-    //SmartDashboard.putString("Grabber", "Off");
+    SmartDashboard.putString("Grabber", "Off");
     logger.recordOutput("Grabber", "Off");
   }
 
   public void grabberExtend() {
     m_grabber.set(DoubleSolenoid.Value.kForward);
-    //SmartDashboard.putString("Grabber", "Extended");
+    SmartDashboard.putString("Grabber", "Extended");
     logger.recordOutput("Grabber", "Extended");
   }
 
   public void grabberRetract() {
     m_grabber.set(DoubleSolenoid.Value.kReverse);
-    //SmartDashboard.putString("Grabber", "Retracted");
+    SmartDashboard.putString("Grabber", "Retracted");
     logger.recordOutput("Grabber", "Retracted");
   }
 
