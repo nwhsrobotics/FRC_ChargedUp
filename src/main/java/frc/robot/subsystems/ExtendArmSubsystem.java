@@ -17,13 +17,14 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private SparkMaxPIDController m_pidController1;
   private RelativeEncoder m_extendArmEncoder1;
   public DigitalInput input;
-  private double m_currentPos_inch = 2.0;
-  private double m_desiredPos_inch = 2.0;
+  private double m_currentPos_inch = 0.0;
+  private double m_desiredPos_inch = 0.0;
   private double m_current_vel_ips = 0.0;
   private static final double GEAR_RATIO = 5.23*5.23;
   public static final double INCHES_PER_ROT = 2.0 * 24.0 * 5.0 / (25.4 * GEAR_RATIO); //stages * pulley teeth * mm per tooth / (mm per inch * gear ratio)
   public boolean m_homed = false;
   private boolean m_enabled = false;
+  private Logger logger = Logger.getInstance();
 
 
   public ExtendArmSubsystem() {
@@ -36,7 +37,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
     if (m_extendArmMotor1 != null) {
       m_pidController1 = m_extendArmMotor1.getPIDController();
       m_extendArmEncoder1 = m_extendArmMotor1.getEncoder();
-      m_extendArmEncoder1.setPosition(2.0 / INCHES_PER_ROT);
+      //m_extendArmEncoder1.setPosition(2.0 / INCHES_PER_ROT);
 
       m_pidController1.setP(ExtendArmConstants.kp);
 
@@ -113,7 +114,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
         double position_rot = m_currentPos_inch / INCHES_PER_ROT;
         m_pidController1.setReference(position_rot, ControlType.kPosition);
   
-        Logger logger = Logger.getInstance();
         logger.recordOutput("ARM ROTATIONS", position_rot);
 
         SmartDashboard.putNumber("ARM ROTATIONS", position_rot);
@@ -146,6 +146,8 @@ public class ExtendArmSubsystem extends SubsystemBase {
     while(input.get() == false) {
       m_extendArmMotor1.set(-0.2);
     }
+
+    m_extendArmEncoder1.setPosition(0);
 
     m_homed = true;
     m_extendArmMotor1.stopMotor();
