@@ -168,6 +168,6 @@ public final class Constants {
     }
     public static final class LoggerConstants {
         public static final RuntimeEnvironment MODE = RuntimeEnvironment.REAL;
-        public static final String RUNNING_UNDER = "2023.dev";
+        public static final String RUNNING_UNDER = "2023.q1";
     }
 }

@@ -40,7 +40,7 @@ public class WristSubsystem extends SubsystemBase {
 
     this.m_operator = m_operator;
 
-    m_wristmotorA = new CANSparkMax(3, CANSparkMax.MotorType.kBrushless);
+    m_wristmotorA = new CANSparkMax(WristConstants.WristCanIDA, CANSparkMax.MotorType.kBrushless);
   
     if (m_wristmotorA != null) {
       m_pidControllerA = m_wristmotorA.getPIDController();
@@ -53,7 +53,7 @@ public class WristSubsystem extends SubsystemBase {
       m_pidControllerA.setOutputRange(WristConstants.kMinOutput, WristConstants.kMaxOutput);
     }
 
-    m_wristmotorB = new CANSparkMax(13, CANSparkMax.MotorType.kBrushless);
+    m_wristmotorB = new CANSparkMax(WristConstants.WristCanIDB, CANSparkMax.MotorType.kBrushless);
 
     if (m_wristmotorB != null) {
       m_pidControllerB = m_wristmotorB.getPIDController();
@@ -95,9 +95,7 @@ public class WristSubsystem extends SubsystemBase {
       }
 
       double incrementalPosA = incremDegA * WristConstants.REVS_PER_OUTPUT_DEGREE;
-      System.out.printf("========================== (%f - %f) * %f = %f\n\n", absPosA, WristConstants.absAOffset, WristConstants.WRIST_GEAR_RATIO, incrementalPosA);
       m_wristRelativeEncoderA.setPosition(incrementalPosA);
-      SmartDashboard.putNumber("incremental Pos A", incrementalPosA);
 
       double absPosB = m_wristAbsoluteEncoderB.getAbsolutePosition();
       double incremDegB;
@@ -109,10 +107,6 @@ public class WristSubsystem extends SubsystemBase {
 
       double incrementalPosB = incremDegB * -WristConstants.REVS_PER_OUTPUT_DEGREE;
       m_wristRelativeEncoderB.setPosition(incrementalPosB);
-
-      System.out.printf("======================= (%f - %f) * %f = %f\n\n", absPosB, WristConstants.absBOffset, WristConstants.WRIST_GEAR_RATIO, incrementalPosB);
-      SmartDashboard.putNumber("incremental Pos B", incrementalPosB);
-
     }
 
     else if (periodicCycles > 150){
@@ -163,8 +157,6 @@ public class WristSubsystem extends SubsystemBase {
       //SmartDashboard.putNumber("Motor B current", maxCurrentMotorB);
     }
 
-    /*
-
     Logger logger = Logger.getInstance();
     logger.recordOutput("wrist.motors.a.power", m_wristmotorA.get());
     logger.recordOutput("wrist.motors.b.power", m_wristmotorB.get());
@@ -173,6 +165,6 @@ public class WristSubsystem extends SubsystemBase {
     logger.recordOutput("wrist.motors.a.position", m_positionA);
     logger.recordOutput("wrist.motors.b.position", m_positionB);
     logger.recordOutput("wrist.encoders.a.position", m_wristRelativeEncoderA.getPosition());
-    logger.recordOutput("wrist.encoders.b.position", m_wristRelativeEncoderB.getPosition());*/
+    logger.recordOutput("wrist.encoders.b.position", m_wristRelativeEncoderB.getPosition());
   }
 }

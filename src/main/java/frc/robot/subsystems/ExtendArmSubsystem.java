@@ -29,14 +29,8 @@ public class ExtendArmSubsystem extends SubsystemBase {
   public ExtendArmSubsystem() {
     m_extendArmMotor1 = new CANSparkMax(33, CANSparkMax.MotorType.kBrushless);
 
-    input = new DigitalInput(0);
+    input = new DigitalInput(3);
 
-  /*while(m_extendArmMotor1.getOutputCurrent() < currentLimit) {
-      m_extendArmMotor1.set(-0.2);
-    }
-    if(m_extendArmMotor1.getOutputCurrent() >= currentLimit) {
-          m_extendArmMotor1.stopMotor();
-    } */
     homing();
 
     if (m_extendArmMotor1 != null) {
@@ -119,11 +113,14 @@ public class ExtendArmSubsystem extends SubsystemBase {
         double position_rot = m_currentPos_inch / INCHES_PER_ROT;
         m_pidController1.setReference(position_rot, ControlType.kPosition);
   
-        SmartDashboard.putNumber("ExtendArm Rotations", position_rot);
-        SmartDashboard.putNumber("m_desiredPos_inch", m_desiredPos_inch);
-        SmartDashboard.putNumber("m_currentPos_inch", m_currentPos_inch);
-        SmartDashboard.putNumber("current velocity", m_current_vel_ips);
-        SmartDashboard.putBoolean("moving", moving);
+        Logger logger = Logger.getInstance();
+        logger.recordOutput("ARM ROTATIONS", position_rot);
+        
+        SmartDashboard.putNumber("ARM ROTATIONS", position_rot);
+        SmartDashboard.putNumber("ARM DESIRED INCH", m_desiredPos_inch);
+        SmartDashboard.putNumber("ARM CURRENT INCH", m_currentPos_inch);
+        SmartDashboard.putNumber("ARM VELOCITY", m_current_vel_ips);
+        SmartDashboard.putBoolean("ARM MOVING?", moving);
       }
 
     } else {
@@ -146,18 +143,11 @@ public class ExtendArmSubsystem extends SubsystemBase {
   }
 
   public void homing() {
-    //boolean Updated_input = input.get();
     while(input.get() == false) {
       m_extendArmMotor1.set(-0.2);
     }
 
-    if(input.get() == true) {
-      m_homed = true;
-    }
-    
-    if(m_homed == true) {
-      m_extendArmMotor1.stopMotor();
-    }
-
+    m_homed = true;
+    m_extendArmMotor1.stopMotor();
   }
 }
