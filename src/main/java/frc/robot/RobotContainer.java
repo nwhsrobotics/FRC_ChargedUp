@@ -2,8 +2,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AutoBaseCmd;
 import frc.robot.commands.ExtendArmCmd;
 import frc.robot.commands.ExtendArmDPad;
 import frc.robot.commands.ShoulderCmd;
@@ -18,7 +22,8 @@ import frc.robot.subsystems.WristSubsystem;
 
 public class RobotContainer {
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-    
+
+    SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
     public final XboxController m_driver = new XboxController(2);
     public final XboxController m_operator = new XboxController(0);
@@ -43,10 +48,25 @@ public class RobotContainer {
 
     public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
 
+    Command blue1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Blue1A.wpilib.json", "paths/Blue1B.wpilib.json");
+    Command blue2_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Blue2A.wpilib.json", "paths/Blue2B.wpilib.json");
+    Command blue3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Blue3A.wpilib.json", "paths/Blue3B.wpilib.json");
+    Command red1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red1A.wpilib.json", "paths/Red1B.wpilib.json");
+    Command red2_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red2A.wpilib.json", "paths/Red2B.wpilib.json");
+    Command red3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red3A.wpilib.json", "paths/Red3B.wpilib.json");
+
 
 
 
     public RobotContainer() {
+        m_autoChooser.setDefaultOption("Blue1", blue1_auto);
+        m_autoChooser.addOption("blue2", blue2_auto);
+        m_autoChooser.addOption("blue3", blue3_auto);
+        m_autoChooser.addOption("red1", red1_auto);
+        m_autoChooser.addOption("red2", red2_auto);
+        m_autoChooser.addOption("red3", red3_auto);
+
+        SmartDashboard.putData(m_autoChooser);
         swerveSubsystem.setDefaultCommand(new SwerveJoystickDefaultCmd(swerveSubsystem, m_driver));
         m_extendArmSubsystem.setDefaultCommand(new ExtendArmDPad(m_extendArmSubsystem, m_operator));
         m_shoulderSubsystem.setDefaultCommand(new ShoulderControl(m_shoulderSubsystem, m_operator));
@@ -66,5 +86,9 @@ public class RobotContainer {
         new JoystickButton(m_operator, 4).onTrue(m_shoulderCmd110);
 
 
+    }
+
+    public Command getAutonomousCommand() {
+        return m_autoChooser.getSelected();
     }
 }
