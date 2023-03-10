@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import frc.robot.Constants.WristConstants;
-import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,8 +15,6 @@ public class WristSubsystem extends SubsystemBase {
   private XboxController m_operator;
 
   private int periodicCycles = 0;
-
-  //TODO private ShoulderSubsystem m_shoulder;
 
   public CANSparkMax m_wristmotorA;
   public CANSparkMax m_wristmotorB;
@@ -39,11 +36,9 @@ public class WristSubsystem extends SubsystemBase {
   private double m_positionA = 0.0;
   private double m_positionB = 0.0;
 
-  public WristSubsystem(XboxController m_operator) { //TODO add shoulder here
+  public WristSubsystem(XboxController m_operator) {
 
     this.m_operator = m_operator;
-
-    //TODO this.m_shoulder = m_shoulder;
 
     m_wristmotorA = new CANSparkMax(3, CANSparkMax.MotorType.kBrushless);
   
@@ -52,7 +47,6 @@ public class WristSubsystem extends SubsystemBase {
 
       m_wristRelativeEncoderA = m_wristmotorA.getEncoder();
       m_wristAbsoluteEncoderA = new DutyCycleEncoder(1);
-
 
       m_pidControllerA.setP(0.1);
 

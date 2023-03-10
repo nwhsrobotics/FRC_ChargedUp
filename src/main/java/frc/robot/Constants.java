@@ -151,8 +151,8 @@ public final class Constants {
     public static final double kMinRoll = -115.0;
     public static final double kMaxPitch = 90.0;
     public static final double kMinPitch = -90.0;
-    public static final int WristCanIDA = 5;
-    public static final int WristCanIDB = 7;
+    public static final int WristCanIDA = 13;
+    public static final int WristCanIDB = 9;
     public static final double WRIST_GEAR_RATIO = 100.0;
     public static final double REVS_PER_OUTPUT_DEGREE = WRIST_GEAR_RATIO / 360.0;
 
