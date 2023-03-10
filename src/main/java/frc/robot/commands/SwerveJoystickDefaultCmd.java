@@ -31,10 +31,12 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
         double xSpeed = Math.abs(m_driver.getLeftY()) < OIConstants.kXYDeadband ? 0 : -m_driver.getLeftY() > 0 ? (-m_driver.getLeftY() - OIConstants.kXYDeadband) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * speedCoefficient * (1/(1-OIConstants.kXYDeadband)) : (-m_driver.getLeftY() + OIConstants.kXYDeadband) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * speedCoefficient * (1/(1-OIConstants.kXYDeadband));
         double ySpeed = Math.abs(m_driver.getLeftX()) < OIConstants.kXYDeadband ? 0 : -m_driver.getLeftX() > 0 ? (-m_driver.getLeftX() - OIConstants.kXYDeadband) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * speedCoefficient * (1/(1-OIConstants.kXYDeadband)) : (-m_driver.getLeftX() + OIConstants.kXYDeadband) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * speedCoefficient * (1/(1-OIConstants.kXYDeadband));
         double rotatingSpeed = Math.abs(m_driver.getRightX()) < OIConstants.kZDeadband ? 0 : -m_driver.getRightX() > 0 ? (-m_driver.getRightX() - OIConstants.kZDeadband) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond * speedCoefficient: (-m_driver.getRightX() + OIConstants.kZDeadband) * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond * speedCoefficient;
-        SmartDashboard.putNumber("xSpeed", xSpeed);
-        SmartDashboard.putNumber("ySpeed", ySpeed);
-        SmartDashboard.putNumber("rotspeed", rotatingSpeed);
-        SmartDashboard.putBoolean("FIELD RELATIVE", swerveSubsystem.isFR);
+        
+        swerveSubsystem.logger.recordOutput("swerve.joystickdefaultcmd.speed.x", xSpeed);
+        swerveSubsystem.logger.recordOutput("swerve.joystickdefaultcmd.speed.y", ySpeed);
+        swerveSubsystem.logger.recordOutput("swerve.joystickdefaultcmd.speed.rot", rotatingSpeed);
+        
+        SmartDashboard.putBoolean("FIELD RELATIVE?", swerveSubsystem.isFR);
 
         ChassisSpeeds chassisSpeeds = (swerveSubsystem.isFR) ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotatingSpeed, Rotation2d.fromDegrees(swerveSubsystem.getHeading())) : ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotatingSpeed, new Rotation2d(0));
 

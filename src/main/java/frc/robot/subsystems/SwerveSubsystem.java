@@ -1,8 +1,8 @@
 package frc.robot.subsystems;
 
+import org.littletonrobotics.junction.Logger;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -58,6 +58,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public final SwerveModule[] swerveMods = {frontLeft, frontRight, backLeft, backRight};
     public final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB);
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, Rotation2d.fromDegrees(getHeading()), getModulePositions());
+    public Logger logger = Logger.getInstance();
 
     public SwerveSubsystem() {
         try
@@ -128,10 +129,18 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(Rotation2d.fromDegrees(getHeading()), getModulePositions());
-        SmartDashboard.putNumber("front left abs", frontLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("front right abs", frontRight.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("back left abs", backLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("back right abs", backRight.getAbsoluteEncoderRad());
+        logger.recordOutput("swerve.steer.front.left.abs", frontLeft.getAbsoluteEncoderRad());
+        logger.recordOutput("swerve.steer.front.right.abs", frontRight.getAbsoluteEncoderRad());
+        logger.recordOutput("swerve.steer.back.left.abs", backLeft.getAbsoluteEncoderRad());
+        logger.recordOutput("swerve.steer.back.right.abs", backRight.getAbsoluteEncoderRad());
+        
+        logger.recordOutput("swerve.pose", getPose());
+        logger.recordOutput("swerve.heading", getHeading());
+        
+        logger.recordOutput("swerve.drive.front.left.velocity", frontLeft.getDriveVelocity());
+        logger.recordOutput("swerve.drive.front.right.velocity", frontRight.getDriveVelocity());
+        logger.recordOutput("swerve.drive.back.left.velocity", backLeft.getDriveVelocity());
+        logger.recordOutput("swerve.drive.back.right.velocity", backRight.getDriveVelocity());
     }
 
     public void stopModules() {

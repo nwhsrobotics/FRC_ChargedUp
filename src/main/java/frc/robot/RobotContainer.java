@@ -24,23 +24,25 @@ public class RobotContainer {
 
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
-    public final XboxController m_driver = new XboxController(3);
-    public final XboxController m_operator = new XboxController(2);
+    public final XboxController m_driver = new XboxController(1);
+    public final XboxController m_operator = new XboxController(0);
     public final JoystickButton m_joyA = new JoystickButton(m_operator, 1); //button A
     public final JoystickButton m_joyBK = new JoystickButton(m_operator, 7); // Back Button
     public final JoystickButton m_joyST = new JoystickButton(m_operator, 8); // Start Button
     public final JoystickButton m_joyLB = new JoystickButton(m_operator, 5); // Left bumper
     public final JoystickButton m_joyRB = new JoystickButton(m_operator, 6); // Right bumper
 
-    public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem(m_operator);
+    public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem();
+
+    public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem(m_operator, m_extendArmSubsystem);
     public final ShoulderCmd m_shoulderCmd0 = new ShoulderCmd(m_shoulderSubsystem, 0);
     public final ShoulderCmd m_shoulderCmd55 = new ShoulderCmd(m_shoulderSubsystem, 55);
     public final ShoulderCmd m_shoulderCmd110 = new ShoulderCmd(m_shoulderSubsystem, 110);
 
-    public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem();
     public final ExtendArmCmd m_ExtendArmCmd0 = new ExtendArmCmd(m_extendArmSubsystem, 0);
     public final ExtendArmCmd m_ExtendArmCmd36 = new ExtendArmCmd(m_extendArmSubsystem, 36.0);
 
+    // How does the code compile without this? TODO?
     public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator);
 
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
@@ -53,9 +55,6 @@ public class RobotContainer {
     Command red1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red1A.wpilib.json", "paths/Red1B.wpilib.json");
     Command red2_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red2A.wpilib.json", "paths/Red2B.wpilib.json");
     Command red3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red3A.wpilib.json", "paths/Red3B.wpilib.json");
-
-
-
 
     public RobotContainer() {
         m_autoChooser.setDefaultOption("Blue1", blue1_auto);
@@ -85,11 +84,8 @@ public class RobotContainer {
         new JoystickButton(m_operator, 4).onTrue(m_shoulderCmd55);
         new JoystickButton(m_operator, 3).onTrue(m_ExtendArmCmd0);
         new JoystickButton(m_operator, 2).onTrue(m_ExtendArmCmd36);
-        new JoystickButton(m_operator, 8).onTrue(new InstantCommand(() -> m_extendArmSubsystem.homing()));
-        new JoystickButton(m_operator, 7).onTrue(new InstantCommand(() -> m_extendArmSubsystem.homing()));
-
-
-
+        new JoystickButton(m_operator, 8).onTrue(new InstantCommand(() -> m_extendArmSubsystem.startHoming()));
+        new JoystickButton(m_operator, 7).onTrue(new InstantCommand(() -> m_extendArmSubsystem.startHoming()));
     }
 
     public Command getAutonomousCommand() {
