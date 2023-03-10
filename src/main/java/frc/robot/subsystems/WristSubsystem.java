@@ -7,7 +7,6 @@ import com.revrobotics.RelativeEncoder;
 import frc.robot.Constants.WristConstants;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -48,7 +47,7 @@ public class WristSubsystem extends SubsystemBase {
       m_pidControllerA = m_wristmotorA.getPIDController();
 
       m_wristRelativeEncoderA = m_wristmotorA.getEncoder();
-      m_wristAbsoluteEncoderA = new DutyCycleEncoder(1);
+      m_wristAbsoluteEncoderA = new DutyCycleEncoder(WristConstants.AbsoluteEncoderAChannel);
 
       m_pidControllerA.setP(0.1);
 
@@ -61,68 +60,67 @@ public class WristSubsystem extends SubsystemBase {
       m_pidControllerB = m_wristmotorB.getPIDController();
 
       m_wristRelativeEncoderB = m_wristmotorB.getEncoder();
-      m_wristAbsoluteEncoderB = new DutyCycleEncoder(2);
+      m_wristAbsoluteEncoderB = new DutyCycleEncoder(WristConstants.AbsoluteEncoderBChannel);
 
       m_pidControllerB.setP(0.1);
 
       m_pidControllerB.setOutputRange(WristConstants.kMinOutput, WristConstants.kMaxOutput);
     }
-
-
   }
   
   public void pitch(double delta_deg) {
-    if (m_pitch_deg + delta_deg <= WristConstants.kMaxPitch && m_pitch_deg + delta_deg >= WristConstants.kMinPitch) {
-      m_pitch_deg += delta_deg;
-    }
+    m_pitch_deg = Math.max(Math.min(m_pitch_deg + delta_deg, WristConstants.kMaxPitch), WristConstants.kMinPitch);
   }
 
   public void roll(double delta_deg) {
-    if(m_roll_deg + delta_deg <= WristConstants.kMaxRoll && m_roll_deg + delta_deg >= WristConstants.kMinRoll) {
-      m_roll_deg += delta_deg;
+    m_roll_deg = Math.max(Math.min(m_roll_deg + delta_deg, WristConstants.kMaxRoll), WristConstants.kMinRoll);
+  }
+
+  private double adjustAbsEncoder(double rawReading, double offset) {
+    double adjusted = rawReading - offset;
+
+    if (adjusted > 1.0) {
+      adjusted -= 1.0;
     }
+    else if (adjusted < 0) {
+      adjusted += 1.0;
+    }
+
+    return adjusted;
   }
 
   @Override
   public void periodic() {
     periodicCycles++;
     if (periodicCycles == 150) {
-      double absPosA = m_wristAbsoluteEncoderA.getAbsolutePosition();
-      double incremDegA;
-      if (absPosA > 1 - (0.5 - WristConstants.absAOffset)) {
-        incremDegA = -360.0 * (1 - absPosA + WristConstants.absAOffset);
-      }
-      else {
-        incremDegA = (absPosA - WristConstants.absAOffset) * 360.0;
-      }
+      // abs encoders stable now (after 3 secs)
+      // do homing
+      double absPosA = adjustAbsEncoder(m_wristAbsoluteEncoderA.getAbsolutePosition(), WristConstants.absAOffset);
+      double absPosB = adjustAbsEncoder(m_wristAbsoluteEncoderB.getAbsolutePosition(), WristConstants.absBOffset);
 
-      double incrementalPosA = incremDegA * WristConstants.REVS_PER_OUTPUT_DEGREE;
-      m_wristRelativeEncoderA.setPosition(incrementalPosA);
+      m_roll_deg = (360.0 * (absPosA + absPosB)) / 2.0;
+      m_pitch_deg = (360.0 * (absPosA - absPosB)) / 2.0;
 
-      double absPosB = m_wristAbsoluteEncoderB.getAbsolutePosition();
-      double incremDegB;
-      if (absPosB > 1 - (0.5 - WristConstants.absBOffset)) {
-        incremDegB = -360.0 * (1 - absPosB + WristConstants.absBOffset);
-      } else {
-        incremDegB = (absPosB - WristConstants.absBOffset) * 360.0;
-      }
+      if (m_roll_deg > 180.0) { m_roll_deg -= 360.0; }
+      if (m_roll_deg < -180.0) { m_roll_deg += 360.0; }
+      if (m_pitch_deg > 180.0) { m_pitch_deg -= 360.0; }
+      if (m_pitch_deg < -180.0) { m_pitch_deg += 360.0; }
 
-      double incrementalPosB = incremDegB * -WristConstants.REVS_PER_OUTPUT_DEGREE;
-      m_wristRelativeEncoderB.setPosition(incrementalPosB);
+      m_positionA = (m_pitch_deg + m_roll_deg) * -WristConstants.REVS_PER_OUTPUT_DEGREE;
+      m_positionB = (m_pitch_deg - m_roll_deg) * WristConstants.REVS_PER_OUTPUT_DEGREE;
+      
+      m_wristRelativeEncoderA.setPosition(m_positionA);
+      m_wristRelativeEncoderB.setPosition(m_positionB);
     }
 
     else if (periodicCycles > 150){
       //TODO m_pitch_deg = ShoulderConstants.kAngleRange - m_shoulder.m_desiredPos;
-      if (m_operator.getLeftY() > 0.1) {
-        pitch(m_operator.getLeftY()*5);
-      } else if (m_operator.getLeftY() < -0.1) {
-        pitch(m_operator.getLeftY()*5);
+      if (Math.abs(m_operator.getLeftY()) > WristConstants.JOYSTICK_DEADBAND) {
+        pitch(m_operator.getLeftY() * 5);
       }
 
-      if (m_operator.getRightX() > 0.1){
-        roll(m_operator.getRightX()*5);
-      } else if (m_operator.getRightX() < -0.1){
-        roll(m_operator.getRightX()*5);
+      if (Math.abs(m_operator.getRightX()) > WristConstants.JOYSTICK_DEADBAND) {
+        roll(m_operator.getRightX() * 5);
       }
       
       m_positionA = (m_pitch_deg + m_roll_deg) * -WristConstants.REVS_PER_OUTPUT_DEGREE;
@@ -130,42 +128,24 @@ public class WristSubsystem extends SubsystemBase {
 
       m_pidControllerA.setReference(m_positionA, ControlType.kPosition);
       m_pidControllerB.setReference(m_positionB, ControlType.kPosition);
-
-
-      // Below here is all nonrelevant dashboard stuff  
-      double absoultePositionA = m_wristAbsoluteEncoderA.getAbsolutePosition();
-      double absolutePositionB = m_wristAbsoluteEncoderB.getAbsolutePosition();
       
-      double relPositionA = m_wristRelativeEncoderA.getPosition();
-      double relPositionB = m_wristRelativeEncoderB.getPosition();
-      
-      SmartDashboard.putNumber("WRIST posA", m_positionA);
-      SmartDashboard.putNumber("WRIST posB", m_positionB);
-      SmartDashboard.putNumber("WRIST rel a", relPositionA);
-      SmartDashboard.putNumber("WRIST rel b", relPositionB);
-      SmartDashboard.putNumber("WRIST abs a", absoultePositionA);
-      SmartDashboard.putNumber("WRIST abs b", absolutePositionB);
-      SmartDashboard.putNumber("WRIST pitch", m_pitch_deg);
-      SmartDashboard.putNumber("WRIST roll", m_roll_deg);
-
-      SmartDashboard.putNumber("WRIST Motor A current", m_wristmotorA.getOutputCurrent());
-      SmartDashboard.putNumber("WRIST motor B current", m_wristmotorB.getOutputCurrent());
       if (m_wristmotorA.getOutputCurrent() > maxCurrentMotorA)
         maxCurrentMotorA = m_wristmotorA.getOutputCurrent();
-      if(m_wristmotorB.getOutputCurrent() > maxCurrentMotorB)
+      if (m_wristmotorB.getOutputCurrent() > maxCurrentMotorB)
         maxCurrentMotorB = m_wristmotorB.getOutputCurrent();
-
-      //SmartDashboard.putNumber("Max Motor A current", maxCurrentMotorA);
-      //SmartDashboard.putNumber("Motor B current", maxCurrentMotorB);
     }
 
-    logger.recordOutput("wrist.motors.a.power", m_wristmotorA.get());
-    logger.recordOutput("wrist.motors.b.power", m_wristmotorB.get());
+    logger.recordOutput("wrist.a.power", m_wristmotorA.get());
+    logger.recordOutput("wrist.b.power", m_wristmotorB.get());
     logger.recordOutput("wrist.pitch", m_pitch_deg);
     logger.recordOutput("wrist.roll", m_roll_deg);
-    logger.recordOutput("wrist.motors.a.position", m_positionA);
-    logger.recordOutput("wrist.motors.b.position", m_positionB);
-    logger.recordOutput("wrist.encoders.a.position", m_wristRelativeEncoderA.getPosition());
-    logger.recordOutput("wrist.encoders.b.position", m_wristRelativeEncoderB.getPosition());
+    logger.recordOutput("wrist.a.position", m_positionA);
+    logger.recordOutput("wrist.b.position", m_positionB);
+    logger.recordOutput("wrist.a.relative", m_wristRelativeEncoderA.getPosition());
+    logger.recordOutput("wrist.b.relative", m_wristRelativeEncoderB.getPosition());
+    logger.recordOutput("wrist.a.current", m_wristmotorA.getOutputCurrent());
+    logger.recordOutput("wrist.b.current", m_wristmotorB.getOutputCurrent());
+    logger.recordOutput("wrist.a.absolute", m_wristAbsoluteEncoderA.getAbsolutePosition());
+    logger.recordOutput("wrist.b.absolute", m_wristAbsoluteEncoderB.getAbsolutePosition());
   }
 }

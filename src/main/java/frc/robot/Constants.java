@@ -138,24 +138,26 @@ public final class Constants {
     }
 
     public static final class WristConstants {
-    public static final double kp = 0.05;
-    public static final double ki = 0.0;
-    public static final double kd = 0.0;
-    public static final double kIz = 0.0;
-    public static final double kFFz = 0.0;
-    public static final double absAOffset = 0.288;
-    public static final double absBOffset = 0.158;
-    public static final double kMaxOutput = 1.0;
-    public static final double kMinOutput = -1.0;
-    public static final double kMaxRoll = 115.0;
-    public static final double kMinRoll = -115.0;
-    public static final double kMaxPitch = 90.0;
-    public static final double kMinPitch = -90.0;
-    public static final int WristCanIDA = 13;
-    public static final int WristCanIDB = 9;
-    public static final double WRIST_GEAR_RATIO = 100.0;
-    public static final double REVS_PER_OUTPUT_DEGREE = WRIST_GEAR_RATIO / 360.0;
-
+        public static final double kp = 0.05;
+        public static final double ki = 0.0;
+        public static final double kd = 0.0;
+        public static final double kIz = 0.0;
+        public static final double kFFz = 0.0;
+        public static final double absAOffset = 0.0;
+        public static final double absBOffset = 0.0;
+        public static final double kMaxOutput = 1.0;
+        public static final double kMinOutput = -1.0;
+        public static final double kMaxRoll = 115.0;
+        public static final double kMinRoll = -115.0;
+        public static final double kMaxPitch = 90.0;
+        public static final double kMinPitch = -90.0;
+        public static final int WristCanIDA = 13;
+        public static final int WristCanIDB = 9;
+        public static final int AbsoluteEncoderAChannel = 2;
+        public static final int AbsoluteEncoderBChannel = 1;
+        public static final double WRIST_GEAR_RATIO = 100.0;
+        public static final double REVS_PER_OUTPUT_DEGREE = WRIST_GEAR_RATIO / 360.0;
+        public static final double JOYSTICK_DEADBAND = 0.1;
     }
 
     public static enum RuntimeEnvironment {
@@ -169,5 +171,7 @@ public final class Constants {
     public static final class LoggerConstants {
         public static final RuntimeEnvironment MODE = RuntimeEnvironment.REAL;
         public static final String RUNNING_UNDER = "2023.q1";
+        // SET TO FALSE IF WE'RE RUNNING OUT OF BANDWIDTH.
+        public static final boolean SILENT_NT4 = false;
     }
 }

@@ -31,11 +31,10 @@ public class ExtendArmSubsystem extends SubsystemBase {
     // TODO CHANGE SPARKMAX CANID TO USE CONSTANTS
     m_extendArmMotor1 = new CANSparkMax(16, CANSparkMax.MotorType.kBrushless);
 
-    input = new DigitalInput(3);
-
-    homing();
+    input = new DigitalInput(4);
 
     if (m_extendArmMotor1 != null) {
+      m_extendArmMotor1.setSmartCurrentLimit(10);
       m_pidController1 = m_extendArmMotor1.getPIDController();
       m_extendArmEncoder1 = m_extendArmMotor1.getEncoder();
       //m_extendArmEncoder1.setPosition(2.0 / INCHES_PER_ROT);
@@ -52,6 +51,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     boolean moving = true;
+    SmartDashboard.putBoolean("ARM @ LIMIT SWITCH", input.get());
     if (m_enabled == true) {
       if(m_homed == true)
       {
@@ -115,13 +115,17 @@ public class ExtendArmSubsystem extends SubsystemBase {
         double position_rot = m_currentPos_inch / INCHES_PER_ROT;
         m_pidController1.setReference(position_rot, ControlType.kPosition);
   
-        logger.recordOutput("ARM ROTATIONS", position_rot);
+        logger.recordOutput("arm.rotation", position_rot);
+        logger.recordOutput("arm.current", m_extendArmMotor1.getOutputCurrent());
+        logger.recordOutput("arm.position.current", m_currentPos_inch);
+        logger.recordOutput("arm.position.target", m_desiredPos_inch);
+        logger.recordOutput("arm.velocity", m_current_vel_ips);
 
-        SmartDashboard.putNumber("ARM ROTATIONS", position_rot);
-        SmartDashboard.putNumber("ARM DESIRED INCH", m_desiredPos_inch);
-        SmartDashboard.putNumber("ARM CURRENT INCH", m_currentPos_inch);
-        SmartDashboard.putNumber("ARM VELOCITY", m_current_vel_ips);
+        SmartDashboard.putBoolean("ARM HOMED?", m_homed);
         SmartDashboard.putBoolean("ARM MOVING?", moving);
+      }
+      else {
+        homing();
       }
 
     } else {
@@ -143,14 +147,22 @@ public class ExtendArmSubsystem extends SubsystemBase {
     return m_desiredPos_inch;
   }
 
-  public void homing() {
-    while(input.get() == false) {
+  private void homing() {
+    if(input.get() == true) { 
+      //driving towards end stop
       m_extendArmMotor1.set(-0.2);
     }
+    else {
+      //reached end stop
+      m_homed = true;
+      m_extendArmMotor1.set(0.0);
+      m_extendArmEncoder1.setPosition(0);
+      m_currentPos_inch = 0.0;
+      m_desiredPos_inch = 0.0;
+    }
+  }
 
-    // m_extendArmEncoder1.setPosition(0);
-
-    m_homed = true;
-    m_extendArmMotor1.stopMotor();
+  public void startHoming() {
+    m_homed = false;
   }
 }

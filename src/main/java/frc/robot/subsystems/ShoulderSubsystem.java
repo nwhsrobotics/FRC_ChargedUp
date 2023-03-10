@@ -9,8 +9,6 @@ import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.wpilibj.XboxController;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class ShoulderSubsystem extends SubsystemBase {
@@ -28,9 +26,12 @@ public class ShoulderSubsystem extends SubsystemBase {
     private final double MAX_ROT = ((110.0 / 360.0) * m_gearRatio);
     private final double MIN_ROT = ((0.0 / 360.0) * m_gearRatio);
     private Logger logger = Logger.getInstance();
+    private ExtendArmSubsystem m_ExtendArmSubsystem;
     
     /** Creates a new ShoulderSubsystem. */
-    public ShoulderSubsystem(XboxController m_controller) {
+    public ShoulderSubsystem(XboxController m_controller, ExtendArmSubsystem m_ExtendArmSubsystem) {
+        this.m_ExtendArmSubsystem = m_ExtendArmSubsystem;
+        
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.LeftShoulderCanID, CANSparkMax.MotorType.kBrushless);
         m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.RightShoulderCanID, CANSparkMax.MotorType.kBrushless);
 
@@ -92,7 +93,7 @@ public class ShoulderSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (m_enabled == true) {
+        if (m_enabled == true && m_ExtendArmSubsystem.m_homed) {
             if (m_desiredPos_rot > MAX_ROT) {  //110 degree max
                 m_desiredPos_rot = MAX_ROT;
             } else if (m_desiredPos_rot < MIN_ROT) {  //0 degree min
@@ -115,18 +116,12 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController1.setReference(m_currentPos_rot, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos_rot, ControlType.kPosition);
 
-            SmartDashboard.putNumber("LeftShoulder Motor1 current", m_shoulderMotor1.getOutputCurrent());
-            SmartDashboard.putNumber("RightShoulder Motor2 current", m_shoulderMotor2.getOutputCurrent());
-
-            logger.recordOutput("LeftShoulder Motor1 Rotations", m_shoulderRelativeEncoder1.getPosition());
-            logger.recordOutput("RightShoulder Motor2 Rotations", m_shoulderRelativeEncoder2.getPosition());
-            logger.recordOutput("LeftShoulder Motor1 Degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
-            logger.recordOutput("RightShoulder Motor2 Degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
-
-            SmartDashboard.putNumber("LeftShoulder Motor1 Rotations", m_shoulderRelativeEncoder1.getPosition());
-            SmartDashboard.putNumber("RightShoulder Motor2 Rotations", m_shoulderRelativeEncoder2.getPosition());
-            SmartDashboard.putNumber("LeftShoulder Motor1 Degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
-            SmartDashboard.putNumber("RightShoulder Motor2 Degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
+            logger.recordOutput("shoulder.left.current", m_shoulderMotor1.getOutputCurrent());
+            logger.recordOutput("shoulder.right.current", m_shoulderMotor2.getOutputCurrent());
+            logger.recordOutput("shoulder.left.rotation", m_shoulderRelativeEncoder1.getPosition());
+            logger.recordOutput("shoulder.right.rotation", m_shoulderRelativeEncoder2.getPosition());
+            logger.recordOutput("shoulder.left.degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
+            logger.recordOutput("shoulder.left.degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
         } else {
             return;
         }
