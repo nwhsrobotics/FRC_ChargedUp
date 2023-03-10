@@ -12,7 +12,7 @@ public class GrabberSubsystem extends SubsystemBase {
   
 
   private DoubleSolenoid m_grabber;
-  Logger logger = Logger.getInstance();
+  private Logger logger = Logger.getInstance();
   /** Creates a new GrabberSubsystem. */
   public GrabberSubsystem() {
     m_grabber = new DoubleSolenoid(7, PneumaticsModuleType.CTREPCM, GrabberConstants.forwardChannel, GrabberConstants.reverseChannel);

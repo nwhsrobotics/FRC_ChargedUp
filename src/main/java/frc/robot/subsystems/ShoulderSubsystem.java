@@ -27,6 +27,8 @@ public class ShoulderSubsystem extends SubsystemBase {
     private boolean m_enabled = false;
     private final double MAX_ROT = ((110.0 / 360.0) * m_gearRatio);
     private final double MIN_ROT = ((0.0 / 360.0) * m_gearRatio);
+    private Logger logger = Logger.getInstance();
+    
     /** Creates a new ShoulderSubsystem. */
     public ShoulderSubsystem(XboxController m_controller) {
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.LeftShoulderCanID, CANSparkMax.MotorType.kBrushless);
@@ -115,8 +117,6 @@ public class ShoulderSubsystem extends SubsystemBase {
 
             SmartDashboard.putNumber("LeftShoulder Motor1 current", m_shoulderMotor1.getOutputCurrent());
             SmartDashboard.putNumber("RightShoulder Motor2 current", m_shoulderMotor2.getOutputCurrent());
-
-            Logger logger = Logger.getInstance();
 
             logger.recordOutput("LeftShoulder Motor1 Rotations", m_shoulderRelativeEncoder1.getPosition());
             logger.recordOutput("RightShoulder Motor2 Rotations", m_shoulderRelativeEncoder2.getPosition());

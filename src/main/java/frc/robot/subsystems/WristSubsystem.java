@@ -36,6 +36,8 @@ public class WristSubsystem extends SubsystemBase {
   private double m_positionA = 0.0;
   private double m_positionB = 0.0;
 
+  private Logger logger = Logger.getInstance();
+
   public WristSubsystem(XboxController m_operator) {
 
     this.m_operator = m_operator;
@@ -157,7 +159,6 @@ public class WristSubsystem extends SubsystemBase {
       //SmartDashboard.putNumber("Motor B current", maxCurrentMotorB);
     }
 
-    Logger logger = Logger.getInstance();
     logger.recordOutput("wrist.motors.a.power", m_wristmotorA.get());
     logger.recordOutput("wrist.motors.b.power", m_wristmotorB.get());
     logger.recordOutput("wrist.pitch", m_pitch_deg);
