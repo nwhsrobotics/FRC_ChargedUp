@@ -75,7 +75,7 @@ public final class Constants {
     }
 
     public static final class ShoulderConstants {
-        public static final double kp = 1;
+        public static final double kp = 0.5;
         public static final double ki = 0.0;
         public static final double kd = 0.0;
         public static final double kIz = 0.0;
@@ -90,7 +90,7 @@ public final class Constants {
     public static final class ExtendArmConstants {
         public static final double EXTEND_SPEED_IPS = 20.0;
         public static final double ACCEL_MAX_V_IPS = 60.0;
-        public static final double ACCEL_MAX_A_IPS2 = 180.0; //about 0.2gs @ 80 in/s
+        public static final double ACCEL_MAX_A_IPS2 = 60.0; //about 0.2gs @ 80 in/s
         public static final double SECONDS_PER_TICK = 0.02;
         public static final double kp = 0.2;
         public static final double kMaxOutput = 1.0;

@@ -33,22 +33,22 @@ public class RobotContainer {
     public final ShoulderCmd m_shoulderCmd55 = new ShoulderCmd(m_shoulderSubsystem, 55);
     public final ShoulderCmd m_shoulderCmd110 = new ShoulderCmd(m_shoulderSubsystem, 110);
 
-    //public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem();
-    //public final ExtendArmCmd m_ExtendArmCmd0 = new ExtendArmCmd(m_extendArmSubsystem, 0);
-    //public final ExtendArmCmd m_ExtendArmCmd36 = new ExtendArmCmd(m_extendArmSubsystem, 36.0);
+    public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem();
+    public final ExtendArmCmd m_ExtendArmCmd0 = new ExtendArmCmd(m_extendArmSubsystem, 0);
+    public final ExtendArmCmd m_ExtendArmCmd36 = new ExtendArmCmd(m_extendArmSubsystem, 36.0);
 
-    //public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator);
+    public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator);
 
-    // TODO public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
+    public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
 
-    // TODO public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
+    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
 
 
 
 
     public RobotContainer() {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickDefaultCmd(swerveSubsystem, m_driver));
-        //m_extendArmSubsystem.setDefaultCommand(new ExtendArmDPad(m_extendArmSubsystem, m_operator));
+        m_extendArmSubsystem.setDefaultCommand(new ExtendArmDPad(m_extendArmSubsystem, m_operator));
         m_shoulderSubsystem.setDefaultCommand(new ShoulderControl(m_shoulderSubsystem, m_operator));
         configureButtonBindings();
     }
@@ -57,13 +57,13 @@ public class RobotContainer {
         new JoystickButton(m_driver, 8).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose())); //menu
         new JoystickButton(m_driver, 1).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR())); //A
         new JoystickButton(m_driver, 7).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose())); //start
-        //new JoystickButton(m_operator, 2).onTrue(m_ExtendArmCmd36);
-        //new JoystickButton(m_operator, 3).onTrue(m_ExtendArmCmd0);
-        //TODO m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
-        //TODO m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
+        new JoystickButton(m_operator, 2).onTrue(m_ExtendArmCmd36);
+        new JoystickButton(m_operator, 3).onTrue(m_ExtendArmCmd0);
+        m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
+        m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
         
-        //new JoystickButton(m_operator, 1).onTrue(m_shoulderCmd55);
-        //new JoystickButton(m_operator, 4).onTrue(m_shoulderCmd110);
+        new JoystickButton(m_operator, 1).onTrue(m_shoulderCmd55);
+        new JoystickButton(m_operator, 4).onTrue(m_shoulderCmd110);
 
 
     }

@@ -24,16 +24,11 @@ public class ShoulderSubsystem extends SubsystemBase {
     public double m_desiredPos_rot = 0.0;
     private static final double MAX_SPEED_ROT_PER_TICK = 1.0; // 1.0 for  least 1.222 seconds 0.5 for least 2.4 seconds (assuming bottlenecking max speed) **NOTE: 1 rotation per tick is equivalent to 1.8 degrees per tick**
     private double m_gearRatio = 200;
-    private XboxController xboxController;
     private boolean m_enabled = false;
     private final double MAX_ROT = ((110.0 / 360.0) * m_gearRatio);
     private final double MIN_ROT = ((0.0 / 360.0) * m_gearRatio);
-    private double currentLimit = 25.0;
-    
-
     /** Creates a new ShoulderSubsystem. */
     public ShoulderSubsystem(XboxController m_controller) {
-        this.xboxController = m_controller;
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.LeftShoulderCanID, CANSparkMax.MotorType.kBrushless);
         m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.RightShoulderCanID, CANSparkMax.MotorType.kBrushless);
 
@@ -127,6 +122,11 @@ public class ShoulderSubsystem extends SubsystemBase {
             logger.recordOutput("RightShoulder Motor2 Rotations", m_shoulderRelativeEncoder2.getPosition());
             logger.recordOutput("LeftShoulder Motor1 Degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
             logger.recordOutput("RightShoulder Motor2 Degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
+
+            SmartDashboard.putNumber("LeftShoulder Motor1 Rotations", m_shoulderRelativeEncoder1.getPosition());
+            SmartDashboard.putNumber("RightShoulder Motor2 Rotations", m_shoulderRelativeEncoder2.getPosition());
+            SmartDashboard.putNumber("LeftShoulder Motor1 Degrees", (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
+            SmartDashboard.putNumber("RightShoulder Motor2 Degrees", (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
         } else {
             return;
         }

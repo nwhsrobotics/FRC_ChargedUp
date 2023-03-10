@@ -149,24 +149,24 @@ public class WristSubsystem extends SubsystemBase {
       double relPositionA = m_wristRelativeEncoderA.getPosition();
       double relPositionB = m_wristRelativeEncoderB.getPosition();
       
-      SmartDashboard.putNumber("posA", m_positionA);
-      SmartDashboard.putNumber("posB", m_positionB);
-      SmartDashboard.putNumber("rel a", relPositionA);
-      SmartDashboard.putNumber("rel b", relPositionB);
-      SmartDashboard.putNumber("abs a", absoultePositionA);
-      SmartDashboard.putNumber("abs b", absolutePositionB);
-      SmartDashboard.putNumber("pitch", m_pitch_deg);
-      SmartDashboard.putNumber("roll", m_roll_deg);
+      SmartDashboard.putNumber("WRIST posA", m_positionA);
+      SmartDashboard.putNumber("WRIST posB", m_positionB);
+      SmartDashboard.putNumber("WRIST rel a", relPositionA);
+      SmartDashboard.putNumber("WRIST rel b", relPositionB);
+      SmartDashboard.putNumber("WRIST abs a", absoultePositionA);
+      SmartDashboard.putNumber("WRIST abs b", absolutePositionB);
+      SmartDashboard.putNumber("WRIST pitch", m_pitch_deg);
+      SmartDashboard.putNumber("WRIST roll", m_roll_deg);
 
-      SmartDashboard.putNumber("Motor A current", m_wristmotorA.getOutputCurrent());
-      SmartDashboard.putNumber("motor B current", m_wristmotorB.getOutputCurrent());
+      SmartDashboard.putNumber("WRIST Motor A current", m_wristmotorA.getOutputCurrent());
+      SmartDashboard.putNumber("WRIST motor B current", m_wristmotorB.getOutputCurrent());
       if (m_wristmotorA.getOutputCurrent() > maxCurrentMotorA)
         maxCurrentMotorA = m_wristmotorA.getOutputCurrent();
       if(m_wristmotorB.getOutputCurrent() > maxCurrentMotorB)
         maxCurrentMotorB = m_wristmotorB.getOutputCurrent();
 
-      SmartDashboard.putNumber("Max Motor A current", maxCurrentMotorA);
-      SmartDashboard.putNumber("Motor B current", maxCurrentMotorB);
+      //SmartDashboard.putNumber("Max Motor A current", maxCurrentMotorA);
+      //SmartDashboard.putNumber("Motor B current", maxCurrentMotorB);
     }
 
     /*
