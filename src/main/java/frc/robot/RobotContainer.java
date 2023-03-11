@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,7 +25,8 @@ public class RobotContainer {
 
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
-    public final XboxController m_driver = new XboxController(1);
+    public final Joystick m_driver = new Joystick(1);
+    
     public final XboxController m_operator = new XboxController(0);
     public final JoystickButton m_joyA = new JoystickButton(m_operator, 1); //button A
     public final JoystickButton m_joyBK = new JoystickButton(m_operator, 7); // Back Button
@@ -72,9 +74,11 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(m_driver, 8).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose())); //menu
-        new JoystickButton(m_driver, 1).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR())); //A
-        new JoystickButton(m_driver, 7).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose())); //start
+        new JoystickButton(m_driver,3).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
+        new JoystickButton(m_driver, 2).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR()));
+        new JoystickButton(m_driver, 4).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
+        new JoystickButton(m_driver,11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
+        new JoystickButton(m_driver,5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
         new JoystickButton(m_operator, 2).onTrue(m_ExtendArmCmd36);
         new JoystickButton(m_operator, 3).onTrue(m_ExtendArmCmd0);
         m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
