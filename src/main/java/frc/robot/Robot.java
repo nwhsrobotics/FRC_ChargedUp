@@ -10,7 +10,6 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.LoggerConstants;
-import frc.robot.subsystems.SwerveModule;
 
 /**
  * The VM is configured to automatically run this class, and to call the

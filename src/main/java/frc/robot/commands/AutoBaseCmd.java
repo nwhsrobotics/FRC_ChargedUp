@@ -13,7 +13,9 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
@@ -46,8 +48,7 @@ public class AutoBaseCmd extends SequentialCommandGroup {
                 thetaController,
                 s_Swerve::setModuleStates,
                 s_Swerve);
-
-        /*
+        
         SwerveControllerCommand swerveControllerCommand2 =
         new SwerveControllerCommand(
             trajB,
@@ -58,12 +59,20 @@ public class AutoBaseCmd extends SequentialCommandGroup {
             thetaController,
             s_Swerve::setModuleStates,
             s_Swerve);
-        */
+
 
         addCommands(
             new InstantCommand(() -> s_Swerve.resetHeadingAndPose()),
             new InstantCommand(() -> s_Swerve.resetOdometry(trajA.getInitialPose())),
-            new InstantCommand(() -> System.out.println(s_Swerve.getPose())),           
+            new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
+
+
+
+
+
+
+
+            
             new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
             new InstantCommand(() -> System.out.println(trajA.getTotalTimeSeconds())),
             //first place preloaded cone
