@@ -141,6 +141,9 @@ public class SwerveSubsystem extends SubsystemBase {
         logger.recordOutput("swerve.drive.front.right.velocity", frontRight.getDriveVelocity());
         logger.recordOutput("swerve.drive.back.left.velocity", backLeft.getDriveVelocity());
         logger.recordOutput("swerve.drive.back.right.velocity", backRight.getDriveVelocity());
+
+        logger.recordOutput("swerve.pitch", m_gyro.getPitch());
+        logger.recordOutput("swerve.roll", m_gyro.getRoll());
     }
 
     public void stopModules() {

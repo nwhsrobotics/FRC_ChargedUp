@@ -52,8 +52,16 @@ public class ExtendArmSubsystem extends SubsystemBase {
   public void periodic() {
     boolean moving = true;
     SmartDashboard.putBoolean("ARM @ LIMIT SWITCH", input.get());
-    if (m_enabled == true) {
-      if(m_homed == true)
+    SmartDashboard.putBoolean("ARM HOMED?", m_homed);
+    SmartDashboard.putBoolean("ARM MOVING?", moving);
+    logger.recordOutput("arm.current", m_extendArmMotor1.getOutputCurrent());
+    logger.recordOutput("arm.position.current", m_currentPos_inch);
+    logger.recordOutput("arm.position.target", m_desiredPos_inch);
+    logger.recordOutput("arm.velocity", m_current_vel_ips);
+    logger.recordOutput("arm.homed", m_homed);
+    logger.recordOutput("arm.moving", moving);
+    if (m_enabled) {
+      if(m_homed)
       {
         if (m_desiredPos_inch > ExtendArmConstants.MAX_EXTEND_INCH) {      //if desired pos for arm is greater than 38 make it 38 and if less than 0 inches make it 0
           m_desiredPos_inch = ExtendArmConstants.MAX_EXTEND_INCH;
@@ -116,13 +124,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
         m_pidController1.setReference(position_rot, ControlType.kPosition);
   
         logger.recordOutput("arm.rotation", position_rot);
-        logger.recordOutput("arm.current", m_extendArmMotor1.getOutputCurrent());
-        logger.recordOutput("arm.position.current", m_currentPos_inch);
-        logger.recordOutput("arm.position.target", m_desiredPos_inch);
-        logger.recordOutput("arm.velocity", m_current_vel_ips);
-
-        SmartDashboard.putBoolean("ARM HOMED?", m_homed);
-        SmartDashboard.putBoolean("ARM MOVING?", moving);
       }
       else {
         homing();

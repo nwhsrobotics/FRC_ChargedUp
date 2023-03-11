@@ -20,7 +20,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private RelativeEncoder m_shoulderRelativeEncoder2 = null;
     public double m_currentPos_rot = 0.0;  // _rot means in rotation
     public double m_desiredPos_rot = 0.0;
-    private static final double MAX_SPEED_ROT_PER_TICK = 1.0; // 1.0 for  least 1.222 seconds 0.5 for least 2.4 seconds (assuming bottlenecking max speed) **NOTE: 1 rotation per tick is equivalent to 1.8 degrees per tick**
+    private static final double MAX_SPEED_ROT_PER_TICK = 0.7; // 1.0 for  least 1.222 seconds 0.5 for least 2.4 seconds (assuming bottlenecking max speed) **NOTE: 1 rotation per tick is equivalent to 1.8 degrees per tick**
     private double m_gearRatio = 200;
     private boolean m_enabled = false;
     private final double MAX_ROT = ((110.0 / 360.0) * m_gearRatio);
