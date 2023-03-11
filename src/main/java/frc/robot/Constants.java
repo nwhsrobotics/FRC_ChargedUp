@@ -135,6 +135,7 @@ public final class Constants {
         public static final double kZDeadband = 0.05;
         public static final int kJoystickPort = 2;
         public static final double kPreciseSpdMetersPerSecond = 0.5;
+        public static final double kInputExponent = 2.0;
     }
 
     public static final class WristConstants {
