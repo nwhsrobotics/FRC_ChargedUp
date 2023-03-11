@@ -1,7 +1,5 @@
 package frc.robot;
 
-import java.util.Timer;
-
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
