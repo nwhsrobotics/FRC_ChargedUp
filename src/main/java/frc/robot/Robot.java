@@ -25,7 +25,7 @@ import frc.robot.Constants.LoggerConstants;
 public class Robot extends LoggedRobot {
     private Command m_autonomousCommand;
     public RobotContainer m_robotContainer;
-    private double periodicCycles;
+    private double periodicCycles = 0.0;
 
     /**
      * This function is run when the robot is first started up and should be used
