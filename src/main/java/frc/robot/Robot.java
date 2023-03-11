@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.Timer;
+
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -23,6 +25,7 @@ import frc.robot.Constants.LoggerConstants;
 public class Robot extends LoggedRobot {
     private Command m_autonomousCommand;
     public RobotContainer m_robotContainer;
+    private double periodicCycles;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -52,7 +55,7 @@ public class Robot extends LoggedRobot {
                 logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
                 break;
         }
-        
+
         logger.start();
 
         // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -100,7 +103,9 @@ public class Robot extends LoggedRobot {
     @Override
     public void autonomousInit() {
         m_robotContainer.swerveSubsystem.resetHeadingAndPose();
-    
+        m_robotContainer.swerveSubsystem.straighten();
+        m_robotContainer.swerveSubsystem.stopModules();
+
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
@@ -111,6 +116,17 @@ public class Robot extends LoggedRobot {
     @Override
     public void autonomousPeriodic() {
         System.out.println(m_robotContainer.swerveSubsystem.getPose());
+        periodicCycles++;
+        if (periodicCycles < 150) {
+            m_robotContainer.swerveSubsystem.frontLeft.driveMotor.set(-0.5);
+            m_robotContainer.swerveSubsystem.frontLeft.turningMotor.set(0.0);
+            m_robotContainer.swerveSubsystem.frontRight.driveMotor.set(-0.5);
+            m_robotContainer.swerveSubsystem.frontRight.turningMotor.set(0.0);
+            m_robotContainer.swerveSubsystem.backLeft.driveMotor.set(-0.5);
+            m_robotContainer.swerveSubsystem.backLeft.turningMotor.set(0.0);
+            m_robotContainer.swerveSubsystem.backRight.driveMotor.set(-0.5);
+            m_robotContainer.swerveSubsystem.backRight.turningMotor.set(0.0);
+        }
     }
 
     @Override
@@ -127,7 +143,7 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        
+
     }
 
     @Override
