@@ -155,4 +155,14 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
     }
+
+    public void brake() {
+        for (SwerveModule sMod : swerveMods)
+            sMod.stop();
+
+        frontLeft.turningMotor.set(frontLeft.turningPidController.calculate(frontLeft.getTurningPosition(), Math.PI/4));
+        frontRight.turningMotor.set(frontRight.turningPidController.calculate(frontRight.getTurningPosition(), Math.PI/4));
+        backLeft.turningMotor.set(backLeft.turningPidController.calculate(backLeft.getTurningPosition(), Math.PI/4));
+        backRight.turningMotor.set(backRight.turningPidController.calculate(backLeft.getTurningPosition(), Math.PI/4));
+    }
 }
