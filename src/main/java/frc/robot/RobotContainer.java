@@ -57,6 +57,7 @@ public class RobotContainer {
     Command red1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red1A.wpilib.json", "paths/Red1B.wpilib.json");
     Command red2_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red2A.wpilib.json", "paths/Red2B.wpilib.json");
     Command red3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red3A.wpilib.json", "paths/Red3B.wpilib.json");
+    Command bluecharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red3A.wpilib.json", "paths/Red3B.wpilib.json");
 
     public RobotContainer() {
         m_autoChooser.setDefaultOption("Blue1", blue1_auto);
