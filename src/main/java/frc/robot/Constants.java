@@ -89,7 +89,7 @@ public final class Constants {
 
     public static final class ExtendArmConstants {
         public static final double EXTEND_SPEED_IPS = 20.0;
-        public static final double ACCEL_MAX_V_IPS = 50.0;
+        public static final double ACCEL_MAX_V_IPS = 60.0;
         public static final double ACCEL_MAX_A_IPS2 = 60.0; //about 0.2gs @ 80 in/s
         public static final double SECONDS_PER_TICK = 0.02;
         public static final double kp = 0.2;
@@ -97,7 +97,7 @@ public final class Constants {
         public static final double kMinOutput = -1.0;
         public static final int ExtendArmCanID24 = 24;
         public static final int ExtendArmCanID25 = 25;
-        public static final double MAX_EXTEND_INCH = 20.0;
+        public static final double MAX_EXTEND_INCH = 36.0;
         public static final double MIN_VEL_IPS = 4;
         public static final double MIN_X_INCH = 1;
     }
