@@ -5,7 +5,6 @@ import frc.robot.subsystems.ExtendArmSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import edu.wpi.first.math.controller.PIDController;
@@ -13,11 +12,9 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.patched.SwerveControllerCommand;
 
 public class AutoBaseCmd extends SequentialCommandGroup {
     private Trajectory trajA = new Trajectory();
