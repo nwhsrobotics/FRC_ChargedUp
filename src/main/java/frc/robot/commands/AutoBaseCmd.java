@@ -62,14 +62,6 @@ public class AutoBaseCmd extends SequentialCommandGroup {
             new InstantCommand(() -> s_Swerve.resetHeadingAndPose()),
             new InstantCommand(() -> s_Swerve.resetOdometry(trajA.getInitialPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
-
-
-
-
-
-
-
-            
             new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
             new InstantCommand(() -> System.out.println(trajA.getTotalTimeSeconds())),
             //first place preloaded cone
