@@ -44,6 +44,11 @@ public class ExtendArmSubsystem extends SubsystemBase {
       m_pidController1.setOutputRange(ExtendArmConstants.kMinOutput, ExtendArmConstants.kMaxOutput);
       //m_pidController1.setReference(0.0, ControlType.kPosition);
       m_enabled = true;
+      System.out.println("YES EXTEND ARM MOTOR");
+    }
+
+    else {
+      System.out.println("NO EXTEND ARM MOTOR");
     }
   }
 
@@ -150,7 +155,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private void homing() {
     if(input.get() == true) { 
       //driving towards end stop
-      m_extendArmMotor1.set(-0.2);
+      m_extendArmMotor1.set(-0.4);
     }
     else {
       //reached end stop
@@ -163,6 +168,12 @@ public class ExtendArmSubsystem extends SubsystemBase {
   }
 
   public void startHoming() {
+    System.out.println("STARTING HOMING");
     m_homed = false;
+  }
+
+  public void stopHoming() {
+    System.out.println("STOPPING HOMING");
+    m_homed = true;
   }
 }

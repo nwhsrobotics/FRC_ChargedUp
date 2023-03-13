@@ -57,7 +57,8 @@ public class RobotContainer {
     Command red1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red1A.wpilib.json", "paths/Red1B.wpilib.json");
     Command red2_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red2A.wpilib.json", "paths/Red2B.wpilib.json");
     Command red3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red3A.wpilib.json", "paths/Red3B.wpilib.json");
-    Command bluecharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red3A.wpilib.json", "paths/Red3B.wpilib.json");
+    Command bluecharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/BlueChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
+    Command redcharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/RedChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
 
     public RobotContainer() {
         m_autoChooser.setDefaultOption("Blue1", blue1_auto);
@@ -66,6 +67,8 @@ public class RobotContainer {
         m_autoChooser.addOption("red1", red1_auto);
         m_autoChooser.addOption("red2", red2_auto);
         m_autoChooser.addOption("red3", red3_auto);
+        m_autoChooser.addOption("blue charging station", bluecharge);
+        m_autoChooser.addOption("red charging station", redcharge);
 
         SmartDashboard.putData(m_autoChooser);
         swerveSubsystem.setDefaultCommand(new SwerveJoystickDefaultCmd(swerveSubsystem, m_driver));
@@ -85,11 +88,12 @@ public class RobotContainer {
         m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
         m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
         
+        
         new JoystickButton(m_operator, 1).onTrue(m_shoulderCmd0);
         new JoystickButton(m_operator, 4).onTrue(m_shoulderCmd55);
         new JoystickButton(m_operator, 3).onTrue(m_ExtendArmCmd0);
         new JoystickButton(m_operator, 2).onTrue(m_ExtendArmCmd36);
-        new JoystickButton(m_operator, 8).onTrue(new InstantCommand(() -> m_extendArmSubsystem.startHoming()));
+        new JoystickButton(m_operator, 8).onTrue(new InstantCommand(() -> m_extendArmSubsystem.stopHoming()));
         new JoystickButton(m_operator, 7).onTrue(new InstantCommand(() -> m_extendArmSubsystem.startHoming()));
     }
 
