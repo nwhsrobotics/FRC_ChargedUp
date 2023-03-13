@@ -1,8 +1,11 @@
 package frc.robot.subsystems;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
 import org.littletonrobotics.junction.Logger;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -128,6 +131,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("FIELD RELATIVE?", isFR);
         odometer.update(Rotation2d.fromDegrees(getHeading()), getModulePositions());
         logger.recordOutput("swerve.steer.front.left.abs", frontLeft.getAbsoluteEncoderRad());
         logger.recordOutput("swerve.steer.front.right.abs", frontRight.getAbsoluteEncoderRad());
