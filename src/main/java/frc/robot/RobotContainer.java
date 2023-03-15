@@ -34,7 +34,7 @@ public class RobotContainer {
     public final JoystickButton m_joyLB = new JoystickButton(m_operator, 5); // Left bumper
     public final JoystickButton m_joyRB = new JoystickButton(m_operator, 6); // Right bumper
 
-    public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem();
+    public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(m_shoulderSubsystem);
 
     public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem(m_operator, m_extendArmSubsystem);
     public final ShoulderCmd m_shoulderCmd0 = new ShoulderCmd(m_shoulderSubsystem, 0);
