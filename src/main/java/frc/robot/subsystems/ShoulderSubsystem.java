@@ -105,40 +105,45 @@ public class ShoulderSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (m_enabled == true && m_ExtendArmSubsystem.m_homed) {
-            if(m_currentPos_deg >= 20 && m_desiredPos_deg < 20 && m_ExtendArmSubsystem.getPos_inch() == 0.0)
-            if (m_desiredPos_rot > MAX_ROT) { // 110 degree max
-                m_desiredPos_rot = MAX_ROT;
-            } else if (m_desiredPos_rot < MIN_ROT) { // 0 degree min
-                m_desiredPos_rot = MIN_ROT;
+            if (m_currentPos_deg < 23 && m_currentPos_deg >= 20 && m_desiredPos_deg < 20 && m_ExtendArmSubsystem.getPos_inch() > 0.0) {
+                m_ExtendArmSubsystem.setPos_inch(0);
+            } else {
+                if (m_desiredPos_rot > MAX_ROT) { // 110 degree max
+                    m_desiredPos_rot = MAX_ROT;
+                } else if (m_desiredPos_rot < MIN_ROT) { // 0 degree min
+                    m_desiredPos_rot = MIN_ROT;
+                }
+
+                // System.out.println(m_desiredPos_rot);
+
+                double distance_rot = (m_desiredPos_rot - m_currentPos_rot);
+                double delta_rot = distance_rot;
+
+                if (delta_rot > MAX_SPEED_ROT_PER_TICK) { // **NOTE: 1 rotation per tick is equivalent to 1.8 degrees
+                                                          // per
+                                                          // tick** 1 rot = 1.8 deg
+                    delta_rot = MAX_SPEED_ROT_PER_TICK;
+                } else if (delta_rot < -MAX_SPEED_ROT_PER_TICK) {
+                    delta_rot = -MAX_SPEED_ROT_PER_TICK;
+                }
+
+                m_currentPos_rot += delta_rot;
+
+                m_pidController1.setReference(m_currentPos_rot, ControlType.kPosition);
+                m_pidController2.setReference(-m_currentPos_rot, ControlType.kPosition);
+
+                m_currentPos_deg = (m_currentPos_rot / m_gearRatio) * 360;
+
+                logger.recordOutput("shoulder.left.current", m_shoulderMotor1.getOutputCurrent());
+                logger.recordOutput("shoulder.right.current", m_shoulderMotor2.getOutputCurrent());
+                logger.recordOutput("shoulder.left.rotation", m_shoulderRelativeEncoder1.getPosition());
+                logger.recordOutput("shoulder.right.rotation", m_shoulderRelativeEncoder2.getPosition());
+                logger.recordOutput("shoulder.left.degrees",
+                        (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
+                logger.recordOutput("shoulder.left.degrees",
+                        (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
             }
 
-            // System.out.println(m_desiredPos_rot);
-
-            double distance_rot = (m_desiredPos_rot - m_currentPos_rot);
-            double delta_rot = distance_rot;
-
-            if (delta_rot > MAX_SPEED_ROT_PER_TICK) { // **NOTE: 1 rotation per tick is equivalent to 1.8 degrees per
-                                                      // tick** 1 rot = 1.8 deg
-                delta_rot = MAX_SPEED_ROT_PER_TICK;
-            } else if (delta_rot < -MAX_SPEED_ROT_PER_TICK) {
-                delta_rot = -MAX_SPEED_ROT_PER_TICK;
-            }
-
-            m_currentPos_rot += delta_rot;
-
-            m_pidController1.setReference(m_currentPos_rot, ControlType.kPosition);
-            m_pidController2.setReference(-m_currentPos_rot, ControlType.kPosition);
-
-            m_currentPos_deg = (m_currentPos_rot / m_gearRatio) * 360;
-
-            logger.recordOutput("shoulder.left.current", m_shoulderMotor1.getOutputCurrent());
-            logger.recordOutput("shoulder.right.current", m_shoulderMotor2.getOutputCurrent());
-            logger.recordOutput("shoulder.left.rotation", m_shoulderRelativeEncoder1.getPosition());
-            logger.recordOutput("shoulder.right.rotation", m_shoulderRelativeEncoder2.getPosition());
-            logger.recordOutput("shoulder.left.degrees",
-                    (m_shoulderRelativeEncoder1.getPosition() / m_gearRatio) * 360);
-            logger.recordOutput("shoulder.left.degrees",
-                    (m_shoulderRelativeEncoder2.getPosition() / m_gearRatio) * 360);
         } else {
             return;
         }
