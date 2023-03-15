@@ -28,6 +28,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private Logger logger = Logger.getInstance();
     private ExtendArmSubsystem m_ExtendArmSubsystem;
     private int m_currentPose;
+    public double m_currentPos_deg;
     
     /** Creates a new ShoulderSubsystem. */
     public ShoulderSubsystem(XboxController m_controller, ExtendArmSubsystem m_ExtendArmSubsystem) {
@@ -95,6 +96,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (m_enabled == true && m_ExtendArmSubsystem.m_homed) {
+            if(m_desiredPos_rot )
             if (m_desiredPos_rot > MAX_ROT) {  //110 degree max
                 m_desiredPos_rot = MAX_ROT;
             } else if (m_desiredPos_rot < MIN_ROT) {  //0 degree min
@@ -116,6 +118,8 @@ public class ShoulderSubsystem extends SubsystemBase {
 
             m_pidController1.setReference(m_currentPos_rot, ControlType.kPosition);
             m_pidController2.setReference(-m_currentPos_rot, ControlType.kPosition);
+
+            m_currentPos_deg = (m_currentPos_rot / m_gearRatio) * 360;
 
             logger.recordOutput("shoulder.left.current", m_shoulderMotor1.getOutputCurrent());
             logger.recordOutput("shoulder.right.current", m_shoulderMotor2.getOutputCurrent());

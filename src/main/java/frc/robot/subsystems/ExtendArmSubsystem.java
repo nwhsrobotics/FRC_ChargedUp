@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,11 +30,13 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private Logger logger = Logger.getInstance();
   private int m_homing_ticks;
   private boolean m_moving = false;
+  private final ShoulderSubsystem m_shoulder;
 
 
-  public ExtendArmSubsystem() {
+  public ExtendArmSubsystem(ShoulderSubsystem shoulder) {
     // TODO CHANGE SPARKMAX CANID TO USE CONSTANTS
     m_extendArmMotor1 = new CANSparkMax(16, CANSparkMax.MotorType.kBrushless);
+    m_shoulder = shoulder;
 
     input = new DigitalInput(4);
 
@@ -63,6 +66,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("ARM @ LIMIT SWITCH", input.get());
     if (m_enabled == true) {
       if(m_homed == true)
+      if(m_shoulder.m_currentPos_deg > 20)
       {
         if (m_desiredPos_inch > ExtendArmConstants.MAX_EXTEND_INCH) {      //if desired pos for arm is greater than 38 make it 38 and if less than 0 inches make it 0
           m_desiredPos_inch = ExtendArmConstants.MAX_EXTEND_INCH;
