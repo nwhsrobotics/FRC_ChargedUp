@@ -30,6 +30,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private ExtendArmSubsystem m_ExtendArmSubsystem;
     private int m_currentPose;
     public double m_currentPos_deg;
+    public double m_desiredPos_deg;
 
     /** Creates a new ShoulderSubsystem. */
     public ShoulderSubsystem(XboxController m_controller, ExtendArmSubsystem m_ExtendArmSubsystem) {
@@ -92,16 +93,19 @@ public class ShoulderSubsystem extends SubsystemBase {
     public void changePos_deg(double p_degree) {
         m_desiredPos_rot += ((p_degree / 360.0) * m_gearRatio); // converts degree into rotations and add or subtract
                                                                 // specific degree from current degree of shoulder
+        m_desiredPos_deg = p_degree;
     }
 
     public void setPos_deg(double p_degree) {
         m_desiredPos_rot = ((p_degree / 360.0) * m_gearRatio); // converts degree into rotations and set desired Pos to
                                                                // a specific degree
+        m_desiredPos_deg = p_degree;
     }
 
     @Override
     public void periodic() {
         if (m_enabled == true && m_ExtendArmSubsystem.m_homed) {
+            if(m_currentPos_deg >= 20 && m_desiredPos_deg < 20 && m_ExtendArmSubsystem.getPos_inch() == 0.0)
             if (m_desiredPos_rot > MAX_ROT) { // 110 degree max
                 m_desiredPos_rot = MAX_ROT;
             } else if (m_desiredPos_rot < MIN_ROT) { // 0 degree min
