@@ -110,10 +110,10 @@ public class ShoulderSubsystem extends SubsystemBase {
             if (m_currentPos_deg < 23 && m_currentPos_deg >= 20 && m_desiredPos_deg < 20 && m_ExtendArmSubsystem.getPos_inch() > 0.0) {
                 m_ExtendArmSubsystem.setPos_inch(0.0);
             } else {
-                if (m_desiredPos_rot > MAX_ROT) { // 110 degree max
+                if (m_desiredPos_rot > MAX_ROT) { // 110 degree maximum allowed
                     m_desiredPos_rot = MAX_ROT; 
                     m_desiredPos_deg = 110;
-                } else if (m_desiredPos_rot < MIN_ROT) { // 0 degree min
+                } else if (m_desiredPos_rot < MIN_ROT) { // 0 degree minimum allowed
                     m_desiredPos_rot = MIN_ROT;
                     m_desiredPos_deg = 0;
                 }
