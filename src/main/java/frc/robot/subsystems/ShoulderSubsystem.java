@@ -105,6 +105,8 @@ public class ShoulderSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (m_enabled == true && m_ExtendArmSubsystem.m_homed) {
+            // If the current position is between 20 and 23 degrees and the desired position is less than 20 degrees and the arm is not fully retracted,
+            // automatically retracts the arm (mechanical limit to not damage the bumper or base) **NOTE** NOT EXACT NUMBERS
             if (m_currentPos_deg < 23 && m_currentPos_deg >= 20 && m_desiredPos_deg < 20 && m_ExtendArmSubsystem.getPos_inch() > 0.0) {
                 m_ExtendArmSubsystem.setPos_inch(0.0);
             } else {
@@ -116,25 +118,27 @@ public class ShoulderSubsystem extends SubsystemBase {
                     m_desiredPos_deg = 0;
                 }
 
-                // System.out.println(m_desiredPos_rot);
-                double distance_deg= (m_desiredPos_deg - m_currentPos_deg); //this is useless, just for reading distance in degrees instead of rotations
+                // Calculates the distance between the current and desired positions in degrees
+                double distance_deg = (m_desiredPos_deg - m_currentPos_deg); //this is useless, just for reading distance in degrees instead of rotations
 
+                // Calculates the distance between the current and desired positions in rotations
                 double distance_rot = (m_desiredPos_rot - m_currentPos_rot);
                 double delta_rot = distance_rot;
 
-                if (delta_rot > MAX_SPEED_ROT_PER_TICK) { // **NOTE: 1 rotation per tick is equivalent to 1.8 degrees
-                                                          // per
-                                                          // tick** 1 rot = 1.8 deg
+                // Limits the maximum change in rotation per tick
+                if (delta_rot > MAX_SPEED_ROT_PER_TICK) { // **NOTE: 1 rotation per tick is equivalent to 1.8 degrees per tick** 1 rot = 1.8 deg
                     delta_rot = MAX_SPEED_ROT_PER_TICK;
                 } else if (delta_rot < -MAX_SPEED_ROT_PER_TICK) {
                     delta_rot = -MAX_SPEED_ROT_PER_TICK;
                 }
 
+                // Updates the current position by adding the change in rotation
                 m_currentPos_rot += delta_rot;
 
                 m_pidController1.setReference(m_currentPos_rot, ControlType.kPosition);
                 m_pidController2.setReference(-m_currentPos_rot, ControlType.kPosition);
 
+                 // Converts the current position back to degrees
                 m_currentPos_deg = (m_currentPos_rot / m_gearRatio) * 360;
 
                 logger.recordOutput("shoulder.left.current", m_shoulderMotor1.getOutputCurrent());
@@ -147,6 +151,7 @@ public class ShoulderSubsystem extends SubsystemBase {
             }
 
         } else {
+             // If the subsystem is not intialized or extendArm is not homed, returns without doing anything
             return;
         }
     }
