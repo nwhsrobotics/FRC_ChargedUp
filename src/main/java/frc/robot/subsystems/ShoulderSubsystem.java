@@ -144,12 +144,12 @@ public class ShoulderSubsystem extends SubsystemBase {
         }
     }
 
-    public double getPosition_deg() {
-        return m_currentPos_rot * 360.0 / m_gearRatio;
+    public double geDesiredDegrees() {
+        return m_desiredPos_deg;
     }
 
-    public int getCurrentPose() {
-        return m_currentPose;
+    public double getCurrentDegrees() {
+        return m_currentPos_deg;
     }
 
     public void setCurrentPose(int pose) {
