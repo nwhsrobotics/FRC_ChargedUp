@@ -21,8 +21,10 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private double m_currentPos_inch = 0.0;
   private double m_desiredPos_inch = 0.0;
   private double m_current_vel_ips = 0.0;
-  private static final double GEAR_RATIO = 5.23*5.23*2.89;
-  public static final double INCHES_PER_ROT = 2.0 * 24.0 * 5.0 / (25.4 * GEAR_RATIO); //stages * pulley teeth * mm per tooth / (mm per inch * gear ratio)
+  private static final double GEAR_RATIO = 5.23 * 5.23 * 2.89;
+  public static final double INCHES_PER_ROT = 2.0 * 24.0 * 5.0 / (25.4 * GEAR_RATIO); // stages * pulley teeth * mm per
+                                                                                      // tooth / (mm per inch * gear
+                                                                                      // ratio)
   private static final int HOMING_MAX_TICKS = 150;
   private static final double HOMING_POWER = 0.6;
   public boolean m_homed = false;
@@ -31,7 +33,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private int m_homing_ticks;
   private boolean m_moving = false;
   private final ShoulderSubsystem m_shoulder;
-
 
   public ExtendArmSubsystem(ShoulderSubsystem shoulder) {
     // TODO CHANGE SPARKMAX CANID TO USE CONSTANTS
@@ -44,12 +45,12 @@ public class ExtendArmSubsystem extends SubsystemBase {
       m_extendArmMotor1.setSmartCurrentLimit(10);
       m_pidController1 = m_extendArmMotor1.getPIDController();
       m_extendArmEncoder1 = m_extendArmMotor1.getEncoder();
-      //m_extendArmEncoder1.setPosition(2.0 / INCHES_PER_ROT);
+      // m_extendArmEncoder1.setPosition(2.0 / INCHES_PER_ROT);
 
       m_pidController1.setP(ExtendArmConstants.kp);
 
       m_pidController1.setOutputRange(ExtendArmConstants.kMinOutput, ExtendArmConstants.kMaxOutput);
-      //m_pidController1.setReference(0.0, ControlType.kPosition);
+      // m_pidController1.setReference(0.0, ControlType.kPosition);
       m_enabled = true;
       System.out.println("YES EXTEND ARM MOTOR");
     }
@@ -59,88 +60,83 @@ public class ExtendArmSubsystem extends SubsystemBase {
     }
   }
 
-
   @Override
   public void periodic() {
     SmartDashboard.putNumber("ARM CURRENT", m_extendArmMotor1.getOutputCurrent());
     SmartDashboard.putBoolean("ARM @ LIMIT SWITCH", input.get());
     if (m_enabled == true) {
-      if(m_homed == true)
-      if(m_shoulder.m_currentPos_deg > 20)
-      {
-        if (m_desiredPos_inch > ExtendArmConstants.MAX_EXTEND_INCH) {      //if desired pos for arm is greater than 38 make it 38 and if less than 0 inches make it 0
-          m_desiredPos_inch = ExtendArmConstants.MAX_EXTEND_INCH;
-        } else if (m_desiredPos_inch < 0) {
-          m_desiredPos_inch = 0;
-        }
-  
-        double delta = (m_desiredPos_inch - m_currentPos_inch);
-        double v = m_current_vel_ips;
-  
-        boolean invert = false;
-  
-        if (delta < 0.0) {
-          invert = true;
-          delta = -delta;
-          v = -v;
-        }
-  
-        double t = Math.sqrt(2.0*delta / ExtendArmConstants.ACCEL_MAX_A_IPS2);
-  
-        double speed_limit = ExtendArmConstants.ACCEL_MAX_A_IPS2 * (t - ExtendArmConstants.SECONDS_PER_TICK);
-  
-        if (speed_limit > ExtendArmConstants.ACCEL_MAX_V_IPS) {
-          speed_limit = ExtendArmConstants.ACCEL_MAX_V_IPS;
-        }
-        //adjust speed
-        if (v >= speed_limit) {
-          //slow down
-          v -= ExtendArmConstants.ACCEL_MAX_A_IPS2 * ExtendArmConstants.SECONDS_PER_TICK;
-        }
-        else if (v + ExtendArmConstants.ACCEL_MAX_A_IPS2 * ExtendArmConstants.SECONDS_PER_TICK < speed_limit) {
-          //speed up
-          v += ExtendArmConstants.ACCEL_MAX_A_IPS2 * ExtendArmConstants.SECONDS_PER_TICK;
-        }
-        else {
-          //maintain speed
-        }
-        
-        double dx = v * ExtendArmConstants.SECONDS_PER_TICK;
-  
-        if (invert) {
-          m_currentPos_inch += -dx;
-          m_current_vel_ips = -v;
-        }
-        else {
-          m_currentPos_inch += dx;
-          m_current_vel_ips = v;
-        }
-  
-        double newDeltaX = m_desiredPos_inch - m_currentPos_inch;
-        if ((Math.abs(m_current_vel_ips) < ExtendArmConstants.MIN_VEL_IPS) &&
-            (Math.abs(newDeltaX) < ExtendArmConstants.MIN_X_INCH)) {
-          m_currentPos_inch = m_desiredPos_inch;
-          m_current_vel_ips = 0;
-          m_moving = false;
-        }
-        else {
-          m_moving = true;
-        }
-  
-  
-        double position_rot = m_currentPos_inch / INCHES_PER_ROT;
-        m_pidController1.setReference(position_rot, ControlType.kPosition);
-  
-        logger.recordOutput("arm.rotation", position_rot);
-        logger.recordOutput("arm.current", m_extendArmMotor1.getOutputCurrent());
-        logger.recordOutput("arm.position.current", m_currentPos_inch);
-        logger.recordOutput("arm.position.target", m_desiredPos_inch);
-        logger.recordOutput("arm.velocity", m_current_vel_ips);
+      if (m_homed == true) {
+        if (m_shoulder.m_currentPos_deg > 20) {
+          if (m_desiredPos_inch > ExtendArmConstants.MAX_EXTEND_INCH) { // if desired pos for arm is greater than 38
+                                                                        // make it 38 and if less than 0 inches make it
+                                                                        // 0
+            m_desiredPos_inch = ExtendArmConstants.MAX_EXTEND_INCH;
+          } else if (m_desiredPos_inch < 0) {
+            m_desiredPos_inch = 0;
+          }
 
-        SmartDashboard.putBoolean("ARM HOMED?", m_homed);
-        SmartDashboard.putBoolean("ARM MOVING?", m_moving);
-      }
-      else {
+          double delta = (m_desiredPos_inch - m_currentPos_inch);
+          double v = m_current_vel_ips;
+
+          boolean invert = false;
+
+          if (delta < 0.0) {
+            invert = true;
+            delta = -delta;
+            v = -v;
+          }
+
+          double t = Math.sqrt(2.0 * delta / ExtendArmConstants.ACCEL_MAX_A_IPS2);
+
+          double speed_limit = ExtendArmConstants.ACCEL_MAX_A_IPS2 * (t - ExtendArmConstants.SECONDS_PER_TICK);
+
+          if (speed_limit > ExtendArmConstants.ACCEL_MAX_V_IPS) {
+            speed_limit = ExtendArmConstants.ACCEL_MAX_V_IPS;
+          }
+          // adjust speed
+          if (v >= speed_limit) {
+            // slow down
+            v -= ExtendArmConstants.ACCEL_MAX_A_IPS2 * ExtendArmConstants.SECONDS_PER_TICK;
+          } else if (v + ExtendArmConstants.ACCEL_MAX_A_IPS2 * ExtendArmConstants.SECONDS_PER_TICK < speed_limit) {
+            // speed up
+            v += ExtendArmConstants.ACCEL_MAX_A_IPS2 * ExtendArmConstants.SECONDS_PER_TICK;
+          } else {
+            // maintain speed
+          }
+
+          double dx = v * ExtendArmConstants.SECONDS_PER_TICK;
+
+          if (invert) {
+            m_currentPos_inch += -dx;
+            m_current_vel_ips = -v;
+          } else {
+            m_currentPos_inch += dx;
+            m_current_vel_ips = v;
+          }
+
+          double newDeltaX = m_desiredPos_inch - m_currentPos_inch;
+          if ((Math.abs(m_current_vel_ips) < ExtendArmConstants.MIN_VEL_IPS) &&
+              (Math.abs(newDeltaX) < ExtendArmConstants.MIN_X_INCH)) {
+            m_currentPos_inch = m_desiredPos_inch;
+            m_current_vel_ips = 0;
+            m_moving = false;
+          } else {
+            m_moving = true;
+          }
+
+          double position_rot = m_currentPos_inch / INCHES_PER_ROT;
+          m_pidController1.setReference(position_rot, ControlType.kPosition);
+
+          logger.recordOutput("arm.rotation", position_rot);
+          logger.recordOutput("arm.current", m_extendArmMotor1.getOutputCurrent());
+          logger.recordOutput("arm.position.current", m_currentPos_inch);
+          logger.recordOutput("arm.position.target", m_desiredPos_inch);
+          logger.recordOutput("arm.velocity", m_current_vel_ips);
+
+          SmartDashboard.putBoolean("ARM HOMED?", m_homed);
+          SmartDashboard.putBoolean("ARM MOVING?", m_moving);
+        }
+      } else {
         homing();
         m_moving = true;
       }
@@ -152,10 +148,9 @@ public class ExtendArmSubsystem extends SubsystemBase {
   }
 
   public void setPos_inch(double setPoint) {
-    if(m_homed == true) {
+    if (m_homed == true) {
       m_desiredPos_inch = setPoint;
-    }
-    else {
+    } else {
       return;
     }
 
@@ -166,19 +161,17 @@ public class ExtendArmSubsystem extends SubsystemBase {
   }
 
   private void homing() {
-    //We are tracking time in homing state.
+    // We are tracking time in homing state.
     m_homing_ticks += 1;
-  
-    if(input.get() == false) { 
-      //REACHED end stop
+
+    if (input.get() == false) {
+      // REACHED end stop
       stopHoming(0.0);
-    }
-    else if (m_homing_ticks > HOMING_MAX_TICKS) {
-      //timed out - assume extension is currently at 1 inch
+    } else if (m_homing_ticks > HOMING_MAX_TICKS) {
+      // timed out - assume extension is currently at 1 inch
       stopHoming(1.0);
-    }
-    else {
-      //driving TOWARDS end stop
+    } else {
+      // driving TOWARDS end stop
       m_extendArmMotor1.set(-HOMING_POWER);
     }
   }
@@ -198,8 +191,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
     m_desiredPos_inch = position;
   }
 
-
-public boolean isMoving() {
+  public boolean isMoving() {
     return m_moving;
-}
+  }
 }
