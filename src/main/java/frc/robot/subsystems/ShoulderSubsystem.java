@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.ShoulderConstants;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -33,8 +34,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     public double m_desiredPos_deg;
 
     /** Creates a new ShoulderSubsystem. */
-    public ShoulderSubsystem(XboxController m_controller, ExtendArmSubsystem m_ExtendArmSubsystem) {
-        this.m_ExtendArmSubsystem = m_ExtendArmSubsystem;
+    public ShoulderSubsystem(XboxController m_controller) {
 
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.LeftShoulderCanID, CANSparkMax.MotorType.kBrushless);
         m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.RightShoulderCanID, CANSparkMax.MotorType.kBrushless);
@@ -117,6 +117,7 @@ public class ShoulderSubsystem extends SubsystemBase {
                     m_desiredPos_rot = MIN_ROT;
                     m_desiredPos_deg = 0;
                 }
+
 
                 // Calculates the distance between the current and desired positions in degrees
                 double distance_deg = (m_desiredPos_deg - m_currentPos_deg); //this is useless, just for reading distance in degrees instead of rotations
