@@ -172,17 +172,6 @@ public class WristSubsystem extends SubsystemBase {
 
       double adjustedPitch_deg = m_pitch_deg - m_shoulder.getPosition_deg();
 
-
-
-
-
-
-      pitch adjustment is borked, rethink initialization
-
-
-
-
-      
       adjustedPitch_deg = limitPitch(adjustedPitch_deg);
       m_roll_deg = limitRoll(m_roll_deg);
 

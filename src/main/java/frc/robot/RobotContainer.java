@@ -45,7 +45,7 @@ public class RobotContainer {
     public final ExtendArmCmd m_ExtendArmCmd36 = new ExtendArmCmd(m_extendArmSubsystem, 36.0);
 
     // How does the code compile without this? TODO?
-    public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_operator, m_shoulderSubsystem);
+    public final WristSubsystem m_wristSubsystem = new WristSubsystem(m_shoulderSubsystem);
 
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
 
