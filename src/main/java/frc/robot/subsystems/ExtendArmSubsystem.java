@@ -32,12 +32,12 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private Logger logger = Logger.getInstance();
   private int m_homing_ticks;
   private boolean m_moving = false;
-  private final ShoulderSubsystem m_shoulder;
+  private final ShoulderSubsystem m_shoulderSubsystem;
 
   public ExtendArmSubsystem(ShoulderSubsystem shoulder) {
     // TODO CHANGE SPARKMAX CANID TO USE CONSTANTS
     m_extendArmMotor1 = new CANSparkMax(16, CANSparkMax.MotorType.kBrushless);
-    m_shoulder = shoulder;
+    m_shoulderSubsystem = shoulder;
 
     input = new DigitalInput(4);
 
@@ -66,7 +66,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("ARM @ LIMIT SWITCH", input.get());
     if (m_enabled == true) {
       if (m_homed == true) {
-        if (m_shoulder.m_currentPos_deg >= 20) {
+        if (m_shoulderSubsystem.m_currentPos_deg >= 20) {
           if (m_desiredPos_inch > ExtendArmConstants.MAX_EXTEND_INCH) { // if desired pos for arm is greater than 38
                                                                         // make it 38 and if less than 0 inches make it
                                                                         // 0
