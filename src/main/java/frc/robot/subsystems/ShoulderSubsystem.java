@@ -27,6 +27,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private final double MIN_ROT = ((0.0 / 360.0) * m_gearRatio);
     private Logger logger = Logger.getInstance();
     private ExtendArmSubsystem m_ExtendArmSubsystem;
+    private int m_currentPose;
     
     /** Creates a new ShoulderSubsystem. */
     public ShoulderSubsystem(XboxController m_controller, ExtendArmSubsystem m_ExtendArmSubsystem) {
@@ -125,5 +126,21 @@ public class ShoulderSubsystem extends SubsystemBase {
         } else {
             return;
         }
+    }
+
+    public double getPosition_deg() {
+        return m_currentPos_rot * 360.0 / m_gearRatio;
+    }
+
+    public int getCurrentPose() {
+        return m_currentPose;
+    }
+
+    public void setCurrentPose(int pose) {
+        m_currentPose = pose;
+    }
+
+    public boolean isMoving() {
+        return m_currentPos_rot != m_desiredPos_rot;
     }
 }

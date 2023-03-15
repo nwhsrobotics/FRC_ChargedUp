@@ -20,11 +20,15 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private double m_currentPos_inch = 0.0;
   private double m_desiredPos_inch = 0.0;
   private double m_current_vel_ips = 0.0;
-  private static final double GEAR_RATIO = 5.23*5.23;
+  private static final double GEAR_RATIO = 5.23*5.23*2.89;
   public static final double INCHES_PER_ROT = 2.0 * 24.0 * 5.0 / (25.4 * GEAR_RATIO); //stages * pulley teeth * mm per tooth / (mm per inch * gear ratio)
+  private static final int HOMING_MAX_TICKS = 150;
+  private static final double HOMING_POWER = 0.6;
   public boolean m_homed = false;
   private boolean m_enabled = false;
   private Logger logger = Logger.getInstance();
+  private int m_homing_ticks;
+  private boolean m_moving = false;
 
 
   public ExtendArmSubsystem() {
@@ -55,7 +59,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    boolean moving = true;
+    SmartDashboard.putNumber("ARM CURRENT", m_extendArmMotor1.getOutputCurrent());
     SmartDashboard.putBoolean("ARM @ LIMIT SWITCH", input.get());
     if (m_enabled == true) {
       if(m_homed == true)
@@ -113,7 +117,10 @@ public class ExtendArmSubsystem extends SubsystemBase {
             (Math.abs(newDeltaX) < ExtendArmConstants.MIN_X_INCH)) {
           m_currentPos_inch = m_desiredPos_inch;
           m_current_vel_ips = 0;
-          moving = false;
+          m_moving = false;
+        }
+        else {
+          m_moving = true;
         }
   
   
@@ -127,13 +134,15 @@ public class ExtendArmSubsystem extends SubsystemBase {
         logger.recordOutput("arm.velocity", m_current_vel_ips);
 
         SmartDashboard.putBoolean("ARM HOMED?", m_homed);
-        SmartDashboard.putBoolean("ARM MOVING?", moving);
+        SmartDashboard.putBoolean("ARM MOVING?", m_moving);
       }
       else {
         homing();
+        m_moving = true;
       }
 
     } else {
+      m_moving = false;
       return;
     }
   }
@@ -153,27 +162,40 @@ public class ExtendArmSubsystem extends SubsystemBase {
   }
 
   private void homing() {
-    if(input.get() == true) { 
-      //driving towards end stop
-      m_extendArmMotor1.set(-0.4);
+    //We are tracking time in homing state.
+    m_homing_ticks += 1;
+  
+    if(input.get() == false) { 
+      //REACHED end stop
+      stopHoming(0.0);
+    }
+    else if (m_homing_ticks > HOMING_MAX_TICKS) {
+      //timed out - assume extension is currently at 1 inch
+      stopHoming(1.0);
     }
     else {
-      //reached end stop
-      m_homed = true;
-      m_extendArmMotor1.set(0.0);
-      m_extendArmEncoder1.setPosition(0);
-      m_currentPos_inch = 0.0;
-      m_desiredPos_inch = 0.0;
+      //driving TOWARDS end stop
+      m_extendArmMotor1.set(-HOMING_POWER);
     }
   }
 
   public void startHoming() {
     System.out.println("STARTING HOMING");
     m_homed = false;
+    m_homing_ticks = 0;
   }
 
-  public void stopHoming() {
+  public void stopHoming(double position) {
     System.out.println("STOPPING HOMING");
     m_homed = true;
+    m_extendArmMotor1.set(0.0);
+    m_extendArmEncoder1.setPosition(position / INCHES_PER_ROT);
+    m_currentPos_inch = position;
+    m_desiredPos_inch = position;
   }
+
+
+public boolean isMoving() {
+    return m_moving;
+}
 }
