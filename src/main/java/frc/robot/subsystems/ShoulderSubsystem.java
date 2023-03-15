@@ -109,12 +109,15 @@ public class ShoulderSubsystem extends SubsystemBase {
                 m_ExtendArmSubsystem.setPos_inch(0.0);
             } else {
                 if (m_desiredPos_rot > MAX_ROT) { // 110 degree max
-                    m_desiredPos_rot = MAX_ROT;
+                    m_desiredPos_rot = MAX_ROT; 
+                    m_desiredPos_deg = 110;
                 } else if (m_desiredPos_rot < MIN_ROT) { // 0 degree min
                     m_desiredPos_rot = MIN_ROT;
+                    m_desiredPos_deg = 0;
                 }
 
                 // System.out.println(m_desiredPos_rot);
+                double distance_deg= (m_desiredPos_deg - m_currentPos_deg); //this is useless, just for reading distance in degrees instead of rotations
 
                 double distance_rot = (m_desiredPos_rot - m_currentPos_rot);
                 double delta_rot = distance_rot;
