@@ -28,7 +28,7 @@ public class WristPitchRollCmd extends CommandBase {
   @Override
   public void execute() {
  
-    m_wrist.setPitchRoll(m_pitch, m_roll);
+    //m_wrist.setPitchRoll(m_pitch, m_roll);
   }
 
   // Called once the command ends or is interrupted.
