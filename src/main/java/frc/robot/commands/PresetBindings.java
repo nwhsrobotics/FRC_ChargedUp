@@ -16,6 +16,7 @@ public class PresetBindings extends CommandBase {
   private ExtendArmSubsystem m_extendArm;
   private ShoulderSubsystem m_shoulder;
   private XboxController m_operator;
+
   /** Creates a new PresetBindings. */
   public PresetBindings(ExtendArmSubsystem extendArm, ShoulderSubsystem shoulder, XboxController operator) {
     addRequirements(extendArm, shoulder);
@@ -27,37 +28,33 @@ public class PresetBindings extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_operator.getRawButtonPressed(1))
-    {
+    if (m_operator.getRawButtonPressed(1)) {
       ParallelCommandGroup Inside = new ParallelCommandGroup(
-        new InstantCommand(() -> m_shoulder.setPos_deg(0)),
-        new InstantCommand(() -> m_extendArm.setPos_inch(0))
-      );
+          new InstantCommand(() -> m_shoulder.setPos_deg(0)),
+          new InstantCommand(() -> m_extendArm.setPos_inch(0)));
     }
-    if(m_operator.getRawButtonPressed(3))
-    {
+    if (m_operator.getRawButtonPressed(3)) {
       ParallelCommandGroup Ground = new ParallelCommandGroup(
-        new InstantCommand(() -> m_shoulder.setPos_deg(20)),
-        new InstantCommand(() -> m_extendArm.setPos_inch(5))
-      );
+          new InstantCommand(() -> m_shoulder.setPos_deg(20)),
+          new InstantCommand(() -> m_extendArm.setPos_inch(5)));
     }
-    if(m_operator.getRawButtonPressed(4))
-    {
+    if (m_operator.getRawButtonPressed(4)) {
       ParallelCommandGroup Middle = new ParallelCommandGroup(
-        new InstantCommand(() -> m_shoulder.setPos_deg(40)),
-        new InstantCommand(() -> m_extendArm.setPos_inch(10))
-      );
+          new InstantCommand(() -> m_shoulder.setPos_deg(40)),
+          new InstantCommand(() -> m_extendArm.setPos_inch(10)));
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
