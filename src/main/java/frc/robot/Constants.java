@@ -151,13 +151,24 @@ public final class Constants {
         public static final double kMinRoll = -115.0;
         public static final double kMaxPitch = 90.0;
         public static final double kMinPitch = -90.0;
-        public static final int WristCanIDA = 13;
-        public static final int WristCanIDB = 9;
+        public static final int WristCanIDA = 9;
+        public static final int WristCanIDB = 13;
         public static final int AbsoluteEncoderAChannel = 2;
         public static final int AbsoluteEncoderBChannel = 1;
-        public static final double WRIST_GEAR_RATIO = 100.0;
-        public static final double REVS_PER_OUTPUT_DEGREE = WRIST_GEAR_RATIO / 360.0;
+        public static final double WRIST_GEAR_RATIO_RIGHT = 100.0;
+        public static final double WRIST_GEAR_RATIO_LEFT = 50.0;
+        public static final double REVS_PER_OUTPUT_DEGREE_RIGHT = WRIST_GEAR_RATIO_RIGHT / 360.0;
+        public static final double REVS_PER_OUTPUT_DEGREE_LEFT = WRIST_GEAR_RATIO_LEFT / 360.0;
         public static final double JOYSTICK_DEADBAND = 0.1;
+    }
+
+    public static final class ArmPoses {
+        public static final int POSE_1_IN_ROBOT = 1;
+        public static final int POSE_2_OVER_BUMPER = 2;
+        public static final int POSE_3_GROUND = 3;
+        public static final int POSE_4_MEDIUM = 4;
+        public static final int POSE_5_HIGH = 5;
+        public static final int POSE_6_SHELF = 6;  
     }
 
     public static enum RuntimeEnvironment {
