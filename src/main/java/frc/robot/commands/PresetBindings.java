@@ -41,7 +41,7 @@ public class PresetBindings extends CommandBase {
     }
     if (m_operator.getRawButtonPressed(3)) {
       ParallelCommandGroup Ground = new ParallelCommandGroup(
-          new InstantCommand(() -> m_shoulder.setPos_deg(20)),
+          new InstantCommand(() -> m_shoulder.setPos_deg(25)),
           new InstantCommand(() -> m_extendArm.setPos_inch(5)));
     }
     if (m_operator.getRawButtonPressed(4)) {
