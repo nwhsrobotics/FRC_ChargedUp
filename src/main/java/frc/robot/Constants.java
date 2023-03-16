@@ -76,6 +76,7 @@ public final class Constants {
 
     public static final class ShoulderConstants {
         public static final double kp = 0.5;
+        public static final double absOffset = 0.0;
         public static final double ki = 0.0;
         public static final double kd = 0.0;
         public static final double kIz = 0.0;
@@ -97,7 +98,7 @@ public final class Constants {
         public static final double kMinOutput = -1.0;
         public static final int ExtendArmCanID24 = 24;
         public static final int ExtendArmCanID25 = 25;
-        public static final double MAX_EXTEND_INCH = 36.0;
+        public static final double MAX_EXTEND_INCH = 20.0;
         public static final double MIN_VEL_IPS = 4;
         public static final double MIN_X_INCH = 1;
     }
@@ -143,13 +144,13 @@ public final class Constants {
         public static final double kd = 0.0;
         public static final double kIz = 0.0;
         public static final double kFFz = 0.0;
-        public static final double absAOffset = 0.0;
-        public static final double absBOffset = 0.0;
+        public static final double absAOffset = 0.79;
+        public static final double absBOffset = 0.17;
         public static final double kMaxOutput = 1.0;
         public static final double kMinOutput = -1.0;
         public static final double kMaxRoll = 115.0;
         public static final double kMinRoll = -115.0;
-        public static final double kMaxPitch = 90.0;
+        public static final double kMaxPitch = 110.0;
         public static final double kMinPitch = -90.0;
         public static final int WristCanIDA = 9;
         public static final int WristCanIDB = 13;

@@ -170,7 +170,8 @@ public class WristSubsystem extends SubsystemBase {
       m_pitch_deg += delta_pitch_deg;
       m_roll_deg += delta_roll_deg;
 
-      double adjustedPitch_deg = m_pitch_deg - m_shoulder.geDesiredDegrees();
+      //TODO double adjustedPitch_deg = m_pitch_deg - m_shoulder.getCurrentDegrees();
+      double adjustedPitch_deg = m_pitch_deg;
 
       adjustedPitch_deg = limitPitch(adjustedPitch_deg);
       m_roll_deg = limitRoll(m_roll_deg);
