@@ -28,11 +28,11 @@ public class WristJoystickCmd extends CommandBase {
   @Override
   public void execute() {
     if (Math.abs(m_operator.getLeftY()) > WristConstants.JOYSTICK_DEADBAND) {
-      m_wrist.changePitch(m_operator.getLeftY() * -m_wrist.WRIST_SPEED_DEG_PER_TICK);
+      m_wrist.changePitch(m_operator.getLeftY() * -WristSubsystem.WRIST_SPEED_DEG_PER_TICK);
     }
 
     if (Math.abs(m_operator.getRightX()) > WristConstants.JOYSTICK_DEADBAND) {
-      m_wrist.changeRoll(m_operator.getRightX() * m_wrist.WRIST_SPEED_DEG_PER_TICK);
+      m_wrist.changeRoll(m_operator.getRightX() * WristSubsystem.WRIST_SPEED_DEG_PER_TICK);
     }
   }
 

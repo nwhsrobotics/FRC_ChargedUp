@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoBaseCmd;
 import frc.robot.commands.ExtendArmCmd;
@@ -14,6 +15,7 @@ import frc.robot.commands.ShoulderCmd;
 import frc.robot.commands.ShoulderControl;
 import frc.robot.commands.SwerveAuto;
 import frc.robot.commands.SwerveJoystickDefaultCmd;
+import frc.robot.commands.WristJoystickCmd;
 import frc.robot.subsystems.ExtendArmSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
@@ -75,6 +77,8 @@ public class RobotContainer {
         swerveSubsystem.setDefaultCommand(new SwerveJoystickDefaultCmd(swerveSubsystem, m_driver));
         m_extendArmSubsystem.setDefaultCommand(new ExtendArmDPad(m_extendArmSubsystem, m_operator));
         m_shoulderSubsystem.setDefaultCommand(new ShoulderControl(m_shoulderSubsystem, m_operator));
+        m_wristSubsystem.setDefaultCommand(new WristJoystickCmd(m_wristSubsystem, m_operator));
+        m_shoulderSubsystem.setExtendArmSubsystem(m_extendArmSubsystem);
         configureButtonBindings();
     }
 
@@ -84,18 +88,23 @@ public class RobotContainer {
         new JoystickButton(m_driver, 4).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
         new JoystickButton(m_driver,11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
         new JoystickButton(m_driver,5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
-        new JoystickButton(m_operator, 2).onTrue(m_ExtendArmCmd36);
-        new JoystickButton(m_operator, 3).onTrue(m_ExtendArmCmd0);
         m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
         m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
 
+
+        new JoystickButton(m_operator, 2).onTrue(new ParallelCommandGroup( // B button retracts
+            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(0)),
+            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(0))));
+
+        new JoystickButton(m_operator, 1).onTrue(new ParallelCommandGroup( // A button is ground
+            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(25)),
+            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(5))));
+
+        new JoystickButton(m_operator, 3).onTrue(new ParallelCommandGroup( // X button is middle
+            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(40)),
+            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(10))));
         
-        new JoystickButton(m_operator, 1).onTrue(m_shoulderCmd0);
-        new JoystickButton(m_operator, 4).onTrue(m_shoulderCmd55);
-        new JoystickButton(m_operator, 3).onTrue(m_ExtendArmCmd0);
-        new JoystickButton(m_operator, 2).onTrue(m_ExtendArmCmd36);
-        new JoystickButton(m_operator, 8).onTrue(new InstantCommand(() -> m_extendArmSubsystem.stopHoming(0.0)));
-        new JoystickButton(m_operator, 7).onTrue(new InstantCommand(() -> m_extendArmSubsystem.startHoming()));
+        new JoystickButton(m_operator, 7).onTrue(new InstantCommand(() -> m_extendArmSubsystem.startHoming())); // left start button
     }
 
     public Command getAutonomousCommand() {

@@ -129,7 +129,7 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        inches = m_robotContainer.m_extendArmSubsystem.getPos_inch();
+        inches = m_robotContainer.m_extendArmSubsystem.getDesiredPos_inch();
     }
 
     @Override
