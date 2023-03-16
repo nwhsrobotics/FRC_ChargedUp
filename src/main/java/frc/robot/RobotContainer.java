@@ -90,7 +90,7 @@ public class RobotContainer {
             new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(14)),
             new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(20)));
 
-    ParallelCommandGroup Station = new ParallelCommandGroup(
+    ParallelCommandGroup Shelf = new ParallelCommandGroup(
             new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(20)),
             new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(20)));
 
