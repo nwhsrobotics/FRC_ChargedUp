@@ -126,6 +126,20 @@ public class RobotContainer {
         m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
         m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
         new JoystickButton(m_operator, 7).onTrue(new InstantCommand(() -> m_extendArmSubsystem.startHoming())); // left start button
+
+        //incase if schedule doesn't work as intended
+        /*new JoystickButton(m_operator, 2).onTrue(new ParallelCommandGroup( // B button retracts
+            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(0)),
+            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(0))));
+
+        new JoystickButton(m_operator, 1).onTrue(new ParallelCommandGroup( // A button is ground
+            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(25)),
+            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(5))));
+
+        new JoystickButton(m_operator, 3).onTrue(new ParallelCommandGroup( // X button is middle
+            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(40)),
+            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(10))));*/
+         
     }
 
     public Command getAutonomousCommand() {
