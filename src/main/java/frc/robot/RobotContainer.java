@@ -119,10 +119,11 @@ public class RobotContainer {
         new JoystickButton(m_driver, 4).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
         new JoystickButton(m_driver, 11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
         new JoystickButton(m_driver, 5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
-        m_joyA.whileTrue(new InstantCommand(() -> {Inside.schedule();}));
-        m_joyB.whileTrue(new InstantCommand(() -> {Ground.schedule();}));
-        m_joyX.whileTrue(new InstantCommand(() -> {Middle.schedule();}));
-        m_joyY.whileTrue(new InstantCommand(() -> {Top.schedule();}));
+        m_joyB.whileTrue(Inside);
+        m_joyA.whileTrue(Ground);
+        m_joyX.whileTrue(Middle);
+        m_joyY.whileTrue(Top);
+        m_joyST.whileTrue(Shelf);
         m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
         m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
         new JoystickButton(m_operator, 7).onTrue(new InstantCommand(() -> m_extendArmSubsystem.startHoming())); // left start button

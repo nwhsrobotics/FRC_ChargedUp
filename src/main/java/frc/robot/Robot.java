@@ -129,10 +129,6 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        if( m_robotContainer.m_operator.getRightTriggerAxis() > 0.0)
-        {
-            //new InstantCommand(() -> {m_robotContainer.Shelf.schedule();});
-        }
     }
 
     @Override
