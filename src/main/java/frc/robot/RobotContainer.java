@@ -55,7 +55,8 @@ public class RobotContainer {
 
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
 
-    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
+    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem,
+            m_grabberSubsystem);
 
     Command blue1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
             "paths/Blue1A.wpilib.json", "paths/Blue1B.wpilib.json");
@@ -75,30 +76,25 @@ public class RobotContainer {
             "paths/RedChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
 
     ParallelCommandGroup Inside = new ParallelCommandGroup(
-        new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-95)),
-        new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(0))
-    );
-    
+            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-95)),
+            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(0)));
+
     ParallelCommandGroup Ground = new ParallelCommandGroup(
-        new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-25)),
-        new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(5))
-    );      
+            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-25)),
+            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(5)));
 
     ParallelCommandGroup Middle = new ParallelCommandGroup(
-        new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-10)),
-        new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(10))
-    );
+            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-10)),
+            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(10)));
 
     ParallelCommandGroup Top = new ParallelCommandGroup(
-        new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(14)),
-        new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(20))
-    ); 
+            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(14)),
+            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(20)));
 
     ParallelCommandGroup Station = new ParallelCommandGroup(
-        new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(20)),
-        new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(20))
-    ); 
-    
+            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(20)),
+            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(20)));
+
     public RobotContainer() {
         m_autoChooser.setDefaultOption("Blue1", blue1_auto);
         m_autoChooser.addOption("blue2", blue2_auto);
@@ -119,31 +115,17 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        new JoystickButton(m_driver,3).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
+        new JoystickButton(m_driver, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
         new JoystickButton(m_driver, 2).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR()));
         new JoystickButton(m_driver, 4).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
-        new JoystickButton(m_driver,11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
-        new JoystickButton(m_driver,5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
-        m_joyA.whileTrue(new InstantCommand(() -> { Inside.schedule();}));
-        m_joyB.whileTrue(new InstantCommand(() -> { Ground.schedule();}));
-        m_joyX.whileTrue(new InstantCommand(() -> { Middle.schedule();}));
-        m_joyY.whileTrue(new InstantCommand(() -> { Top.schedule();})); 
+        new JoystickButton(m_driver, 11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
+        new JoystickButton(m_driver, 5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
+        m_joyA.whileTrue(new InstantCommand(() -> {Inside.schedule();}));
+        m_joyB.whileTrue(new InstantCommand(() -> {Ground.schedule();}));
+        m_joyX.whileTrue(new InstantCommand(() -> {Middle.schedule();}));
+        m_joyY.whileTrue(new InstantCommand(() -> {Top.schedule();}));
         m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
         m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
-
-
-        new JoystickButton(m_operator, 2).onTrue(new ParallelCommandGroup( // B button retracts
-            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(0)),
-            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(0))));
-
-        new JoystickButton(m_operator, 1).onTrue(new ParallelCommandGroup( // A button is ground
-            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(25)),
-            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(5))));
-
-        new JoystickButton(m_operator, 3).onTrue(new ParallelCommandGroup( // X button is middle
-            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(40)),
-            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(10))));
-        
         new JoystickButton(m_operator, 7).onTrue(new InstantCommand(() -> m_extendArmSubsystem.startHoming())); // left start button
     }
 
