@@ -41,8 +41,6 @@ public class RobotContainer {
 
     public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem(m_operator);
 
-    //test op
-
     public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(m_shoulderSubsystem);
 
     public final ShoulderCmd m_shoulderCmd0 = new ShoulderCmd(m_shoulderSubsystem, 0);
