@@ -55,8 +55,7 @@ public class RobotContainer {
 
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
 
-    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem,
-            m_grabberSubsystem);
+    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
 
     Command blue1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
             "paths/Blue1A.wpilib.json", "paths/Blue1B.wpilib.json");
