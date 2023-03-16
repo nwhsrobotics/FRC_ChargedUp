@@ -23,7 +23,6 @@ import frc.robot.Constants.LoggerConstants;
 public class Robot extends LoggedRobot {
     private Command m_autonomousCommand;
     public RobotContainer m_robotContainer;
-    public double inches;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -129,7 +128,6 @@ public class Robot extends LoggedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        inches = m_robotContainer.m_extendArmSubsystem.getDesiredPos_inch();
     }
 
     @Override

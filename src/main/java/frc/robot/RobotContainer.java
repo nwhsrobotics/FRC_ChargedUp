@@ -28,13 +28,16 @@ public class RobotContainer {
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
     public final Joystick m_driver = new Joystick(1);
-    
+
     public final XboxController m_operator = new XboxController(0);
-    public final JoystickButton m_joyA = new JoystickButton(m_operator, 1); //button A
-    public final JoystickButton m_joyBK = new JoystickButton(m_operator, 7); // Back Button
-    public final JoystickButton m_joyST = new JoystickButton(m_operator, 8); // Start Button
+    public final JoystickButton m_joyA = new JoystickButton(m_operator, 1); // button A
+    public final JoystickButton m_joyB = new JoystickButton(m_operator, 2); // button B
+    public final JoystickButton m_joyX = new JoystickButton(m_operator, 3); // button X
+    public final JoystickButton m_joyY = new JoystickButton(m_operator, 4); // button Y
     public final JoystickButton m_joyLB = new JoystickButton(m_operator, 5); // Left bumper
     public final JoystickButton m_joyRB = new JoystickButton(m_operator, 6); // Right bumper
+    public final JoystickButton m_joyBK = new JoystickButton(m_operator, 7); // Back Button
+    public final JoystickButton m_joyST = new JoystickButton(m_operator, 8); // Start Button
 
     public final ShoulderSubsystem m_shoulderSubsystem = new ShoulderSubsystem(m_operator);
 
@@ -54,15 +57,43 @@ public class RobotContainer {
 
     public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
 
-    Command blue1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Blue1A.wpilib.json", "paths/Blue1B.wpilib.json");
-    Command blue2_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Blue2A.wpilib.json", "paths/Blue2B.wpilib.json");
-    Command blue3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Blue3A.wpilib.json", "paths/Blue3B.wpilib.json");
-    Command red1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red1A.wpilib.json", "paths/Red1B.wpilib.json");
-    Command red2_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red2A.wpilib.json", "paths/Red2B.wpilib.json");
-    Command red3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/Red3A.wpilib.json", "paths/Red3B.wpilib.json");
-    Command bluecharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/BlueChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
-    Command redcharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem, "paths/RedChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
+    Command blue1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/Blue1A.wpilib.json", "paths/Blue1B.wpilib.json");
+    Command blue2_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/Blue2A.wpilib.json", "paths/Blue2B.wpilib.json");
+    Command blue3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/Blue3A.wpilib.json", "paths/Blue3B.wpilib.json");
+    Command red1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/Red1A.wpilib.json", "paths/Red1B.wpilib.json");
+    Command red2_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/Red2A.wpilib.json", "paths/Red2B.wpilib.json");
+    Command red3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/Red3A.wpilib.json", "paths/Red3B.wpilib.json");
+    Command bluecharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/BlueChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
+    Command redcharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/RedChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
 
+    ParallelCommandGroup inside = new ParallelCommandGroup(
+        new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-95)),
+        new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(0))
+    );
+    
+    ParallelCommandGroup overBumper = new ParallelCommandGroup(
+        new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-50)),
+        new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(0))
+    ); 
+    
+    ParallelCommandGroup ground = new ParallelCommandGroup(
+        new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-25)),
+        new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(5))
+    );      
+
+    ParallelCommandGroup middle = new ParallelCommandGroup(
+        new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-10)),
+        new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(10))
+    );
+    
     public RobotContainer() {
         m_autoChooser.setDefaultOption("Blue1", blue1_auto);
         m_autoChooser.addOption("blue2", blue2_auto);
@@ -88,6 +119,10 @@ public class RobotContainer {
         new JoystickButton(m_driver, 4).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
         new JoystickButton(m_driver,11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
         new JoystickButton(m_driver,5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
+        m_joyA.whileTrue(new InstantCommand(() -> { inside.schedule();}));
+        m_joyB.whileTrue(new InstantCommand(() -> { overBumper.schedule();}));
+        m_joyX.whileTrue(new InstantCommand(() -> { ground.schedule();}));
+        m_joyY.whileTrue(new InstantCommand(() -> { middle.schedule();})); 
         m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
         m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
 
