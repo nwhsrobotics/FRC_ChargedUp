@@ -37,6 +37,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private int m_currentPose;
     public double m_currentPos_deg; // 0 = arm horizontal, positive = arm up
     public double m_desiredPos_deg;
+    private boolean m_positionKnown = false;
     
 
     /** Creates a new ShoulderSubsystem. */
@@ -119,6 +120,10 @@ public class ShoulderSubsystem extends SubsystemBase {
         m_desiredPos_deg = p_degree;
     }
 
+    public boolean positionKnown() {
+        return m_positionKnown;
+    }
+
     @Override
     public void periodic() {
         counter++;
@@ -146,6 +151,7 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController2.setReference(-degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
 
             System.out.printf("Abs raw: %f, adjusted abs: %f", absRaw, adjustAbs);
+            m_positionKnown = true;
         }
         if (m_enabled == true && m_extendArmSubsystem.m_homed && counter > 150) {
 
@@ -257,5 +263,17 @@ public class ShoulderSubsystem extends SubsystemBase {
 
     public double degreesToMotorRotation(double degrees) {
         return ((degrees / 360.0) * m_gearRatio);
+    }
+
+    public double getMinPitch_deg() {
+        if(m_currentPos_deg <= -75)
+        {
+            return 0.0;
+        }
+        if(m_currentPos_deg > -75 && m_currentPos_deg < ARM_IN_LIMIT_DEG)
+        {
+            return 20.0; //pitch up inside robot
+        }
+        return -90.0; //not in front of robot any pitch is fine
     }
 }

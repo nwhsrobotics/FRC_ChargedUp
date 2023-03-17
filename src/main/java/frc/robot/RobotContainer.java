@@ -43,9 +43,9 @@ public class RobotContainer {
 
     public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(m_shoulderSubsystem);
 
-    public final ShoulderCmd m_shoulderCmd0 = new ShoulderCmd(m_shoulderSubsystem, 0);
-    public final ShoulderCmd m_shoulderCmd55 = new ShoulderCmd(m_shoulderSubsystem, 55);
-    public final ShoulderCmd m_shoulderCmd110 = new ShoulderCmd(m_shoulderSubsystem, 110);
+    public final ShoulderCmd m_shoulderCmd0 = new ShoulderCmd(m_shoulderSubsystem, -90);
+    public final ShoulderCmd m_shoulderCmd55 = new ShoulderCmd(m_shoulderSubsystem, -25);
+    public final ShoulderCmd m_shoulderCmd110 = new ShoulderCmd(m_shoulderSubsystem, 20);
 
     public final ExtendArmCmd m_ExtendArmCmd0 = new ExtendArmCmd(m_extendArmSubsystem, 0);
     public final ExtendArmCmd m_ExtendArmCmd36 = new ExtendArmCmd(m_extendArmSubsystem, 36.0);
@@ -74,25 +74,27 @@ public class RobotContainer {
     Command redcharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
             "paths/RedChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
 
+
+
     ParallelCommandGroup Inside = new ParallelCommandGroup(
-            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-95)),
-            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(0)));
+        new ShoulderCmd(m_shoulderSubsystem, -90),
+        new ExtendArmCmd(m_extendArmSubsystem, 0));
 
     ParallelCommandGroup Ground = new ParallelCommandGroup(
-            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-25)),
-            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(5)));
+        new ShoulderCmd(m_shoulderSubsystem, -25),
+        new ExtendArmCmd(m_extendArmSubsystem, 5));
 
     ParallelCommandGroup Middle = new ParallelCommandGroup(
-            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(-10)),
-            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(10)));
+        new ShoulderCmd(m_shoulderSubsystem, -10),
+        new ExtendArmCmd(m_extendArmSubsystem, 10));
 
     ParallelCommandGroup Top = new ParallelCommandGroup(
-            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(14)),
-            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(20)));
+        new ShoulderCmd(m_shoulderSubsystem, 14),
+        new ExtendArmCmd(m_extendArmSubsystem, 20));
 
     ParallelCommandGroup Shelf = new ParallelCommandGroup(
-            new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(20)),
-            new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(20)));
+        new ShoulderCmd(m_shoulderSubsystem, 20),
+        new ExtendArmCmd(m_extendArmSubsystem, 20));
 
     public RobotContainer() {
         m_autoChooser.setDefaultOption("Blue1", blue1_auto);
