@@ -81,6 +81,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void resetHeadingAndPose() {
         m_gyro.zeroYaw();
+        m_gyro.reset();
         resetOdometry(new Pose2d());
     }
 
