@@ -20,14 +20,7 @@ public class ExtendArmCmd extends CommandBase {
 
     @Override
     public void execute() {
-        if(extendArm.m_homed == true)
-        {
-            extendArm.setPos_inch(setPoint);
-        }
-        else{
-            return;
-        }
-
+        extendArm.setPos_inch(setPoint);
     }
 
     @Override
@@ -36,6 +29,6 @@ public class ExtendArmCmd extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return true;
+        return !extendArm.isMoving();
     }
 }

@@ -5,7 +5,6 @@ import frc.robot.subsystems.ExtendArmSubsystem;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import edu.wpi.first.math.controller.PIDController;
@@ -13,11 +12,9 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.patched.SwerveControllerCommand;
 
 public class AutoBaseCmd extends SequentialCommandGroup {
     private Trajectory trajA = new Trajectory();
@@ -66,9 +63,9 @@ public class AutoBaseCmd extends SequentialCommandGroup {
             new InstantCommand(() -> s_Swerve.resetOdometry(trajA.getInitialPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
-            new InstantCommand(() -> System.out.println(trajA.getTotalTimeSeconds()+trajB.getTotalTimeSeconds())),
+            new InstantCommand(() -> System.out.println(trajA.getTotalTimeSeconds())),
             //first place preloaded cone
-            new ParallelCommandGroup(
+            /*new ParallelCommandGroup(
                 new InstantCommand(() -> m_shoulder.setPos_deg(55.0)),
                 new InstantCommand(() -> m_arm.setPos_inch(30.0)),
                 new InstantCommand(() -> m_grabber.grabberExtend())
@@ -81,11 +78,11 @@ public class AutoBaseCmd extends SequentialCommandGroup {
             new ParallelCommandGroup(
                 new InstantCommand(() -> m_shoulder.setPos_deg(0.0)),
                 new InstantCommand(() -> m_arm.setPos_inch(0.0))
-            ),
+            ),*/
 
             //drive to new cone
             swerveControllerCommand1,
-
+            /*
             //extend shoulder and arm again
             new ParallelCommandGroup(
                 new InstantCommand(() -> m_shoulder.setPos_deg(55.0)),
@@ -111,8 +108,7 @@ public class AutoBaseCmd extends SequentialCommandGroup {
             ),
 
             //open grabber
-            new InstantCommand(() -> m_grabber.grabberExtend()),
-
+            new InstantCommand(() -> m_grabber.grabberExtend()),*/
             //stop swerve!
             new InstantCommand(() -> s_Swerve.stopModules()),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
