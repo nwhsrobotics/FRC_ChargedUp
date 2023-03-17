@@ -20,7 +20,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private RelativeEncoder m_shoulderRelativeEncoder1 = null;
     private RelativeEncoder m_shoulderRelativeEncoder2 = null;
     private DutyCycleEncoder m_shoulderAbsoluteEncoder;
-    private static final double SHOULDER_HEIGHT_IN = 28.5;
+    private static final double SHOULDER_HEIGHT_IN = 26.0; // for arm extension calcs
     private static final double ARM_BASE_LENGTH_IN = 28.0;
     private static final double OFFSET_LENGTH_IN = 7.0;
     private static final double SECONDS_PER_TICK = 0.02;
@@ -31,7 +31,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private double m_gearRatio = 200;
     private boolean m_enabled = false;
     private final double MAX_DEG = 30.0;
-    private final double MIN_DEG = -95.0;
+    private final double MIN_DEG = -90.0;
     private Logger logger = Logger.getInstance();
     private ExtendArmSubsystem m_extendArmSubsystem;
     private int m_currentPose;
