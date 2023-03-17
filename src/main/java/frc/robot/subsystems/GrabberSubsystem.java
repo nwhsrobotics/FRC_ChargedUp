@@ -16,29 +16,27 @@ public class GrabberSubsystem extends SubsystemBase {
   /** Creates a new GrabberSubsystem. */
   public GrabberSubsystem() {
     m_grabber = new DoubleSolenoid(7, PneumaticsModuleType.CTREPCM, GrabberConstants.forwardChannel, GrabberConstants.reverseChannel);
-    logger.recordOutput("Grabber", "Intialized");
   }
 
   public void grabberTurnOff() {
     m_grabber.set(DoubleSolenoid.Value.kOff);
     SmartDashboard.putString("Grabber", "Off");
-    logger.recordOutput("Grabber", "Off");
+    logger.recordOutput("grabber.state", "off");
   }
 
   public void grabberExtend() {
     m_grabber.set(DoubleSolenoid.Value.kForward);
     SmartDashboard.putString("Grabber", "Extended");
-    logger.recordOutput("Grabber", "Extended");
+    logger.recordOutput("grabber.state", "extended");
   }
 
   public void grabberRetract() {
     m_grabber.set(DoubleSolenoid.Value.kReverse);
     SmartDashboard.putString("Grabber", "Retracted");
-    logger.recordOutput("Grabber", "Retracted");
+    logger.recordOutput("grabber.state", "retracted");
   }
 
   @Override
   public void periodic() {
-
   }
 }

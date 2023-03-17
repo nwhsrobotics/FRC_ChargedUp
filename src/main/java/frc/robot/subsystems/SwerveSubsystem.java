@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
+import org.littletonrobotics.junction.Logger;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -58,6 +61,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public final SwerveModule[] swerveMods = {frontLeft, frontRight, backLeft, backRight};
     public final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB);
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, Rotation2d.fromDegrees(getHeading()), getModulePositions());
+    public Logger logger = Logger.getInstance();
 
     public SwerveSubsystem() {
         try
@@ -77,6 +81,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void resetHeadingAndPose() {
         m_gyro.zeroYaw();
+        m_gyro.reset();
         resetOdometry(new Pose2d());
     }
 
@@ -127,11 +132,20 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("FIELD RELATIVE?", isFR);
         odometer.update(Rotation2d.fromDegrees(getHeading()), getModulePositions());
-        SmartDashboard.putNumber("front left abs", frontLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("front right abs", frontRight.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("back left abs", backLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("back right abs", backRight.getAbsoluteEncoderRad());
+        logger.recordOutput("swerve.steer.front.left.abs", frontLeft.getAbsoluteEncoderRad());
+        logger.recordOutput("swerve.steer.front.right.abs", frontRight.getAbsoluteEncoderRad());
+        logger.recordOutput("swerve.steer.back.left.abs", backLeft.getAbsoluteEncoderRad());
+        logger.recordOutput("swerve.steer.back.right.abs", backRight.getAbsoluteEncoderRad());
+        
+        logger.recordOutput("swerve.pose", getPose());
+        logger.recordOutput("swerve.heading", getHeading());
+        
+        logger.recordOutput("swerve.drive.front.left.velocity", frontLeft.getDriveVelocity());
+        logger.recordOutput("swerve.drive.front.right.velocity", frontRight.getDriveVelocity());
+        logger.recordOutput("swerve.drive.back.left.velocity", backLeft.getDriveVelocity());
+        logger.recordOutput("swerve.drive.back.right.velocity", backRight.getDriveVelocity());
     }
 
     public void stopModules() {
@@ -145,5 +159,15 @@ public class SwerveSubsystem extends SubsystemBase {
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
+    }
+
+    public void brake() {
+        for (SwerveModule sMod : swerveMods)
+            sMod.stop();
+
+        frontLeft.turningMotor.set(frontLeft.turningPidController.calculate(frontLeft.getTurningPosition(), Math.PI/4));
+        frontRight.turningMotor.set(frontRight.turningPidController.calculate(frontRight.getTurningPosition(), Math.PI/4));
+        backLeft.turningMotor.set(backLeft.turningPidController.calculate(backLeft.getTurningPosition(), Math.PI/4));
+        backRight.turningMotor.set(backRight.turningPidController.calculate(backLeft.getTurningPosition(), Math.PI/4));
     }
 }

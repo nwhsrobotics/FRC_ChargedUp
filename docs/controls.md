@@ -1,7 +1,4 @@
 # Controls
-There are two drive control systems implemented, swerve and tank.
-Press `MENU` or `START` to toggle between schemes.
-
 ## Common
 The following are a list of controls implemented for all control systems.
 
@@ -14,7 +11,6 @@ The following are a list of controls implemented specifically for swerve control
 * Use `A` for toggling field relative
 
 ## Operator
-
 * Click `RIGHT BUMPER` for grabber extend
 * Click `LEFT BUMPER` for grabber retract
 

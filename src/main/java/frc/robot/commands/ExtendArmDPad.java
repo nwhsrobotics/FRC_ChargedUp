@@ -25,11 +25,11 @@ public class ExtendArmDPad extends CommandBase {
         if(extendArm.m_homed == true)
         {
             if (m_operator.getPOV() == 90) {
-                double currentInch =  extendArm.getPos_inch();
+                double currentInch =  extendArm.getDesiredPos_inch();
                 extendArm.setPos_inch(currentInch + ExtendArmConstants.ACCEL_MAX_V_IPS/2 * ExtendArmConstants.SECONDS_PER_TICK);
             }
             if (m_operator.getPOV() == 270) {
-                double currentInch =  extendArm.getPos_inch();
+                double currentInch =  extendArm.getDesiredPos_inch();
                 extendArm.setPos_inch(currentInch - (ExtendArmConstants.ACCEL_MAX_V_IPS/2 * ExtendArmConstants.SECONDS_PER_TICK));
             }   
         } 
