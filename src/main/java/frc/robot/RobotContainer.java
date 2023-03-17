@@ -43,10 +43,6 @@ public class RobotContainer {
 
     public final ExtendArmSubsystem m_extendArmSubsystem = new ExtendArmSubsystem(m_shoulderSubsystem);
 
-    public final ShoulderCmd m_shoulderCmd0 = new ShoulderCmd(m_shoulderSubsystem, -90);
-    public final ShoulderCmd m_shoulderCmd55 = new ShoulderCmd(m_shoulderSubsystem, -25);
-    public final ShoulderCmd m_shoulderCmd110 = new ShoulderCmd(m_shoulderSubsystem, 20);
-
     public final ExtendArmCmd m_ExtendArmCmd0 = new ExtendArmCmd(m_extendArmSubsystem, 0);
     public final ExtendArmCmd m_ExtendArmCmd36 = new ExtendArmCmd(m_extendArmSubsystem, 36.0);
 
@@ -90,11 +86,11 @@ public class RobotContainer {
 
     ParallelCommandGroup Top = new ParallelCommandGroup(
         new ShoulderCmd(m_shoulderSubsystem, 14),
-        new ExtendArmCmd(m_extendArmSubsystem, 20));
+        new ExtendArmCmd(m_extendArmSubsystem, 15));
 
     ParallelCommandGroup Shelf = new ParallelCommandGroup(
         new ShoulderCmd(m_shoulderSubsystem, 20),
-        new ExtendArmCmd(m_extendArmSubsystem, 20));
+        new ExtendArmCmd(m_extendArmSubsystem, 18));
 
     public RobotContainer() {
         m_autoChooser.setDefaultOption("Blue1", blue1_auto);
@@ -142,7 +138,6 @@ public class RobotContainer {
         new JoystickButton(m_operator, 3).onTrue(new ParallelCommandGroup( // X button is middle
             new InstantCommand(() -> m_shoulderSubsystem.setPos_deg(40)),
             new InstantCommand(() -> m_extendArmSubsystem.setPos_inch(10))));*/
-         
     }
 
     public Command getAutonomousCommand() {
