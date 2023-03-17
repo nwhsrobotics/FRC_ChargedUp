@@ -27,6 +27,6 @@ public class ShoulderCmd extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return !m_shoulder.isMoving();
   }
 }

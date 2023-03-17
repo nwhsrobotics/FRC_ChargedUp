@@ -75,8 +75,8 @@ public class SwerveAuto extends SequentialCommandGroup {
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
             new ParallelCommandGroup(
-                //new InstantCommand(() -> m_shoulder.setPos_deg(55.0))
-                //new InstantCommand(() -> m_arm.setPos(38.0))
+                //new InstantCommand(() -> m_shoulder.setPos_deg(14.0)),
+                //new InstantCommand(() -> m_arm.setPos_inch(20.0))
             ),
             new InstantCommand(() -> m_grabber.grabberExtend())
         );
