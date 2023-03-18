@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -75,8 +76,17 @@ public class SwerveSubsystem extends SubsystemBase {
         m_gyro.zeroYaw();;
     }
 
+    public void setSpeed(double xSpeed) {
+        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(xSpeed, 0.0, 0.0);
+        setModuleStates(DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
+    }
+
     public double getHeading() {
         return Math.IEEEremainder(m_gyro.getAngle(), 360) * -1;
+    }
+
+    public double getPitchDeg() {
+        return -m_gyro.getPitch();
     }
 
     public void resetHeadingAndPose() {
@@ -166,8 +176,8 @@ public class SwerveSubsystem extends SubsystemBase {
             sMod.stop();
 
         frontLeft.turningMotor.set(frontLeft.turningPidController.calculate(frontLeft.getTurningPosition(), Math.PI/4));
-        frontRight.turningMotor.set(frontRight.turningPidController.calculate(frontRight.getTurningPosition(), Math.PI/4));
-        backLeft.turningMotor.set(backLeft.turningPidController.calculate(backLeft.getTurningPosition(), Math.PI/4));
+        frontRight.turningMotor.set(frontRight.turningPidController.calculate(frontRight.getTurningPosition(), -Math.PI/4));
+        backLeft.turningMotor.set(backLeft.turningPidController.calculate(backLeft.getTurningPosition(), -Math.PI/4));
         backRight.turningMotor.set(backRight.turningPidController.calculate(backLeft.getTurningPosition(), Math.PI/4));
     }
 }

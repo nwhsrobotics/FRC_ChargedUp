@@ -72,23 +72,23 @@ public class RobotContainer {
 
 
 
-    ParallelCommandGroup Inside = new ParallelCommandGroup(
+    ParallelCommandGroup insideCmd = new ParallelCommandGroup(
         new ShoulderCmd(m_shoulderSubsystem, -90),
         new ExtendArmCmd(m_extendArmSubsystem, 0));
 
-    ParallelCommandGroup Ground = new ParallelCommandGroup(
+    ParallelCommandGroup groundCmd = new ParallelCommandGroup(
         new ShoulderCmd(m_shoulderSubsystem, -25),
         new ExtendArmCmd(m_extendArmSubsystem, 5));
 
-    ParallelCommandGroup Middle = new ParallelCommandGroup(
+    ParallelCommandGroup middleCmd = new ParallelCommandGroup(
         new ShoulderCmd(m_shoulderSubsystem, -10),
         new ExtendArmCmd(m_extendArmSubsystem, 10));
 
-    ParallelCommandGroup Top = new ParallelCommandGroup(
+    ParallelCommandGroup topCmd = new ParallelCommandGroup(
         new ShoulderCmd(m_shoulderSubsystem, 14),
         new ExtendArmCmd(m_extendArmSubsystem, 15));
 
-    ParallelCommandGroup Shelf = new ParallelCommandGroup(
+    ParallelCommandGroup shelfCmd = new ParallelCommandGroup(
         new ShoulderCmd(m_shoulderSubsystem, 20),
         new ExtendArmCmd(m_extendArmSubsystem, 18));
 
@@ -115,15 +115,15 @@ public class RobotContainer {
         new JoystickButton(m_driver, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
         new JoystickButton(m_driver, 2).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR()));
         new JoystickButton(m_driver, 4).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
-        new JoystickButton(m_driver, 11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
-        new JoystickButton(m_driver, 5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
-        m_joyB.whileTrue(Inside);
-        m_joyA.whileTrue(Ground);
-        m_joyX.whileTrue(Middle);
-        m_joyY.whileTrue(Top);
-        m_joyST.whileTrue(Shelf);
-        m_joyRB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
-        m_joyLB.whileTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
+        //new JoystickButton(m_driver, 11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
+        //new JoystickButton(m_driver, 5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
+        m_joyB.onTrue(insideCmd);
+        m_joyA.onTrue(groundCmd);
+        m_joyX.onTrue(middleCmd);
+        m_joyY.onTrue(topCmd);
+        m_joyST.onTrue(shelfCmd);
+        m_joyRB.onTrue(new InstantCommand(() -> m_grabberSubsystem.grabberExtend()));
+        m_joyLB.onTrue(new InstantCommand(() -> m_grabberSubsystem.grabberRetract()));
         new JoystickButton(m_operator, 7).onTrue(new InstantCommand(() -> m_extendArmSubsystem.startHoming())); // left start button
 
         //incase if schedule doesn't work as intended
