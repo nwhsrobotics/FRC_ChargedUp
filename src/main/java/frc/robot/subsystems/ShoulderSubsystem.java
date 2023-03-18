@@ -34,7 +34,6 @@ public class ShoulderSubsystem extends SubsystemBase {
     private final double MIN_DEG = -90.0;
     private Logger logger = Logger.getInstance();
     private ExtendArmSubsystem m_extendArmSubsystem;
-    private int m_currentPose;
     public double m_currentPos_deg; // 0 = arm horizontal, positive = arm up
     public double m_desiredPos_deg;
     private boolean m_positionKnown = false;
@@ -46,18 +45,6 @@ public class ShoulderSubsystem extends SubsystemBase {
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.LeftShoulderCanID, CANSparkMax.MotorType.kBrushless);
         m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.RightShoulderCanID, CANSparkMax.MotorType.kBrushless);
 
-        /*
-         * while (m_shoulderMotor1.getOutputCurrent() < currentLimit &&
-         * m_shoulderMotor2.getOutputCurrent() < currentLimit) {
-         * m_shoulderMotor1.set(-0.2);
-         * m_shoulderMotor2.set(0.2);
-         * }
-         * if (m_shoulderMotor1.getOutputCurrent() >= currentLimit ||
-         * m_shoulderMotor2.getOutputCurrent() >= currentLimit) {
-         * m_shoulderMotor1.stopMotor();
-         * m_shoulderMotor2.stopMotor();
-         * }
-         */
         m_currentPos_deg = INITIAL_POS_DEG;
         m_desiredPos_deg = m_currentPos_deg;
 
@@ -115,8 +102,8 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
 
     public void setPos_deg(double p_degree) {
-         // converts degree into rotations and set desired Pos to
-                                                               // a specific degree
+        // converts degree into rotations and set desired Pos to
+        // a specific degree
         m_desiredPos_deg = p_degree;
     }
 
@@ -222,10 +209,6 @@ public class ShoulderSubsystem extends SubsystemBase {
 
     public double getCurrentDegrees() {
         return m_currentPos_deg;
-    }
-
-    public void setCurrentPose(int pose) {
-        m_currentPose = pose;
     }
 
     public double computeMaxArmExtension(double degrees) {
