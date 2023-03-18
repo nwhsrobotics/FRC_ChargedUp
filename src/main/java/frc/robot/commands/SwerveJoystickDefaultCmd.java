@@ -28,6 +28,9 @@ public class SwerveJoystickDefaultCmd extends CommandBase {
     @Override
     public void execute() {
         //corner swerve
+
+        //TODO review button bindings for Thrustmaster
+        //TODO pass chassis speeds to swerve subsystem, don't set module states
         if (m_driver.getRawButton(3) || m_driver.getRawButton(4) || m_driver.getRawButton(5) || m_driver.getRawButton(6)) {
             double rotatingSpeed = m_driver.getTwist() * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond; // no deadband and speed selector because corner swerve is for emergencies
             ChassisSpeeds chassisSpeeds = swerveSubsystem.isFR ? ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, rotatingSpeed, Rotation2d.fromDegrees(swerveSubsystem.getHeading())) : ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, rotatingSpeed, new Rotation2d(0));

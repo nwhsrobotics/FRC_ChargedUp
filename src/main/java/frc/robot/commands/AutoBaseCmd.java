@@ -19,7 +19,9 @@ import frc.robot.patched.SwerveControllerCommand;
 public class AutoBaseCmd extends SequentialCommandGroup {
     private Trajectory trajA = new Trajectory();
     private Trajectory trajB = new Trajectory();
-    public AutoBaseCmd(SwerveSubsystem s_Swerve, ShoulderSubsystem m_shoulder, ExtendArmSubsystem m_arm, GrabberSubsystem m_grabber, String trajAPath, String trajBPath){
+    private ExtendArmSubsystem m_arm; 
+    public AutoBaseCmd(SwerveSubsystem s_Swerve, ShoulderSubsystem m_shoulder, ExtendArmSubsystem armSubsystem, GrabberSubsystem m_grabber, String trajAPath, String trajBPath){
+        m_arm = armSubsystem;
         Path trajectoryPathA = Filesystem.getDeployDirectory().toPath().resolve(trajAPath);
         Path trajectoryPathB = Filesystem.getDeployDirectory().toPath().resolve(trajBPath);
         try {
@@ -59,6 +61,7 @@ public class AutoBaseCmd extends SequentialCommandGroup {
 
 
         addCommands(
+            new InstantCommand(() -> m_arm.startHoming()),
             new InstantCommand(() -> s_Swerve.resetHeadingAndPose()),
             new InstantCommand(() -> s_Swerve.resetOdometry(trajA.getInitialPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
@@ -110,7 +113,6 @@ public class AutoBaseCmd extends SequentialCommandGroup {
             //open grabber
             new InstantCommand(() -> m_grabber.grabberExtend()),*/
             //stop swerve!
-            new InstantCommand(() -> s_Swerve.stopModules()),
             new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
             new InstantCommand(() -> System.out.println(s_Swerve.getHeading()))
         );

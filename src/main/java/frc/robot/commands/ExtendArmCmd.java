@@ -16,12 +16,11 @@ public class ExtendArmCmd extends CommandBase {
 
     @Override
     public void initialize() {
+        extendArm.setPos_inch(setPoint);
     }
 
     @Override
-    public void execute() {
-        extendArm.setPos_inch(setPoint);
-    }
+    public void execute() {}
 
     @Override
     public void end(boolean interrupted) {
