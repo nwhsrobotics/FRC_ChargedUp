@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import javax.swing.text.StyleContext.SmallAttributeSet;
-
 import org.littletonrobotics.junction.Logger;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
