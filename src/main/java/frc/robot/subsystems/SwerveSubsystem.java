@@ -89,7 +89,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void resetHeadingAndPose() {
         m_gyro.zeroYaw();
-        m_gyro.reset();
+        //m_gyro.reset();
         resetOdometry(new Pose2d());
     }
 
@@ -142,6 +142,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putBoolean("FIELD RELATIVE?", isFR);
         odometer.update(Rotation2d.fromDegrees(getHeading()), getModulePositions());
+        logger.recordOutput("swerve.pitch", getPitchDeg());
         logger.recordOutput("swerve.steer.front.left.abs", frontLeft.getAbsoluteEncoderRad());
         logger.recordOutput("swerve.steer.front.right.abs", frontRight.getAbsoluteEncoderRad());
         logger.recordOutput("swerve.steer.back.left.abs", backLeft.getAbsoluteEncoderRad());

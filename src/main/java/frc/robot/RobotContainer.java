@@ -69,10 +69,18 @@ public class RobotContainer {
             "paths/Red2A.wpilib.json", "paths/Red2B.wpilib.json");
     Command red3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
             "paths/Red3_CubeExit.wpilib.json", "paths/Red3B.wpilib.json");
-    Command bluecharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
-            "paths/BlueChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
-    Command redcharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
-            "paths/RedChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
+    /*Command bluecharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/BlueChargeStation.wpilib.json", "paths/Red3B.wpilib.json");*/
+    Command bluecharge = new SequentialCommandGroup(
+        new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/BlueChargeStation.wpilib.json", "paths/Blue2B.wpilib.json"), 
+            new AutoEngageCmd(swerveSubsystem));
+    /*Command redcharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/RedChargeStation.wpilib.json", "paths/Red3B.wpilib.json");*/
+    Command redcharge = new SequentialCommandGroup(
+        new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+            "paths/RedChargeStation.wpilib.json", "paths/Blue2B.wpilib.json"), 
+            new AutoEngageCmd(swerveSubsystem));
 
 
 

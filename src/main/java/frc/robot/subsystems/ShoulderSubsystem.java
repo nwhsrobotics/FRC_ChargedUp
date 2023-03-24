@@ -27,10 +27,10 @@ public class ShoulderSubsystem extends SubsystemBase {
 
     private static final double MAX_SPEED_DEG_PER_TICK = 45.0*SECONDS_PER_TICK; // Move 90 degrees in 2 seconds
     private static final double INITIAL_POS_DEG = -78.0;
-    private static final double ARM_IN_LIMIT_DEG = -30.0;
+    private static final double ARM_IN_LIMIT_DEG = -60.0; // less than this, arm forced in, wrist pitched up.
     private double m_gearRatio = 200;
     private boolean m_enabled = false;
-    private final double MAX_DEG = 30.0;
+    private final double MAX_DEG = 45.0;
     private final double MIN_DEG = -90.0;
     private Logger logger = Logger.getInstance();
     private ExtendArmSubsystem m_extendArmSubsystem;
@@ -91,14 +91,14 @@ public class ShoulderSubsystem extends SubsystemBase {
         // converts degree into rotations and add or subtract
                                                                 // specific degree from current degree of shoulder
         m_desiredPos_deg += p_degree;
-
+        /*
         if (m_desiredPos_deg < MIN_DEG) {
             m_desiredPos_deg = MIN_DEG;
         }
 
         if (m_desiredPos_deg > MAX_DEG) {
             m_desiredPos_deg = MAX_DEG;
-        }
+        }*/
     }
 
     public void setPos_deg(double p_degree) {
@@ -137,10 +137,11 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController1.setReference(degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
             m_pidController2.setReference(-degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
 
-            System.out.printf("Abs raw: %f, adjusted abs: %f", absRaw, adjustAbs);
+            System.out.printf("===========================Abs raw: %f, adjusted abs: %f\n", absRaw, adjustAbs);
+            System.out.printf("===========================Desired pos: %f, Current pos: %f\n\n", m_desiredPos_deg, m_currentPos_deg);
             m_positionKnown = true;
         }
-        if (m_enabled == true && m_extendArmSubsystem.m_homed && counter > 150) {
+        if (m_enabled == true && /*m_extendArmSubsystem.m_homed &&*/ counter > 150) {
 
 
 
@@ -170,14 +171,20 @@ public class ShoulderSubsystem extends SubsystemBase {
             double max_arm_allowed = computeMaxArmExtension(m_currentPos_deg);
             double arm_position = m_extendArmSubsystem.getCurrentPos_inch();
 
-            System.out.printf("arm position = %f, max allowed = %f\n", arm_position, max_arm_allowed);
+            
+
+            // System.out.printf("arm position = %f, max allowed = %f\n", arm_position, max_arm_allowed);
+            /*
             if(arm_position <= max_arm_allowed) {
                 m_currentPos_deg += distance_deg ;
-                System.out.println("ARM MOVED");
+                // System.out.println("ARM MOVED");
             }
             else{
-                System.out.println("ARM MOVEMENT DISALLOWED");
-            }
+                // System.out.println("ARM MOVEMENT DISALLOWED");
+            }*/
+
+            m_currentPos_deg += distance_deg ;
+            /*
 
             if(m_currentPos_deg > MAX_DEG) {
                 m_currentPos_deg = MAX_DEG;
@@ -186,7 +193,7 @@ public class ShoulderSubsystem extends SubsystemBase {
 
             if(m_currentPos_deg < MIN_DEG) {
                 m_currentPos_deg = MIN_DEG;
-            }
+            }*/
 
             m_pidController1.setReference(degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
             m_pidController2.setReference(-degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
@@ -212,6 +219,10 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
 
     public double computeMaxArmExtension(double degrees) {
+        if (degrees > 0) {
+            return 100.0;
+        }
+
         if(degrees < ARM_IN_LIMIT_DEG) {
             return 0.0; //arm needs to be retracted
         }
@@ -228,7 +239,8 @@ public class ShoulderSubsystem extends SubsystemBase {
     public double getMaxArmExtension(){
         double length_1 = computeMaxArmExtension(m_currentPos_deg);
         double length_2 = computeMaxArmExtension(m_desiredPos_deg);
-        return Math.min(length_1, length_2);
+        return 20.0;
+        //return Math.min(length_1, length_2);
     
 
 
@@ -249,14 +261,15 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
 
     public double getMinPitch_deg() {
-        if(m_currentPos_deg <= -75)
+        /*
+        if(m_currentPos_deg <= -88.0)
         {
             return 0.0;
         }
-        if(m_currentPos_deg > -75 && m_currentPos_deg < ARM_IN_LIMIT_DEG)
+        if(m_currentPos_deg > -88.0 && m_currentPos_deg < ARM_IN_LIMIT_DEG)
         {
-            return 20.0; //pitch up inside robot
-        }
+            return 25.0; //pitch up inside robot
+        }*/
         return -90.0; //not in front of robot any pitch is fine
     }
 }
