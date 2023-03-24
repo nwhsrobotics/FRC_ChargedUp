@@ -21,10 +21,10 @@ public class ShoulderControl extends CommandBase {
   public void execute() {
     if (m_controller.getPOV() == 0) {
       //System.out.println("up");
-      m_shoulderSubsystem.changePos_deg(0.25);  
+      m_shoulderSubsystem.changePos_deg(0.5);  
     } else if (m_controller.getPOV() == 180) {
       //System.out.println("down");
-      m_shoulderSubsystem.changePos_deg(-0.25); 
+      m_shoulderSubsystem.changePos_deg(-0.5); 
     }
   }
 

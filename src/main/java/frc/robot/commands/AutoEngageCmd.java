@@ -11,7 +11,7 @@ public class AutoEngageCmd extends CommandBase {
   /** Creates a new AutoEngageCmd. */
 
   private SwerveSubsystem m_swerve;
-  private double CRITICAL_ANGLE = 10;
+  private double CRITICAL_ANGLE = 9;
   private double ENGAGE_SPEED_MPS = 0.5;
   public AutoEngageCmd(SwerveSubsystem swerveSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,6 +38,7 @@ public class AutoEngageCmd extends CommandBase {
 
     else {
       m_swerve.setSpeed(0.0);
+      //m_swerve.brake();
     }
   }
 

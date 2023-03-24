@@ -23,6 +23,7 @@ public class WristSubsystem extends SubsystemBase {
   private int periodicCycles = 0;
 
   public CANSparkMax m_wristmotorA;
+  private boolean m_angles_initialized = false;
   public CANSparkMax m_wristmotorB;
 
   private SparkMaxPIDController m_pidControllerA = null;
@@ -80,12 +81,45 @@ public class WristSubsystem extends SubsystemBase {
     }
   }
 
+  // Compute min pitch relative to the floor that we're allowed to be at right now.
+  // This takes into account the current shoulder angle as well as the wrist pitch limits.
+  public double min_floor_pitch_deg() {
+    return m_shoulder.getMinPitch_deg();
+  }
+
+  // Compute the max pitch relative to the floor that we're allowed to be at right now.
+  public double max_floor_pitch_deg() {
+    return 90.0;
+  }
+
+  public boolean isValidFloorPitch(double floor_pitch_deg) {
+    // compute corresponding pitch
+    double pitch_deg = floor_pitch_deg - m_shoulder.getCurrentDegrees();
+
+    return ((pitch_deg < WristConstants.kMaxPitch) &&
+            (floor_pitch_deg < max_floor_pitch_deg()) &&
+            (pitch_deg > WristConstants.kMinPitch) &&
+            (floor_pitch_deg > min_floor_pitch_deg()));
+
+  }
+
   public void changePitch(double deltaPitch_deg) {
-    m_desiredFloorPitch += deltaPitch_deg;
+    double newFloorPitch_deg = m_floor_pitch_deg + deltaPitch_deg;
+    if (isValidFloorPitch(newFloorPitch_deg)) {
+      // Only change to a pitch value that is currently valid
+      m_desiredFloorPitch = newFloorPitch_deg;
+    }
+  }
+
+  public boolean isValidRoll(double roll) {
+    return ((roll >= WristConstants.kMinRoll) && (roll <= WristConstants.kMaxRoll));
   }
 
   public void changeRoll(double deltaRoll_deg) {
-    m_desiredRoll_deg += deltaRoll_deg;
+    double newRoll_deg = m_roll_deg + deltaRoll_deg;
+    if (isValidRoll(newRoll_deg)) {
+      m_desiredRoll_deg = newRoll_deg;
+    }
   }
   
   public double limitPitch(double pitch) {
@@ -125,6 +159,8 @@ public class WristSubsystem extends SubsystemBase {
       m_roll_deg = (360.0 * (absPosA - absPosB)) / 2.0;
       double pitch_deg = (360.0 * (absPosA + absPosB)) / 2.0;
       m_floor_pitch_deg = pitch_deg + shoulder_deg;
+      System.out.printf("+++++++++++++++++ absA: %f, absB: %f, shoulder: %f, pitch: %f, floor pitch: %f\n", 
+        absPosA, absPosB, shoulder_deg, pitch_deg, m_floor_pitch_deg);
       m_desiredFloorPitch = m_floor_pitch_deg;
       m_desiredRoll_deg = m_roll_deg;
 
@@ -146,7 +182,7 @@ public class WristSubsystem extends SubsystemBase {
     double pitch_deg = 0.0;
     periodicCycles++;
     
-    if((periodicCycles >= 150) && (m_shoulder.positionKnown())) {
+    if((!m_initialized_pitch_roll) && (periodicCycles >= 150) && (m_shoulder.positionKnown())) {
       init_angles();
     }
 
@@ -197,10 +233,14 @@ public class WristSubsystem extends SubsystemBase {
       
 
       double shoulder_deg = m_shoulder.getCurrentDegrees();
-      pitch_deg = m_floor_pitch_deg + shoulder_deg;
+      pitch_deg = m_floor_pitch_deg - shoulder_deg;
 
       pitch_deg = limitPitch(pitch_deg);
       m_roll_deg = limitRoll(m_roll_deg);
+
+      /*System.out.printf("    target floor pitch: %f\n", targetFloorPitch);
+      System.out.printf("    desired floor pitch: %f\n", m_desiredFloorPitch);
+      System.out.printf("    m_floor_pitch_deg: %f\n", m_floor_pitch_deg);*/
 
       //TODO double adjustedPitch_deg = m_pitch_deg - m_shoulder.getCurrentDegrees();
 
