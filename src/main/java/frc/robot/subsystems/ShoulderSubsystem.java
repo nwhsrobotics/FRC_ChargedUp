@@ -25,7 +25,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private static final double OFFSET_LENGTH_IN = 7.0;
     private static final double SECONDS_PER_TICK = 0.02;
 
-    private static final double MAX_SPEED_DEG_PER_TICK = 45.0*SECONDS_PER_TICK; // Move 90 degrees in 2 seconds
+    private static final double MAX_SPEED_DEG_PER_TICK = 45.0 * SECONDS_PER_TICK; // Move 90 degrees in 2 seconds
     private static final double INITIAL_POS_DEG = -78.0;
     private static final double ARM_IN_LIMIT_DEG = -60.0; // less than this, arm forced in, wrist pitched up.
     private double m_gearRatio = 200;
@@ -37,7 +37,6 @@ public class ShoulderSubsystem extends SubsystemBase {
     public double m_currentPos_deg; // 0 = arm horizontal, positive = arm up
     public double m_desiredPos_deg;
     private boolean m_positionKnown = false;
-    
 
     /** Creates a new ShoulderSubsystem. */
     public ShoulderSubsystem(XboxController m_controller) {
@@ -89,21 +88,21 @@ public class ShoulderSubsystem extends SubsystemBase {
 
     public void changePos_deg(double p_degree) {
         // converts degree into rotations and add or subtract
-                                                                // specific degree from current degree of shoulder
+        // specific degree from current degree of shoulder
         m_desiredPos_deg += p_degree;
         /*
-        if (m_desiredPos_deg < MIN_DEG) {
-            m_desiredPos_deg = MIN_DEG;
-        }
-
-        if (m_desiredPos_deg > MAX_DEG) {
-            m_desiredPos_deg = MAX_DEG;
-        }*/
+         * if (m_desiredPos_deg < MIN_DEG) {
+         * m_desiredPos_deg = MIN_DEG;
+         * }
+         * 
+         * if (m_desiredPos_deg > MAX_DEG) {
+         * m_desiredPos_deg = MAX_DEG;
+         * }
+         */
     }
 
     public void setPos_deg(double p_degree) {
-        // converts degree into rotations and set desired Pos to
-        // a specific degree
+        // converts degree into rotations and set desired Pos to a specific degree
         m_desiredPos_deg = p_degree;
     }
 
@@ -138,62 +137,53 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController2.setReference(-degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
 
             System.out.printf("===========================Abs raw: %f, adjusted abs: %f\n", absRaw, adjustAbs);
-            System.out.printf("===========================Desired pos: %f, Current pos: %f\n\n", m_desiredPos_deg, m_currentPos_deg);
+            System.out.printf("===========================Desired pos: %f, Current pos: %f\n\n", m_desiredPos_deg,
+                    m_currentPos_deg);
             m_positionKnown = true;
         }
-        if (m_enabled == true && /*m_extendArmSubsystem.m_homed &&*/ counter > 150) {
+        if (m_enabled == true && /* m_extendArmSubsystem.m_homed && */ counter > 150) {
 
-
-
-
-            //TODO Check for arm inside limits
-
-
-
-            // If the current position is between 20 and 23 degrees and the desired position is less than 20 degrees and the arm is not fully retracted,
-            // automatically retracts the arm (mechanical limit to not damage the bumper or base) **NOTE** NOT EXACT NUMBERS
-        
-            
+            // automatically retracts the arm (mechanical limit to not damage the bumper or
+            // base) **NOTE** NOT EXACT NUMBERS
 
             // Calculates the distance between the current and desired positions in degrees
-            double distance_deg = (m_desiredPos_deg - m_currentPos_deg); //this is useless, just for reading distance in degrees instead of rotations
+            double distance_deg = (m_desiredPos_deg - m_currentPos_deg); // this is useless, just for reading distance in degrees instead of rotations
 
             // Calculates the distance between the current and desired positions in rotations
-
 
             // Limits the maximum change in rotation per tick
             if (distance_deg > MAX_SPEED_DEG_PER_TICK) { // **NOTE: 1 rotation per tick is equivalent to 1.8 degrees per tick** 1 rot = 1.8 deg
                 distance_deg = MAX_SPEED_DEG_PER_TICK;
-            } else if (distance_deg  < -MAX_SPEED_DEG_PER_TICK) {
-                distance_deg  = -MAX_SPEED_DEG_PER_TICK;
+            } else if (distance_deg < -MAX_SPEED_DEG_PER_TICK) {
+                distance_deg = -MAX_SPEED_DEG_PER_TICK;
             }
 
             double max_arm_allowed = computeMaxArmExtension(m_currentPos_deg);
             double arm_position = m_extendArmSubsystem.getCurrentPos_inch();
 
-            
-
             // System.out.printf("arm position = %f, max allowed = %f\n", arm_position, max_arm_allowed);
             /*
-            if(arm_position <= max_arm_allowed) {
-                m_currentPos_deg += distance_deg ;
-                // System.out.println("ARM MOVED");
-            }
-            else{
-                // System.out.println("ARM MOVEMENT DISALLOWED");
-            }*/
+             * if(arm_position <= max_arm_allowed) {
+             * m_currentPos_deg += distance_deg ;
+             * // System.out.println("ARM MOVED");
+             * }
+             * else{
+             * // System.out.println("ARM MOVEMENT DISALLOWED");
+             * }
+             */
 
-            m_currentPos_deg += distance_deg ;
+            m_currentPos_deg += distance_deg;
             /*
-
-            if(m_currentPos_deg > MAX_DEG) {
-                m_currentPos_deg = MAX_DEG;
-
-            }
-
-            if(m_currentPos_deg < MIN_DEG) {
-                m_currentPos_deg = MIN_DEG;
-            }*/
+             * 
+             * if(m_currentPos_deg > MAX_DEG) {
+             * m_currentPos_deg = MAX_DEG;
+             * 
+             * }
+             * 
+             * if(m_currentPos_deg < MIN_DEG) {
+             * m_currentPos_deg = MIN_DEG;
+             * }
+             */
 
             m_pidController1.setReference(degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
             m_pidController2.setReference(-degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
@@ -223,28 +213,21 @@ public class ShoulderSubsystem extends SubsystemBase {
             return 100.0;
         }
 
-        if(degrees < ARM_IN_LIMIT_DEG) {
-            return 0.0; //arm needs to be retracted
+        if (degrees < ARM_IN_LIMIT_DEG) {
+            return 0.0; // arm needs to be retracted
         }
         double shoulder_rad = Math.toRadians(degrees);
         double offset_y = Math.cos(shoulder_rad) * OFFSET_LENGTH_IN;
         double y = SHOULDER_HEIGHT_IN - offset_y;
-        double max_ext = y/Math.sin(Math.abs(shoulder_rad))-ARM_BASE_LENGTH_IN;
+        double max_ext = y / Math.sin(Math.abs(shoulder_rad)) - ARM_BASE_LENGTH_IN;
         return max_ext;
-
-
-
     }
 
-    public double getMaxArmExtension(){
+    public double getMaxArmExtension() {
         double length_1 = computeMaxArmExtension(m_currentPos_deg);
         double length_2 = computeMaxArmExtension(m_desiredPos_deg);
         return 20.0;
-        //return Math.min(length_1, length_2);
-    
-
-
-
+        // return Math.min(length_1, length_2);
     }
 
     public boolean isMoving() {
@@ -262,14 +245,15 @@ public class ShoulderSubsystem extends SubsystemBase {
 
     public double getMinPitch_deg() {
         /*
-        if(m_currentPos_deg <= -88.0)
-        {
-            return 0.0;
-        }
-        if(m_currentPos_deg > -88.0 && m_currentPos_deg < ARM_IN_LIMIT_DEG)
-        {
-            return 25.0; //pitch up inside robot
-        }*/
-        return -90.0; //not in front of robot any pitch is fine
+         * if(m_currentPos_deg <= -88.0)
+         * {
+         * return 0.0;
+         * }
+         * if(m_currentPos_deg > -88.0 && m_currentPos_deg < ARM_IN_LIMIT_DEG)
+         * {
+         * return 25.0; //pitch up inside robot
+         * }
+         */
+        return -90.0; // not in front of robot any pitch is fine
     }
 }

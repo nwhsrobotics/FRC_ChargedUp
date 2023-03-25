@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -50,10 +49,10 @@ public class SwerveModule {
         driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
         turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
         turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
- 
+
         turningPidController = new PIDController(ModuleConstants.kPTurning, ModuleConstants.kITurning, 0);
-        //turningPidController.setTolerance(ModuleConstants.kPTolerance);
-        turningPidController.enableContinuousInput(-Math.PI, Math.PI); //the wheels can rotate in a full circle
+        // turningPidController.setTolerance(ModuleConstants.kPTolerance);
+        turningPidController.enableContinuousInput(-Math.PI, Math.PI); // the wheels can rotate in a full circle
         resetEncoders();
         turningMotor.set(turningPidController.calculate(getAbsoluteEncoderRad(), 0));
 
@@ -77,7 +76,7 @@ public class SwerveModule {
 
     public double getAbsoluteEncoderRadRaw() {
         double angle = absoluteEncoder.getAbsolutePosition() * (Math.PI / 180.0); // convert degrees to radians
-        return angle; //shorthand for if the encoder is reversed, multiply by -1, else do nothing (multiply by 1)
+        return angle; // shorthand for if the encoder is reversed, multiply by -1, else do nothing (multiply by 1)
     }
 
     public double getAbsoluteEncoderRad() {
@@ -85,8 +84,8 @@ public class SwerveModule {
         angle -= absoluteEncoderOffsetRad;
         angle = angle * (absoluteEncoderReversed ? -1.0 : 1.0);
 
-        if (angle > 2*Math.PI) {
-            angle -= 2 *Math.PI;
+        if (angle > 2 * Math.PI) {
+            angle -= 2 * Math.PI;
         }
 
         if (angle < 0) {
@@ -106,7 +105,7 @@ public class SwerveModule {
     }
 
     public SwerveModuleState getState() {
-        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition())); //SwerveModuleState takes the velocity and the angle of the module for params
+        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition())); // SwerveModuleStatetakes the velocity and the angle of the module for params
     }
 
     public SwerveModulePosition getPosition() {

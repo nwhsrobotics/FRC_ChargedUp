@@ -52,7 +52,7 @@ public class Robot extends LoggedRobot {
                 logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
                 break;
         }
-        
+
         logger.start();
 
         // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -101,7 +101,7 @@ public class Robot extends LoggedRobot {
     public void autonomousInit() {
         m_robotContainer.swerveSubsystem.resetHeadingAndPose();
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    
+
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
