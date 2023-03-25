@@ -37,12 +37,12 @@ public class WristSubsystem extends SubsystemBase {
 
   private DutyCycleEncoder m_wristAbsoluteEncoderA;
   private DutyCycleEncoder m_wristAbsoluteEncoderB;
-  
+
   public double m_floor_pitch_deg = 0.0;
   public double m_roll_deg = 0.0;
   private double m_positionA_deg = 0.0;
   private double m_positionB_deg = 0.0;
-  private double m_desiredFloorPitch = 0.0; //TODO: rename to desiredFloorPitch
+  private double m_desiredFloorPitch = 0.0;
   private double m_desiredRoll_deg = 0.0;
 
   private boolean m_initialized_pitch_roll = false;
@@ -55,7 +55,7 @@ public class WristSubsystem extends SubsystemBase {
     this.m_shoulder = m_shoulder;
 
     m_wristmotorA = new CANSparkMax(WristConstants.WristCanIDA, CANSparkMax.MotorType.kBrushless);
-  
+
     if (m_wristmotorA != null) {
       m_pidControllerA = m_wristmotorA.getPIDController();
 
@@ -97,9 +97,9 @@ public class WristSubsystem extends SubsystemBase {
     double pitch_deg = floor_pitch_deg - m_shoulder.getCurrentDegrees();
 
     return ((pitch_deg < WristConstants.kMaxPitch) &&
-            (floor_pitch_deg < max_floor_pitch_deg()) &&
-            (pitch_deg > WristConstants.kMinPitch) &&
-            (floor_pitch_deg > min_floor_pitch_deg()));
+        (floor_pitch_deg < max_floor_pitch_deg()) &&
+        (pitch_deg > WristConstants.kMinPitch) &&
+        (floor_pitch_deg > min_floor_pitch_deg()));
 
   }
 
@@ -121,7 +121,7 @@ public class WristSubsystem extends SubsystemBase {
       m_desiredRoll_deg = newRoll_deg;
     }
   }
-  
+
   public double limitPitch(double pitch) {
     return Math.max(Math.min(pitch, WristConstants.kMaxPitch), WristConstants.kMinPitch);
   }
@@ -147,33 +147,29 @@ public class WristSubsystem extends SubsystemBase {
     return adjusted;
   }
 
-  public void init_angles() { 
-      // abs encoders stable now (after 3 secs)
-      // do homing
-      double absPosA = adjustAbsEncoder(m_wristAbsoluteEncoderA.getAbsolutePosition(), WristConstants.absAOffset, false);
-      double absPosB = adjustAbsEncoder(m_wristAbsoluteEncoderB.getAbsolutePosition(), WristConstants.absBOffset, true);
-      double shoulder_deg = m_shoulder.getCurrentDegrees();
+  public void init_angles() {
+    // abs encoders stable now (after 3 secs)
+    // do homing
+    double absPosA = adjustAbsEncoder(m_wristAbsoluteEncoderA.getAbsolutePosition(), WristConstants.absAOffset, false);
+    double absPosB = adjustAbsEncoder(m_wristAbsoluteEncoderB.getAbsolutePosition(), WristConstants.absBOffset, true);
+    double shoulder_deg = m_shoulder.getCurrentDegrees();
 
-      
-      
-      m_roll_deg = (360.0 * (absPosA - absPosB)) / 2.0;
-      double pitch_deg = (360.0 * (absPosA + absPosB)) / 2.0;
-      m_floor_pitch_deg = pitch_deg + shoulder_deg;
-      System.out.printf("+++++++++++++++++ absA: %f, absB: %f, shoulder: %f, pitch: %f, floor pitch: %f\n", 
+    m_roll_deg = (360.0 * (absPosA - absPosB)) / 2.0;
+    double pitch_deg = (360.0 * (absPosA + absPosB)) / 2.0;
+    m_floor_pitch_deg = pitch_deg + shoulder_deg;
+    System.out.printf("+++++++++++++++++ absA: %f, absB: %f, shoulder: %f, pitch: %f, floor pitch: %f\n",
         absPosA, absPosB, shoulder_deg, pitch_deg, m_floor_pitch_deg);
-      m_desiredFloorPitch = m_floor_pitch_deg;
-      m_desiredRoll_deg = m_roll_deg;
+    m_desiredFloorPitch = m_floor_pitch_deg;
+    m_desiredRoll_deg = m_roll_deg;
 
+    m_positionA_deg = (pitch_deg + m_roll_deg);
+    m_positionB_deg = (pitch_deg - m_roll_deg);
 
-      m_positionA_deg = (pitch_deg + m_roll_deg);
-      m_positionB_deg = (pitch_deg - m_roll_deg);
-      
-      m_wristRelativeEncoderA.setPosition(m_positionA_deg * -WristConstants.REVS_PER_OUTPUT_DEGREE_LEFT);
-      m_wristRelativeEncoderB.setPosition(m_positionB_deg * WristConstants.REVS_PER_OUTPUT_DEGREE_RIGHT);
+    m_wristRelativeEncoderA.setPosition(m_positionA_deg * -WristConstants.REVS_PER_OUTPUT_DEGREE_LEFT);
+    m_wristRelativeEncoderB.setPosition(m_positionB_deg * WristConstants.REVS_PER_OUTPUT_DEGREE_RIGHT);
 
-      m_initialized_pitch_roll = true;
+    m_initialized_pitch_roll = true;
 
-    
   }
 
   @Override
@@ -181,27 +177,27 @@ public class WristSubsystem extends SubsystemBase {
     boolean updated_pr = false;
     double pitch_deg = 0.0;
     periodicCycles++;
-    
-    if((!m_initialized_pitch_roll) && (periodicCycles >= 150) && (m_shoulder.positionKnown())) {
+
+    if ((!m_initialized_pitch_roll) && (periodicCycles >= 150) && (m_shoulder.positionKnown())) {
       init_angles();
     }
 
-    if (m_initialized_pitch_roll){
+    if (m_initialized_pitch_roll) {
       /*
-      if (Math.abs(m_operator.getLeftY()) > WristConstants.JOYSTICK_DEADBAND) {
+       if (Math.abs(m_operator.getLeftY()) > WristConstants.JOYSTICK_DEADBAND) {
         pitch(m_operator.getLeftY() * -WRIST_SPEED_DEG_PER_TICK);
         updated_pr = true;
-      }
-
-      if (Math.abs(m_operator.getRightX()) > WristConstants.JOYSTICK_DEADBAND) {
+       }
+        
+       if (Math.abs(m_operator.getRightX()) > WristConstants.JOYSTICK_DEADBAND) {
         roll(m_operator.getRightX() * WRIST_SPEED_DEG_PER_TICK);
         updated_pr = true;
-      }*/
+       }
+      */
       double targetFloorPitch = m_desiredFloorPitch;
 
       double min_floor_pitch_deg = m_shoulder.getMinPitch_deg();
-      if(targetFloorPitch < min_floor_pitch_deg)
-      {
+      if (targetFloorPitch < min_floor_pitch_deg) {
         targetFloorPitch = min_floor_pitch_deg;
       }
 
@@ -227,10 +223,7 @@ public class WristSubsystem extends SubsystemBase {
       m_floor_pitch_deg += delta_pitch_deg;
       m_roll_deg += delta_roll_deg;
 
-      //limit wrist position according to shoulder
-
-
-      
+      // limit wrist position according to shoulder
 
       double shoulder_deg = m_shoulder.getCurrentDegrees();
       pitch_deg = m_floor_pitch_deg - shoulder_deg;
@@ -238,33 +231,37 @@ public class WristSubsystem extends SubsystemBase {
       pitch_deg = limitPitch(pitch_deg);
       m_roll_deg = limitRoll(m_roll_deg);
 
-      /*System.out.printf("    target floor pitch: %f\n", targetFloorPitch);
-      System.out.printf("    desired floor pitch: %f\n", m_desiredFloorPitch);
-      System.out.printf("    m_floor_pitch_deg: %f\n", m_floor_pitch_deg);*/
+      /*
+       * System.out.printf("    target floor pitch: %f\n", targetFloorPitch);
+       * System.out.printf("    desired floor pitch: %f\n", m_desiredFloorPitch);
+       * System.out.printf("    m_floor_pitch_deg: %f\n", m_floor_pitch_deg);
+       */
 
-      //TODO double adjustedPitch_deg = m_pitch_deg - m_shoulder.getCurrentDegrees();
+      // TODO double adjustedPitch_deg = m_pitch_deg - m_shoulder.getCurrentDegrees();
 
       m_positionA_deg = (pitch_deg + m_roll_deg);
       m_positionB_deg = (pitch_deg - m_roll_deg);
 
-      m_pidControllerA.setReference(m_positionA_deg * -WristConstants.REVS_PER_OUTPUT_DEGREE_LEFT, ControlType.kPosition);
-      m_pidControllerB.setReference(m_positionB_deg * WristConstants.REVS_PER_OUTPUT_DEGREE_RIGHT, ControlType.kPosition);
-      
+      m_pidControllerA.setReference(m_positionA_deg * -WristConstants.REVS_PER_OUTPUT_DEGREE_LEFT,
+          ControlType.kPosition);
+      m_pidControllerB.setReference(m_positionB_deg * WristConstants.REVS_PER_OUTPUT_DEGREE_RIGHT,
+          ControlType.kPosition);
+
       if (m_wristmotorA.getOutputCurrent() > maxCurrentMotorA)
         maxCurrentMotorA = m_wristmotorA.getOutputCurrent();
       if (m_wristmotorB.getOutputCurrent() > maxCurrentMotorB)
         maxCurrentMotorB = m_wristmotorB.getOutputCurrent();
     }
 
-    //logger.recordOutput("wrist.a.power", m_wristmotorA.get());
-    //logger.recordOutput("wrist.b.power", m_wristmotorB.get());
+    // logger.recordOutput("wrist.a.power", m_wristmotorA.get());
+    // logger.recordOutput("wrist.b.power", m_wristmotorB.get());
     logger.recordOutput("wrist.pitch", pitch_deg);
     logger.recordOutput("wrist.floor_pitch", m_floor_pitch_deg);
     logger.recordOutput("wrist.roll", m_roll_deg);
     logger.recordOutput("wrist.a.position", m_positionA_deg);
     logger.recordOutput("wrist.b.position", m_positionB_deg);
-    logger.recordOutput("wrist.a.reference", m_positionA_deg*-WristConstants.REVS_PER_OUTPUT_DEGREE_LEFT);
-    logger.recordOutput("wrist.b.reference", m_positionB_deg*WristConstants.REVS_PER_OUTPUT_DEGREE_RIGHT);
+    logger.recordOutput("wrist.a.reference", m_positionA_deg * -WristConstants.REVS_PER_OUTPUT_DEGREE_LEFT);
+    logger.recordOutput("wrist.b.reference", m_positionB_deg * WristConstants.REVS_PER_OUTPUT_DEGREE_RIGHT);
     logger.recordOutput("wrist.a.relative", m_wristRelativeEncoderA.getPosition());
     logger.recordOutput("wrist.b.relative", m_wristRelativeEncoderB.getPosition());
     logger.recordOutput("wrist.a.current", m_wristmotorA.getOutputCurrent());
