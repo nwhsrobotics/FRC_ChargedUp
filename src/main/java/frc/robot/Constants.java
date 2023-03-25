@@ -163,15 +163,6 @@ public final class Constants {
         public static final double JOYSTICK_DEADBAND = 0.1;
     }
 
-    public static final class ArmPoses {
-        public static final int POSE_1_IN_ROBOT = 1;
-        public static final int POSE_2_OVER_BUMPER = 2;
-        public static final int POSE_3_GROUND = 3;
-        public static final int POSE_4_MEDIUM = 4;
-        public static final int POSE_5_HIGH = 5;
-        public static final int POSE_6_SHELF = 6;  
-    }
-
     public static enum RuntimeEnvironment {
         /** Running on physical robot. */
         REAL,

@@ -241,10 +241,6 @@ public class ShoulderSubsystem extends SubsystemBase {
         double length_2 = computeMaxArmExtension(m_desiredPos_deg);
         return 20.0;
         //return Math.min(length_1, length_2);
-    
-
-
-
     }
 
     public boolean isMoving() {
