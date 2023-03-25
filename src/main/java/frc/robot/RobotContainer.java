@@ -52,13 +52,13 @@ public class RobotContainer {
 
     public final GrabberSubsystem m_grabberSubsystem = new GrabberSubsystem();
 
-    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem);
+    public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem,m_grabberSubsystem);
 
     Command blue1_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
             "paths/Blue1_CubeExit.wpilib.json", "paths/Blue1B.wpilib.json");
     Command blue2_auto = new SequentialCommandGroup(
-        new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
-            "paths/Blue2A.wpilib.json", "paths/Blue2B.wpilib.json"), 
+            new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+                    "paths/Blue2A.wpilib.json", "paths/Blue2B.wpilib.json"),
             new AutoEngageCmd(swerveSubsystem));
     Command blue3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
             "paths/Blue3_CubeExit.wpilib.json", "paths/Blue3B.wpilib.json");
@@ -68,40 +68,44 @@ public class RobotContainer {
             "paths/Red2A.wpilib.json", "paths/Red2B.wpilib.json");
     Command red3_auto = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
             "paths/Red3_CubeExit.wpilib.json", "paths/Red3B.wpilib.json");
-    /*Command bluecharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
-            "paths/BlueChargeStation.wpilib.json", "paths/Red3B.wpilib.json");*/
+    /*
+     * Command bluecharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem,
+     * m_extendArmSubsystem, m_grabberSubsystem,
+     * "paths/BlueChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
+     */
     Command bluecharge = new SequentialCommandGroup(
-        new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
-            "paths/BlueChargeStation.wpilib.json", "paths/Blue2B.wpilib.json"), 
+            new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+                    "paths/BlueChargeStation.wpilib.json", "paths/Blue2B.wpilib.json"),
             new AutoEngageCmd(swerveSubsystem));
-    /*Command redcharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
-            "paths/RedChargeStation.wpilib.json", "paths/Red3B.wpilib.json");*/
+    /*
+     * Command redcharge = new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem,
+     * m_extendArmSubsystem, m_grabberSubsystem,
+     * "paths/RedChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
+     */
     Command redcharge = new SequentialCommandGroup(
-        new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
-            "paths/RedChargeStation.wpilib.json", "paths/Blue2B.wpilib.json"), 
+            new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
+                    "paths/RedChargeStation.wpilib.json", "paths/Blue2B.wpilib.json"),
             new AutoEngageCmd(swerveSubsystem));
-
-
 
     ParallelCommandGroup insideCmd = new ParallelCommandGroup(
-        new ShoulderCmd(m_shoulderSubsystem, -90),
-        new ExtendArmCmd(m_extendArmSubsystem, 0));
+            new ShoulderCmd(m_shoulderSubsystem, -90),
+            new ExtendArmCmd(m_extendArmSubsystem, 0));
 
     ParallelCommandGroup groundCmd = new ParallelCommandGroup(
-        new ShoulderCmd(m_shoulderSubsystem, -25),
-        new ExtendArmCmd(m_extendArmSubsystem, 5));
+            new ShoulderCmd(m_shoulderSubsystem, -25),
+            new ExtendArmCmd(m_extendArmSubsystem, 5));
 
     ParallelCommandGroup middleCmd = new ParallelCommandGroup(
-        new ShoulderCmd(m_shoulderSubsystem, -10),
-        new ExtendArmCmd(m_extendArmSubsystem, 10));
+            new ShoulderCmd(m_shoulderSubsystem, -10),
+            new ExtendArmCmd(m_extendArmSubsystem, 10));
 
     ParallelCommandGroup topCmd = new ParallelCommandGroup(
-        new ShoulderCmd(m_shoulderSubsystem, 14),
-        new ExtendArmCmd(m_extendArmSubsystem, 15));
+            new ShoulderCmd(m_shoulderSubsystem, 14),
+            new ExtendArmCmd(m_extendArmSubsystem, 15));
 
     ParallelCommandGroup shelfCmd = new ParallelCommandGroup(
-        new ShoulderCmd(m_shoulderSubsystem, 20),
-        new ExtendArmCmd(m_extendArmSubsystem, 18));
+            new ShoulderCmd(m_shoulderSubsystem, 20),
+            new ExtendArmCmd(m_extendArmSubsystem, 18));
 
     public RobotContainer() {
         m_autoChooser.setDefaultOption("Blue1", blue1_auto);
@@ -126,8 +130,8 @@ public class RobotContainer {
         new JoystickButton(m_driver, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
         new JoystickButton(m_driver, 2).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR()));
         new JoystickButton(m_driver, 4).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
-        //new JoystickButton(m_driver, 11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
-        //new JoystickButton(m_driver, 5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
+        // new JoystickButton(m_driver, 11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
+        // new JoystickButton(m_driver, 5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
         m_joyB.onTrue(insideCmd);
         m_joyA.onTrue(groundCmd);
         m_joyX.onTrue(middleCmd);
