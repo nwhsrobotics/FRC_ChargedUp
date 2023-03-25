@@ -7,7 +7,6 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,9 +21,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private double m_desiredPos_inch = 0.0;
   private double m_current_vel_ips = 0.0;
   private static final double GEAR_RATIO = 5.23 * 5.23 * 2.89;
-  public static final double INCHES_PER_ROT = 2.0 * 24.0 * 5.0 / (25.4 * GEAR_RATIO); // stages * pulley teeth * mm per
-                                                                                      // tooth / (mm per inch * gear
-                                                                                      // ratio)
+  public static final double INCHES_PER_ROT = 2.0 * 24.0 * 5.0 / (25.4 * GEAR_RATIO); // stages * pulley teeth * mm per tooth / (mm per inch * gear ratio)
   private static final int HOMING_MAX_TICKS = 150;
   private static final double HOMING_POWER = 0.6;
   public boolean m_homed = false;
@@ -35,7 +32,6 @@ public class ExtendArmSubsystem extends SubsystemBase {
   private final ShoulderSubsystem m_shoulderSubsystem;
 
   public ExtendArmSubsystem(ShoulderSubsystem shoulder) {
-    // TODO CHANGE SPARKMAX CANID TO USE CONSTANTS
     m_extendArmMotor1 = new CANSparkMax(16, CANSparkMax.MotorType.kBrushless);
     m_shoulderSubsystem = shoulder;
 
@@ -67,13 +63,11 @@ public class ExtendArmSubsystem extends SubsystemBase {
     if (m_enabled == true) {
       if (m_homed == true) {
         double target_pos = m_desiredPos_inch;
-        if(target_pos > m_shoulderSubsystem.getMaxArmExtension()){
+        if (target_pos > m_shoulderSubsystem.getMaxArmExtension()) {
           target_pos = m_shoulderSubsystem.getMaxArmExtension();
         }
-        
-        if (target_pos > ExtendArmConstants.MAX_EXTEND_INCH) { // if desired pos for arm is greater than 38
-                                                                      // make it 38 and if less than 0 inches make it
-                                                                      // 0
+
+        if (target_pos > ExtendArmConstants.MAX_EXTEND_INCH) {
           target_pos = ExtendArmConstants.MAX_EXTEND_INCH;
         } else if (target_pos < 0) {
           target_pos = 0;
@@ -140,7 +134,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
 
         SmartDashboard.putBoolean("ARM HOMED?", m_homed);
         SmartDashboard.putBoolean("ARM MOVING?", m_moving);
-      
+
       } else {
         homing();
         m_moving = true;

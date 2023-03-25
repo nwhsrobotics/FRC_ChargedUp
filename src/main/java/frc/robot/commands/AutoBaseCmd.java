@@ -19,8 +19,10 @@ import frc.robot.patched.SwerveControllerCommand;
 public class AutoBaseCmd extends SequentialCommandGroup {
     private Trajectory trajA = new Trajectory();
     private Trajectory trajB = new Trajectory();
-    private ExtendArmSubsystem m_arm; 
-    public AutoBaseCmd(SwerveSubsystem s_Swerve, ShoulderSubsystem m_shoulder, ExtendArmSubsystem armSubsystem, GrabberSubsystem m_grabber, String trajAPath, String trajBPath){
+    private ExtendArmSubsystem m_arm;
+
+    public AutoBaseCmd(SwerveSubsystem s_Swerve, ShoulderSubsystem m_shoulder, ExtendArmSubsystem armSubsystem,
+            GrabberSubsystem m_grabber, String trajAPath, String trajBPath) {
         m_arm = armSubsystem;
         Path trajectoryPathA = Filesystem.getDeployDirectory().toPath().resolve(trajAPath);
         Path trajectoryPathB = Filesystem.getDeployDirectory().toPath().resolve(trajBPath);
@@ -32,13 +34,11 @@ public class AutoBaseCmd extends SequentialCommandGroup {
             e.printStackTrace();
         }
 
-        var thetaController =
-            new ProfiledPIDController(
+        var thetaController = new ProfiledPIDController(
                 Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        SwerveControllerCommand swerveControllerCommand1 =
-            new SwerveControllerCommand(
+        SwerveControllerCommand swerveControllerCommand1 = new SwerveControllerCommand(
                 trajA,
                 s_Swerve::getPose,
                 Constants.DriveConstants.kDriveKinematics,
@@ -47,74 +47,74 @@ public class AutoBaseCmd extends SequentialCommandGroup {
                 thetaController,
                 s_Swerve::setModuleStates,
                 s_Swerve);
-        
-        SwerveControllerCommand swerveControllerCommand2 =
-        new SwerveControllerCommand(
-            trajB,
-            s_Swerve::getPose,
-            Constants.DriveConstants.kDriveKinematics,
-            new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-            new PIDController(Constants.AutoConstants.kPYController, 0, 0),
-            thetaController,
-            s_Swerve::setModuleStates,
-            s_Swerve);
 
+        SwerveControllerCommand swerveControllerCommand2 = new SwerveControllerCommand(
+                trajB,
+                s_Swerve::getPose,
+                Constants.DriveConstants.kDriveKinematics,
+                new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+                new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+                thetaController,
+                s_Swerve::setModuleStates,
+                s_Swerve);
 
         addCommands(
-            new InstantCommand(() -> m_arm.startHoming()),
-            new InstantCommand(() -> s_Swerve.resetHeadingAndPose()),
-            new InstantCommand(() -> s_Swerve.resetOdometry(trajA.getInitialPose())),
-            new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
-            new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
-            new InstantCommand(() -> System.out.println(trajA.getTotalTimeSeconds())),
-            //first place preloaded cone
-            /*new ParallelCommandGroup(
-                new InstantCommand(() -> m_shoulder.setPos_deg(55.0)),
-                new InstantCommand(() -> m_arm.setPos_inch(30.0)),
-                new InstantCommand(() -> m_grabber.grabberExtend())
-            ),
+                new InstantCommand(() -> m_arm.startHoming()),
+                new InstantCommand(() -> s_Swerve.resetHeadingAndPose()),
+                new InstantCommand(() -> s_Swerve.resetOdometry(trajA.getInitialPose())),
+                new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
+                new InstantCommand(() -> System.out.println(s_Swerve.getHeading())),
+                new InstantCommand(() -> System.out.println(trajA.getTotalTimeSeconds())),
+                // first place preloaded cone
+                /*
+                 * new ParallelCommandGroup(
+                 * new InstantCommand(() -> m_shoulder.setPos_deg(55.0)),
+                 * new InstantCommand(() -> m_arm.setPos_inch(30.0)),
+                 * new InstantCommand(() -> m_grabber.grabberExtend())
+                 * ),
+                 * 
+                 * //wait 0.5 secs
+                 * new InstantCommand(() -> Timer.delay(0.5)),
+                 * 
+                 * //retract shoulder and arm
+                 * new ParallelCommandGroup(
+                 * new InstantCommand(() -> m_shoulder.setPos_deg(0.0)),
+                 * new InstantCommand(() -> m_arm.setPos_inch(0.0))
+                 * ),
+                 */
 
-            //wait 0.5 secs
-            new InstantCommand(() -> Timer.delay(0.5)),
-
-            //retract shoulder and arm
-            new ParallelCommandGroup(
-                new InstantCommand(() -> m_shoulder.setPos_deg(0.0)),
-                new InstantCommand(() -> m_arm.setPos_inch(0.0))
-            ),*/
-
-            //drive to new cone
-            swerveControllerCommand1,
-            /*
-            //extend shoulder and arm again
-            new ParallelCommandGroup(
-                new InstantCommand(() -> m_shoulder.setPos_deg(55.0)),
-                new InstantCommand(() -> m_arm.setPos_inch(30.0))
-            ),
-
-            //close grabber around cone
-            new InstantCommand(() -> m_grabber.grabberRetract()),
-
-            //retract shoulder and arm
-            new ParallelCommandGroup(
-                new InstantCommand(() -> m_shoulder.setPos_deg(0.0)),
-                new InstantCommand(() -> m_arm.setPos_inch(0.0))
-            ),
-
-            //drive back to grid
-            swerveControllerCommand2,
-
-            //extend shoulder and arm
-            new ParallelCommandGroup(
-                new InstantCommand(() -> m_shoulder.setPos_deg(55.0)),
-                new InstantCommand(() -> m_arm.setPos_inch(30.0))
-            ),
-
-            //open grabber
-            new InstantCommand(() -> m_grabber.grabberExtend()),*/
-            //stop swerve!
-            new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
-            new InstantCommand(() -> System.out.println(s_Swerve.getHeading()))
-        );
+                // drive to new cone
+                swerveControllerCommand1,
+                /*
+                 * //extend shoulder and arm again
+                 * new ParallelCommandGroup(
+                 * new InstantCommand(() -> m_shoulder.setPos_deg(55.0)),
+                 * new InstantCommand(() -> m_arm.setPos_inch(30.0))
+                 * ),
+                 * 
+                 * //close grabber around cone
+                 * new InstantCommand(() -> m_grabber.grabberRetract()),
+                 * 
+                 * //retract shoulder and arm
+                 * new ParallelCommandGroup(
+                 * new InstantCommand(() -> m_shoulder.setPos_deg(0.0)),
+                 * new InstantCommand(() -> m_arm.setPos_inch(0.0))
+                 * ),
+                 * 
+                 * //drive back to grid
+                 * swerveControllerCommand2,
+                 * 
+                 * //extend shoulder and arm
+                 * new ParallelCommandGroup(
+                 * new InstantCommand(() -> m_shoulder.setPos_deg(55.0)),
+                 * new InstantCommand(() -> m_arm.setPos_inch(30.0))
+                 * ),
+                 * 
+                 * //open grabber
+                 * new InstantCommand(() -> m_grabber.grabberExtend()),
+                 */
+                // stop swerve!
+                new InstantCommand(() -> System.out.println(s_Swerve.getPose())),
+                new InstantCommand(() -> System.out.println(s_Swerve.getHeading())));
     }
 }
