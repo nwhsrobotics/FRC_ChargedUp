@@ -7,7 +7,6 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -71,9 +70,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
           target_pos = m_shoulderSubsystem.getMaxArmExtension();
         }
         
-        if (target_pos > ExtendArmConstants.MAX_EXTEND_INCH) { // if desired pos for arm is greater than 38
-                                                                      // make it 38 and if less than 0 inches make it
-                                                                      // 0
+        if (target_pos > ExtendArmConstants.MAX_EXTEND_INCH) { 
           target_pos = ExtendArmConstants.MAX_EXTEND_INCH;
         } else if (target_pos < 0) {
           target_pos = 0;
