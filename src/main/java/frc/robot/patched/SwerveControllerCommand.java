@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.patched;
 
 import static edu.wpi.first.util.ErrorMessages.requireNonNullParam;
@@ -200,11 +196,9 @@ public class SwerveControllerCommand extends CommandBase {
     m_kinematics = requireNonNullParam(kinematics, "kinematics", "SwerveControllerCommand");
     m_controller = requireNonNullParam(controller, "controller", "SwerveControllerCommand");
 
-    m_desiredRotation =
-        requireNonNullParam(desiredRotation, "desiredRotation", "SwerveControllerCommand");
+    m_desiredRotation = requireNonNullParam(desiredRotation, "desiredRotation", "SwerveControllerCommand");
 
-    m_outputModuleStates =
-        requireNonNullParam(outputModuleStates, "outputModuleStates", "SwerveControllerCommand");
+    m_outputModuleStates = requireNonNullParam(outputModuleStates, "outputModuleStates", "SwerveControllerCommand");
 
     addRequirements(requirements);
   }
@@ -219,8 +213,7 @@ public class SwerveControllerCommand extends CommandBase {
     double curTime = m_timer.get();
     var desiredState = m_trajectory.sample(curTime);
 
-    var targetChassisSpeeds =
-        m_controller.calculate(m_pose.get(), desiredState, m_desiredRotation.get());
+    var targetChassisSpeeds = m_controller.calculate(m_pose.get(), desiredState, m_desiredRotation.get());
     var targetModuleStates = m_kinematics.toSwerveModuleStates(targetChassisSpeeds);
 
     m_outputModuleStates.accept(targetModuleStates);
