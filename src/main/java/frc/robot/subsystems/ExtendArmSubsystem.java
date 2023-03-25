@@ -164,8 +164,7 @@ public class ExtendArmSubsystem extends SubsystemBase {
         m_moving = true;
       }
 
-      // if the arm is not enabled i.e. not intialized, set the arm to not moving and
-      // return
+      // if the arm is not enabled i.e. not intialized, set the arm to not moving and return
     } else {
       m_moving = false;
       return;
