@@ -16,7 +16,7 @@ public class ExtendArmCmd extends CommandBase {
 
     @Override
     public void initialize() {
-        extendArm.setPos_inch(setPoint);
+        extendArm.setPos_inch(setPoint); // Set the specific position of the ExtendArmSubsytem to the setPoint value using the setPos_inch method
     }
 
     @Override
@@ -29,6 +29,6 @@ public class ExtendArmCmd extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return !extendArm.isMoving();
+        return !extendArm.isMoving(); // Return if the arm is not moving
     }
 }

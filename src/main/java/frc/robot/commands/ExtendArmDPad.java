@@ -22,18 +22,23 @@ public class ExtendArmDPad extends CommandBase {
 
     @Override
     public void execute() {
+        // If the extend arm subsystem is homed
         if (extendArm.m_homed == true) {
+            // If the right DPAD is pressed
             if (m_operator.getPOV() == 90) {
                 double currentInch = extendArm.getDesiredPos_inch();
                 extendArm.setPos_inch(
                         currentInch + ExtendArmConstants.ACCEL_MAX_V_IPS / 2 * ExtendArmConstants.SECONDS_PER_TICK);
             }
+            // If the left DPAD is pressed
             if (m_operator.getPOV() == 270) {
                 double currentInch = extendArm.getDesiredPos_inch();
                 extendArm.setPos_inch(
                         currentInch - (ExtendArmConstants.ACCEL_MAX_V_IPS / 2 * ExtendArmConstants.SECONDS_PER_TICK));
             }
-        } else {
+        }
+        // If the extend arm subsystem is not homed then cancel and return
+        else {
             return;
         }
     }

@@ -21,7 +21,7 @@ import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
 
-    // boolean variable to indicate if this subsystem is Field Relative
+    // boolean variable to indicate if the robot is Field Relative
     public boolean isFR = true;
 
     // 4 instances of SwerveModule to represent each wheel module
