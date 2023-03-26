@@ -205,27 +205,31 @@ public class SwerveControllerCommand extends CommandBase {
 
   @Override
   public void initialize() {
-    m_timer.restart();
+      m_timer.restart(); // Restart timer
   }
 
   @Override
   public void execute() {
-    double curTime = m_timer.get();
-    var desiredState = m_trajectory.sample(curTime);
+      double curTime = m_timer.get(); // Get current time
+      var desiredState = m_trajectory.sample(curTime); // Sample the trajectory at the current time
 
-    var targetChassisSpeeds = m_controller.calculate(m_pose.get(), desiredState, m_desiredRotation.get());
-    var targetModuleStates = m_kinematics.toSwerveModuleStates(targetChassisSpeeds);
+      // Calculate the target chassis speeds and module states using the current robot pose, the desired trajectory state, and the desired rotation angle
+      var targetChassisSpeeds = m_controller.calculate(m_pose.get(), desiredState, m_desiredRotation.get());
+      var targetModuleStates = m_kinematics.toSwerveModuleStates(targetChassisSpeeds);
 
-    m_outputModuleStates.accept(targetModuleStates);
+      m_outputModuleStates.accept(targetModuleStates); // Pass the target module states to the output consumer
   }
 
   @Override
   public void end(boolean interrupted) {
-    m_timer.stop();
+      m_timer.stop(); // Stop timer
   }
 
   @Override
   public boolean isFinished() {
-    return m_timer.hasElapsed(m_trajectory.getTotalTimeSeconds());
+      return m_timer.hasElapsed(m_trajectory.getTotalTimeSeconds()); // Check if the trajectory has been completed
   }
+
 }
+
+

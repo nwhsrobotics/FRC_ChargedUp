@@ -20,20 +20,22 @@ public class AutoEngageCmd extends CommandBase {
 
   @Override
   public void execute() {
+    //this following code autoEngages on the charging station in autonomous
     double pitch = m_swerve.getPitchDeg();
 
-    if (pitch > CRITICAL_ANGLE) {
-      m_swerve.setSpeed(ENGAGE_SPEED_MPS);
+    if (pitch > CRITICAL_ANGLE) { // If the pitch is greater than the tilt angle
+      m_swerve.setSpeed(ENGAGE_SPEED_MPS); // Set the speed to the engage speed
     }
-
-    else if (pitch < -CRITICAL_ANGLE) {
-      m_swerve.setSpeed(-ENGAGE_SPEED_MPS);
+    
+    else if (pitch < -CRITICAL_ANGLE) { // If the pitch is less than the negative of the tilt angle
+      m_swerve.setSpeed(-ENGAGE_SPEED_MPS); // Set the speed to the negative of the engage speed
     }
-
+    
     else {
-      m_swerve.setSpeed(0.0);
+      m_swerve.setSpeed(0.0); // Set the speed to 0
       // m_swerve.brake();
     }
+    
   }
 
   @Override
@@ -42,6 +44,6 @@ public class AutoEngageCmd extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return false;  //command never finishes on its own
   }
 }
