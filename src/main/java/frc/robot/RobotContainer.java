@@ -85,6 +85,8 @@ public class RobotContainer {
      * m_extendArmSubsystem, m_grabberSubsystem,
      * "paths/RedChargeStation.wpilib.json", "paths/Red3B.wpilib.json");
      */
+
+     //presets for arm
     Command redcharge = new SequentialCommandGroup(
             new AutoBaseCmd(swerveSubsystem, m_shoulderSubsystem, m_extendArmSubsystem, m_grabberSubsystem,
                     "paths/RedChargeStation.wpilib.json", "paths/Blue2B.wpilib.json"),

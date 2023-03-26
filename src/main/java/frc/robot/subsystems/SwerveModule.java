@@ -35,7 +35,6 @@ public class SwerveModule {
      * @param absoluteEncoderOffset The offset of the absolute encoder in radians.
      * @param absoluteEncoderReversed A boolean indicating whether the absolute encoder is reversed.
      */
-    // Constructor for the SwerveModule class that initializes the module with the given parameters
     public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
 
