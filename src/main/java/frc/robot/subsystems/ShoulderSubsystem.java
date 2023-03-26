@@ -38,9 +38,9 @@ public class ShoulderSubsystem extends SubsystemBase {
     public double m_desiredPos_deg;
     private boolean m_positionKnown = false;
 
-    /** Creates a new ShoulderSubsystem. */
     public ShoulderSubsystem(XboxController m_controller) {
-
+        // intialize the all motors with PID etc.
+        // intialize the dutyCycleEncoder (absolute encoder)
         m_shoulderMotor1 = new CANSparkMax(ShoulderConstants.LeftShoulderCanID, CANSparkMax.MotorType.kBrushless);
         m_shoulderMotor2 = new CANSparkMax(ShoulderConstants.RightShoulderCanID, CANSparkMax.MotorType.kBrushless);
 
@@ -83,13 +83,17 @@ public class ShoulderSubsystem extends SubsystemBase {
             m_pidController2.setReference(degreesToMotorRotation(-m_currentPos_deg), ControlType.kPosition);
             System.out.println("ShoulderMotor2 initialized");
         }
+        // if motors are intialized then its enabled
         m_enabled = ((m_shoulderMotor1 != null) && (m_shoulderMotor2 != null));
     }
 
     public void changePos_deg(double p_degree) {
-        // converts degree into rotations and add or subtract
-        // specific degree from current degree of shoulder
+        // This method changes the desired position of the shoulder joint by a given
+        // number of degrees
         m_desiredPos_deg += p_degree;
+
+        // It is intended to limit the range of the shoulder joint's motion
+        // Would set the desired position to the minimum or maximum allowed values
         /*
          * if (m_desiredPos_deg < MIN_DEG) {
          * m_desiredPos_deg = MIN_DEG;
@@ -102,22 +106,29 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
 
     public void setPos_deg(double p_degree) {
-        // converts degree into rotations and set desired Pos to a specific degree
+        // This method sets the desired position of the shoulder joint to a specific value in degrees
         m_desiredPos_deg = p_degree;
     }
 
     public boolean positionKnown() {
+        // This method returns a boolean value indicating whether the current position of the shoulder joint is known
         return m_positionKnown;
     }
 
     @Override
     public void periodic() {
         counter++;
+
+        // Log the current absolute position of the shoulder motor
         logger.recordOutput("shoulder.absoluteEncoder", m_shoulderAbsoluteEncoder.getAbsolutePosition());
+
+        // Update the desired position of the shoulder if it is counter is 150 (3 seconds)
         if (counter == 150) {
+            // Get the raw absolute position of the shoulder motor and adjust it by the offset
             double absRaw = m_shoulderAbsoluteEncoder.getAbsolutePosition();
             double adjustAbs = absRaw - ShoulderConstants.absOffset;
 
+            // Normalize the adjusted absolute position between -0.5 and 0.5
             if (adjustAbs > 0.5) {
                 adjustAbs -= 1.0;
             }
@@ -125,43 +136,48 @@ public class ShoulderSubsystem extends SubsystemBase {
                 adjustAbs += 1.0;
             }
 
+            // Convert the normalized absolute position to degrees
             adjustAbs *= 360.0;
 
+            // Log the adjusted absolute position and update the current and desired positions in degrees
             logger.recordOutput("shoulder.adjustedAbs", -adjustAbs);
             m_currentPos_deg = -adjustAbs;
             m_desiredPos_deg = -adjustAbs;
+
+            // Set the relative encoder positions of the shoulder motors
             m_shoulderRelativeEncoder1.setPosition(degreesToMotorRotation(m_currentPos_deg));
             m_shoulderRelativeEncoder2.setPosition(degreesToMotorRotation(-m_currentPos_deg));
 
+            // Set the PID controller references to the current position
             m_pidController1.setReference(degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
             m_pidController2.setReference(-degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
 
+            // Print debugging information
             System.out.printf("===========================Abs raw: %f, adjusted abs: %f\n", absRaw, adjustAbs);
             System.out.printf("===========================Desired pos: %f, Current pos: %f\n\n", m_desiredPos_deg,
                     m_currentPos_deg);
+
+            // Indicate that the position is known
             m_positionKnown = true;
         }
+
+        // Move the shoulder motor towards the desired position if enabled and homed after 3 seconds
         if (m_enabled == true && /* m_extendArmSubsystem.m_homed && */ counter > 150) {
 
-            // automatically retracts the arm (mechanical limit to not damage the bumper or
-            // base) **NOTE** NOT EXACT NUMBERS
+            // Calculate the distance between the current and desired positions in degrees
+            double distance_deg = (m_desiredPos_deg - m_currentPos_deg);
 
-            // Calculates the distance between the current and desired positions in degrees
-            double distance_deg = (m_desiredPos_deg - m_currentPos_deg); // this is useless, just for reading distance in degrees instead of rotations
-
-            // Calculates the distance between the current and desired positions in rotations
-
-            // Limits the maximum change in rotation per tick
-            if (distance_deg > MAX_SPEED_DEG_PER_TICK) { // **NOTE: 1 rotation per tick is equivalent to 1.8 degrees per tick** 1 rot = 1.8 deg
+            // Limit the maximum change in degrees per tick
+            if (distance_deg > MAX_SPEED_DEG_PER_TICK) {
                 distance_deg = MAX_SPEED_DEG_PER_TICK;
             } else if (distance_deg < -MAX_SPEED_DEG_PER_TICK) {
                 distance_deg = -MAX_SPEED_DEG_PER_TICK;
             }
 
+            // Calculate the maximum allowed arm extension and the current arm position
             double max_arm_allowed = computeMaxArmExtension(m_currentPos_deg);
             double arm_position = m_extendArmSubsystem.getCurrentPos_inch();
 
-            // System.out.printf("arm position = %f, max allowed = %f\n", arm_position, max_arm_allowed);
             /*
              * if(arm_position <= max_arm_allowed) {
              * m_currentPos_deg += distance_deg ;
@@ -172,7 +188,9 @@ public class ShoulderSubsystem extends SubsystemBase {
              * }
              */
 
+            // Update the current position in degrees
             m_currentPos_deg += distance_deg;
+
             /*
              * 
              * if(m_currentPos_deg > MAX_DEG) {
@@ -185,9 +203,11 @@ public class ShoulderSubsystem extends SubsystemBase {
              * }
              */
 
+            // Set the PID controller references to the updated current position
             m_pidController1.setReference(degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
             m_pidController2.setReference(-degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
 
+            // Log various output values
             logger.recordOutput("shoulder.left.current", m_shoulderMotor1.getOutputCurrent());
             logger.recordOutput("shoulder.current_pos_degrees", m_currentPos_deg);
             logger.recordOutput("shoulder.desired_pos_degrees", m_desiredPos_deg);
@@ -204,10 +224,18 @@ public class ShoulderSubsystem extends SubsystemBase {
         return m_desiredPos_deg;
     }
 
+    // return current postion of shoulder in degrees
     public double getCurrentDegrees() {
         return m_currentPos_deg;
     }
 
+    /**
+     * Computes the maximum extension of the arm in inches based on the given angle
+     * in degrees.
+     * 
+     * @param degrees the angle in degrees
+     * @return the maximum allowed extension of the arm in inches
+     */
     public double computeMaxArmExtension(double degrees) {
         if (degrees > 0) {
             return 100.0;
@@ -223,6 +251,7 @@ public class ShoulderSubsystem extends SubsystemBase {
         return max_ext;
     }
 
+    // Returns the maximum extension of the arm in inches.
     public double getMaxArmExtension() {
         double length_1 = computeMaxArmExtension(m_currentPos_deg);
         double length_2 = computeMaxArmExtension(m_desiredPos_deg);
@@ -230,19 +259,27 @@ public class ShoulderSubsystem extends SubsystemBase {
         // return Math.min(length_1, length_2);
     }
 
+    // return true if the arm is moving, false otherwise
     public boolean isMoving() {
         return m_currentPos_deg != m_desiredPos_deg;
     }
 
+    // Sets the ExtendArmSubsystem
     public void setExtendArmSubsystem(ExtendArmSubsystem extendArmSubsystem) {
         m_extendArmSubsystem = extendArmSubsystem;
-
     }
 
+    /**
+     * Converts degrees to motor rotation.
+     * 
+     * @param degrees the angle in degrees
+     * @return the motor rotation value
+     */
     public double degreesToMotorRotation(double degrees) {
         return ((degrees / 360.0) * m_gearRatio);
     }
 
+    // Returns the minimum pitch angle for wrist in degrees
     public double getMinPitch_deg() {
         /*
          * if(m_currentPos_deg <= -88.0)
