@@ -28,6 +28,7 @@ public class RobotContainer {
     //intialization of different subsystems and commands
     public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
+    //object for presenting selection of options in shuffleboard/ smartdashboard
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
     public final Joystick m_driver = new Joystick(1);
@@ -150,6 +151,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
+        //returns what autonomous path is chosen in shuffleboard currently
         return m_autoChooser.getSelected();
     }
 }
