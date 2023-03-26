@@ -282,6 +282,8 @@ public class WristSubsystem extends SubsystemBase {
         maxCurrentMotorB = m_wristmotorB.getOutputCurrent();
 
       // Record various sensor readings to a logger
+    // logger.recordOutput("wrist.a.power", m_wristmotorA.get());
+    // logger.recordOutput("wrist.b.power", m_wristmotorB.get());      
       logger.recordOutput("wrist.pitch", pitch_deg);
       logger.recordOutput("wrist.floor_pitch", m_floor_pitch_deg);
       logger.recordOutput("wrist.roll", m_roll_deg);
