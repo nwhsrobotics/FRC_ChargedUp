@@ -16,7 +16,7 @@ public class ShoulderCmd extends CommandBase {
 
   @Override
   public void initialize() {
-    m_shoulder.setPos_deg(setPoint);
+    m_shoulder.setPos_deg(setPoint); // Set the specific position of the ShoulderSubsystem to the setPoint value using the setPos_deg method
   }
 
   @Override
@@ -29,6 +29,6 @@ public class ShoulderCmd extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return !m_shoulder.isMoving();
+    return !m_shoulder.isMoving(); // Return true if the ShoulderSubsystem is not moving
   }
 }

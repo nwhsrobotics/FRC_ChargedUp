@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
+
+//we never used this
 public class SwerveAuto extends SequentialCommandGroup {
     public SwerveAuto(SwerveSubsystem s_Swerve, ShoulderSubsystem m_shoulder, ExtendArmSubsystem m_arm, GrabberSubsystem m_grabber) {
         var trajectoryOne = TrajectoryGenerator.generateTrajectory(
