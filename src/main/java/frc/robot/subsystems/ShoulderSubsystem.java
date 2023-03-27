@@ -128,7 +128,7 @@ public class ShoulderSubsystem extends SubsystemBase {
             double absRaw = m_shoulderAbsoluteEncoder.getAbsolutePosition();
             double adjustAbs = absRaw - ShoulderConstants.absOffset;
 
-            // Normalize the adjusted absolute position between -0.5 and 0.5
+            // Normalize the adjusted absolute position between -0.5 and 0.5 instead of between 0 and 1
             if (adjustAbs > 0.5) {
                 adjustAbs -= 1.0;
             }
@@ -154,8 +154,7 @@ public class ShoulderSubsystem extends SubsystemBase {
 
             // Print debugging information
             System.out.printf("===========================Abs raw: %f, adjusted abs: %f\n", absRaw, adjustAbs);
-            System.out.printf("===========================Desired pos: %f, Current pos: %f\n\n", m_desiredPos_deg,
-                    m_currentPos_deg);
+            System.out.printf("===========================Desired pos: %f, Current pos: %f\n\n", m_desiredPos_deg, m_currentPos_deg);
 
             // Indicate that the position is known
             m_positionKnown = true;
@@ -232,7 +231,6 @@ public class ShoulderSubsystem extends SubsystemBase {
     /**
      * Computes the maximum extension of the arm in inches based on the given angle
      * in degrees.
-     * 
      * @param degrees the angle in degrees
      * @return the maximum allowed extension of the arm in inches
      */
@@ -271,7 +269,6 @@ public class ShoulderSubsystem extends SubsystemBase {
 
     /**
      * Converts degrees to motor rotation.
-     * 
      * @param degrees the angle in degrees
      * @return the motor rotation value
      */
