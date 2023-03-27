@@ -158,7 +158,7 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   public void init_angles() {
-    // Ensure that the absolute encoders are stable after 3 seconds
+    // Absolute encoders are stable after 3 seconds
     // Perform homing
     double absPosA = adjustAbsEncoder(m_wristAbsoluteEncoderA.getAbsolutePosition(), WristConstants.absAOffset, false);
     double absPosB = adjustAbsEncoder(m_wristAbsoluteEncoderB.getAbsolutePosition(), WristConstants.absBOffset, true);
@@ -262,28 +262,23 @@ public class WristSubsystem extends SubsystemBase {
 
       // TODO double adjustedPitch_deg = m_pitch_deg - m_shoulder.getCurrentDegrees();
 
-      // Calculate the position of the two wrist motors based on the pitch and roll
-      // angles
+      // Calculate the position of the two wrist motors based on the pitch and roll angles
       m_positionA_deg = (pitch_deg + m_roll_deg);
       m_positionB_deg = (pitch_deg - m_roll_deg);
 
-      // Sets the position reference for both motors PID controller based on its
-      // position in degrees
-      m_pidControllerA.setReference(m_positionA_deg * -WristConstants.REVS_PER_OUTPUT_DEGREE_LEFT,
-          ControlType.kPosition);
-      m_pidControllerB.setReference(m_positionB_deg * WristConstants.REVS_PER_OUTPUT_DEGREE_RIGHT,
-          ControlType.kPosition);
+      // Sets the position reference for both motors PID controller based on its position in degrees
+      m_pidControllerA.setReference(m_positionA_deg * -WristConstants.REVS_PER_OUTPUT_DEGREE_LEFT, ControlType.kPosition);
+      m_pidControllerB.setReference(m_positionB_deg * WristConstants.REVS_PER_OUTPUT_DEGREE_RIGHT, ControlType.kPosition);
 
-      // Check the output current of the two motors and update the maximum current
-      // values
+      // Check the output current of the two motors and update the maximum current values
       if (m_wristmotorA.getOutputCurrent() > maxCurrentMotorA)
         maxCurrentMotorA = m_wristmotorA.getOutputCurrent();
       if (m_wristmotorB.getOutputCurrent() > maxCurrentMotorB)
         maxCurrentMotorB = m_wristmotorB.getOutputCurrent();
 
       // Record various sensor readings to a logger
-    // logger.recordOutput("wrist.a.power", m_wristmotorA.get());
-    // logger.recordOutput("wrist.b.power", m_wristmotorB.get());      
+      // logger.recordOutput("wrist.a.power", m_wristmotorA.get());
+      // logger.recordOutput("wrist.b.power", m_wristmotorB.get());      
       logger.recordOutput("wrist.pitch", pitch_deg);
       logger.recordOutput("wrist.floor_pitch", m_floor_pitch_deg);
       logger.recordOutput("wrist.roll", m_roll_deg);
