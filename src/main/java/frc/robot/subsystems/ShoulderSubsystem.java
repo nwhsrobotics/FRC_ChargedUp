@@ -278,16 +278,19 @@ public class ShoulderSubsystem extends SubsystemBase {
 
     // Returns the minimum pitch angle for wrist in degrees
     public double getMinPitch_deg() {
-        /*
-         * if(m_currentPos_deg <= -88.0)
-         * {
-         * return 0.0;
-         * }
-         * if(m_currentPos_deg > -88.0 && m_currentPos_deg < ARM_IN_LIMIT_DEG)
-         * {
-         * return 25.0; //pitch up inside robot
-         * }
-         */
-        return -90.0; // not in front of robot any pitch is fine
+        
+        if(m_currentPos_deg <= -83.0)
+        {
+            return 0.0;
+        }
+        if(m_currentPos_deg > -83.0 && m_currentPos_deg < -56)
+        {
+            return 25.0; //pitch up inside robot
+        }
+        else 
+        {
+            return -90.0;
+        }
+         // not in front of robot any pitch is fine
     }
 }
