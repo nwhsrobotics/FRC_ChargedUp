@@ -98,15 +98,15 @@ public class RobotContainer {
             new ExtendArmCmd(m_extendArmSubsystem, 0));
 
     ParallelCommandGroup groundCmd = new ParallelCommandGroup(
-            new ShoulderCmd(m_shoulderSubsystem, -25),
+            new ShoulderCmd(m_shoulderSubsystem, -50),
             new ExtendArmCmd(m_extendArmSubsystem, 5));
 
     ParallelCommandGroup middleCmd = new ParallelCommandGroup(
-            new ShoulderCmd(m_shoulderSubsystem, -10),
+            new ShoulderCmd(m_shoulderSubsystem, -23),
             new ExtendArmCmd(m_extendArmSubsystem, 10));
 
     ParallelCommandGroup topCmd = new ParallelCommandGroup(
-            new ShoulderCmd(m_shoulderSubsystem, 14),
+            new ShoulderCmd(m_shoulderSubsystem, 5),
             new ExtendArmCmd(m_extendArmSubsystem, 15));
 
     ParallelCommandGroup shelfCmd = new ParallelCommandGroup(
