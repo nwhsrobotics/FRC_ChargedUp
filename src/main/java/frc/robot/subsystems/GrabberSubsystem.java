@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,11 +14,15 @@ public class GrabberSubsystem extends SubsystemBase {
   // Initialize DoubleSolenoid and Logger objects
   private DoubleSolenoid m_grabber;
   private Logger logger = Logger.getInstance();
+  private Compressor m_compressor;
 
   public GrabberSubsystem() {
     // Initialize DoubleSolenoid object for pneumatics control
     m_grabber = new DoubleSolenoid(7, PneumaticsModuleType.CTREPCM, GrabberConstants.forwardChannel,
         GrabberConstants.reverseChannel);
+    //for completely disabling the compressor for testing purposes so it doesnt make noises
+    m_compressor = new Compressor(7, PneumaticsModuleType.CTREPCM); 
+    m_compressor.disable();
   }
 
   public void grabberTurnOff() {
