@@ -21,8 +21,8 @@ public class GrabberSubsystem extends SubsystemBase {
     m_grabber = new DoubleSolenoid(7, PneumaticsModuleType.CTREPCM, GrabberConstants.forwardChannel,
         GrabberConstants.reverseChannel);
     //for completely disabling the compressor for testing purposes so it doesnt make noises
-    m_compressor = new Compressor(7, PneumaticsModuleType.CTREPCM); 
-    m_compressor.disable();
+    //m_compressor = new Compressor(7, PneumaticsModuleType.CTREPCM); 
+    //m_compressor.disable();
   }
 
   public void grabberTurnOff() {
