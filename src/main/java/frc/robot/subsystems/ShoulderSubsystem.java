@@ -281,11 +281,11 @@ public class ShoulderSubsystem extends SubsystemBase {
         
         if(m_currentPos_deg <= -83.0)
         {
-            return 0.0;
+            return 90.0;
         }
         if(m_currentPos_deg > -83.0 && m_currentPos_deg < -56)
         {
-            return 25.0; //pitch up inside robot
+            return 83.0; //pitch up inside robot
         }
         else 
         {
