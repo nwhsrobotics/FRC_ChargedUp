@@ -235,26 +235,28 @@ public class ShoulderSubsystem extends SubsystemBase {
      * @return the maximum allowed extension of the arm in inches
      */
     public double computeMaxArmExtension(double degrees) {
-        if (degrees > 0) {
-            return 100.0;
-        }
-
-        if (degrees < ARM_IN_LIMIT_DEG) {
+        if (degrees > -10) {
+            return 20.0;
+        } else if (degrees <= ARM_IN_LIMIT_DEG) {
             return 0.0; // arm needs to be retracted
+        } else if (degrees > ARM_IN_LIMIT_DEG && degrees <= -10) {
+            double shoulder_rad = Math.toRadians(degrees);
+            double offset_y = Math.cos(shoulder_rad) * OFFSET_LENGTH_IN;
+            double y = SHOULDER_HEIGHT_IN - offset_y;
+            double max_ext = y / Math.sin(Math.abs(shoulder_rad)) - ARM_BASE_LENGTH_IN;
+            return max_ext;
+        } else {
+            return 0.0; // default return statement
         }
-        double shoulder_rad = Math.toRadians(degrees);
-        double offset_y = Math.cos(shoulder_rad) * OFFSET_LENGTH_IN;
-        double y = SHOULDER_HEIGHT_IN - offset_y;
-        double max_ext = y / Math.sin(Math.abs(shoulder_rad)) - ARM_BASE_LENGTH_IN;
-        return max_ext;
     }
+    
 
     // Returns the maximum extension of the arm in inches.
     public double getMaxArmExtension() {
         double length_1 = computeMaxArmExtension(m_currentPos_deg);
         double length_2 = computeMaxArmExtension(m_desiredPos_deg);
-        return 20.0;
-        // return Math.min(length_1, length_2);
+        //return 20.0;
+        return Math.min(length_1, length_2);
     }
 
     // return true if the arm is moving, false otherwise
@@ -282,7 +284,7 @@ public class ShoulderSubsystem extends SubsystemBase {
         {
             return 0.0;
         }
-        if(m_currentPos_deg > -83.0 && m_currentPos_deg < -56)
+        if(m_currentPos_deg > -83.0 && m_currentPos_deg < ARM_IN_LIMIT_DEG+4)
         {
             return 25.0; //pitch up inside robot
         }
