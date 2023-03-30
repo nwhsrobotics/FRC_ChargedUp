@@ -224,16 +224,11 @@ public class ShoulderSubsystem extends SubsystemBase {
             double y = SHOULDER_HEIGHT_IN - offset_y;
             double max_ext = y / Math.sin(Math.abs(shoulder_rad)) - ARM_BASE_LENGTH_IN;
             
-            /*if(m_wristSubsystem.getPitch() >= Math.abs(degrees) )
-            {
+            /* if(m_wristSubsystem.getPitch() >= Math.abs(degrees) ){
                 grabberLength = 2.0;
-            }
-            else if(m_wristSubsystem.getPitch() < 0)
-            {
+            } else if(m_wristSubsystem.getPitch() < 0) {
                 grabberLength = defaultGrabberLength + 3; //max grabber length when perpendicular to the ground
-            }
-            else
-            {
+            } else {
                 grabberLength = defaultGrabberLength; 
             } 
 
