@@ -36,6 +36,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     public double m_currentPos_deg; // 0 = arm horizontal, positive = arm up
     public double m_desiredPos_deg;
     private boolean m_positionKnown = false;
+    private double GrabberPlusDefaultLength = 25.0;
 
     public ShoulderSubsystem(XboxController m_controller) {
         // intialize the all motors with PID etc.
@@ -219,7 +220,13 @@ public class ShoulderSubsystem extends SubsystemBase {
             double offset_y = Math.cos(shoulder_rad) * OFFSET_LENGTH_IN;
             double y = SHOULDER_HEIGHT_IN - offset_y;
             double max_ext = y / Math.sin(Math.abs(shoulder_rad)) - ARM_BASE_LENGTH_IN;
+
+            //double length = SHOULDER_HEIGHT_IN / Math.cos(Math.abs(degrees));
+            //double actual_length = length - GrabberPlusDefaultLength;
+            //return actual_length;
+
             return max_ext;
+
         } else {
             return 0.0; // default return statement
         }
