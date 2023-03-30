@@ -89,19 +89,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     public void changePos_deg(double p_degree) {
         // This method changes the desired position of the shoulder joint by a given
         // number of degrees
-        m_desiredPos_deg += p_degree;
-
-        // It is intended to limit the range of the shoulder joint's motion
-        // Would set the desired position to the minimum or maximum allowed values
-        /*
-         * if (m_desiredPos_deg < MIN_DEG) {
-         * m_desiredPos_deg = MIN_DEG;
-         * }
-         * 
-         * if (m_desiredPos_deg > MAX_DEG) {
-         * m_desiredPos_deg = MAX_DEG;
-         * }
-         */
+        m_desiredPos_deg += p_degree;         
     }
 
     public void setPos_deg(double p_degree) {
@@ -176,30 +164,18 @@ public class ShoulderSubsystem extends SubsystemBase {
             double max_arm_allowed = computeMaxArmExtension(m_currentPos_deg);
             double arm_position = m_extendArmSubsystem.getCurrentPos_inch();
 
-            /*
-             * if(arm_position <= max_arm_allowed) {
-             * m_currentPos_deg += distance_deg ;
-             * // System.out.println("ARM MOVED");
-             * }
-             * else{
-             * // System.out.println("ARM MOVEMENT DISALLOWED");
-             * }
-             */
+            if(arm_position <= max_arm_allowed) {
+                m_currentPos_deg += distance_deg ;
+                System.out.println("ARM MOVED");
+            } else{
+                System.out.println("ARM MOVEMENT DISALLOWED");
+            }
 
-            // Update the current position in degrees
-            m_currentPos_deg += distance_deg;
-
-            /*
-             * 
-             * if(m_currentPos_deg > MAX_DEG) {
-             * m_currentPos_deg = MAX_DEG;
-             * 
-             * }
-             * 
-             * if(m_currentPos_deg < MIN_DEG) {
-             * m_currentPos_deg = MIN_DEG;
-             * }
-             */
+            if(m_currentPos_deg > MAX_DEG) {
+             m_currentPos_deg = MAX_DEG;
+            } else if(m_currentPos_deg < MIN_DEG) {
+             m_currentPos_deg = MIN_DEG;
+            }
 
             // Set the PID controller references to the updated current position
             m_pidController1.setReference(degreesToMotorRotation(m_currentPos_deg), ControlType.kPosition);
