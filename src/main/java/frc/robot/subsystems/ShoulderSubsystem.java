@@ -33,10 +33,13 @@ public class ShoulderSubsystem extends SubsystemBase {
     private final double MIN_DEG = -90.0;
     private Logger logger = Logger.getInstance();
     private ExtendArmSubsystem m_extendArmSubsystem;
+    private WristSubsystem m_wristSubsystem;
     public double m_currentPos_deg; // 0 = arm horizontal, positive = arm up
     public double m_desiredPos_deg;
     private boolean m_positionKnown = false;
-    private double GrabberPlusDefaultLength = 25.0;
+    private double DefaultLength = 20.0;
+    private double grabberLength;
+    private double defaultGrabberLength = 18.0; //note accurate
 
     public ShoulderSubsystem(XboxController m_controller) {
         // intialize the all motors with PID etc.
@@ -220,10 +223,23 @@ public class ShoulderSubsystem extends SubsystemBase {
             double offset_y = Math.cos(shoulder_rad) * OFFSET_LENGTH_IN;
             double y = SHOULDER_HEIGHT_IN - offset_y;
             double max_ext = y / Math.sin(Math.abs(shoulder_rad)) - ARM_BASE_LENGTH_IN;
+            
+            /*if(m_wristSubsystem.getPitch() >= Math.abs(degrees) )
+            {
+                grabberLength = 2.0;
+            }
+            else if(m_wristSubsystem.getPitch() < 0)
+            {
+                grabberLength = defaultGrabberLength + 3; //max grabber length when perpendicular to the ground
+            }
+            else
+            {
+                grabberLength = defaultGrabberLength; 
+            } 
 
-            //double length = SHOULDER_HEIGHT_IN / Math.cos(Math.abs(degrees));
-            //double actual_length = length - GrabberPlusDefaultLength;
-            //return actual_length;
+            double length = SHOULDER_HEIGHT_IN / Math.cos(Math.abs(degrees));
+            double actual_length = length - DefaultLength - grabberLength;
+            return actual_length; */
 
             return max_ext;
 
@@ -249,6 +265,10 @@ public class ShoulderSubsystem extends SubsystemBase {
     // Sets the ExtendArmSubsystem
     public void setExtendArmSubsystem(ExtendArmSubsystem extendArmSubsystem) {
         m_extendArmSubsystem = extendArmSubsystem;
+    }
+
+    public void setWristSubsystem(WristSubsystem wristSubsystem) {
+        m_wristSubsystem = wristSubsystem;
     }
 
     /**

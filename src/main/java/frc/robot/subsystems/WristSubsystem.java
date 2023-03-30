@@ -51,6 +51,8 @@ public class WristSubsystem extends SubsystemBase {
 
   private double m_initial_pitch_deg;
 
+  private double m_getPitch;
+
   public WristSubsystem(ShoulderSubsystem m_shoulder) {
     this.m_shoulder = m_shoulder;
 
@@ -254,6 +256,7 @@ public class WristSubsystem extends SubsystemBase {
       pitch_deg = limitPitch(pitch_deg);
       m_roll_deg = limitRoll(m_roll_deg);
 
+      m_getPitch = pitch_deg;
       /*
        * System.out.printf("    target floor pitch: %f\n", targetFloorPitch);
        * System.out.printf("    desired floor pitch: %f\n", m_desiredFloorPitch);
@@ -298,5 +301,10 @@ public class WristSubsystem extends SubsystemBase {
   // Check if the wrist is currently moving
   public boolean isMoving() {
     return (m_floor_pitch_deg != m_desiredFloorPitch) || (m_roll_deg != m_desiredRoll_deg);
+  }
+
+  public double getPitch()
+  {
+    return m_getPitch;
   }
 }
