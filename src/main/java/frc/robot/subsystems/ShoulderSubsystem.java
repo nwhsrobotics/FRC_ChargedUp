@@ -25,7 +25,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     private static final double OFFSET_LENGTH_IN = 7.0;
     private static final double SECONDS_PER_TICK = 0.02;
 
-    private static final double MAX_SPEED_DEG_PER_TICK = 45.0 * SECONDS_PER_TICK; // Move 90 degrees in 2 seconds
+    private static final double MAX_SPEED_DEG_PER_TICK = 10.0 * SECONDS_PER_TICK; // Move 90 degrees in 2 seconds
     private static final double INITIAL_POS_DEG = -78.0;
     private static final double ARM_IN_LIMIT_DEG = -60.0; // less than this, arm forced in, wrist pitched up.
     private double m_gearRatio = 200;
