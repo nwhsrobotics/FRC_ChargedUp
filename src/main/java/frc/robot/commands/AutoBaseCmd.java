@@ -1,9 +1,6 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.ExtendArmSubsystem;
-import frc.robot.subsystems.GrabberSubsystem;
-import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -38,7 +35,6 @@ import frc.robot.patched.SwerveControllerCommand;
 public class AutoBaseCmd extends SequentialCommandGroup {
         private Trajectory trajA = new Trajectory(); // Trajectory A object
         private Trajectory trajB = new Trajectory(); // Trajectory B object
-        private ExtendArmSubsystem m_arm; // Arm subsystem
 
         /**
          * @param s_Swerve     an instance of the swerve subsystem
@@ -48,9 +44,8 @@ public class AutoBaseCmd extends SequentialCommandGroup {
          * @param trajAPath    path to Trajectory A file
          * @param trajBPath    path to Trajectory B file
          */
-        public AutoBaseCmd(SwerveSubsystem s_Swerve, ShoulderSubsystem m_shoulder, ExtendArmSubsystem armSubsystem,
-                        GrabberSubsystem m_grabber, String trajAPath, String trajBPath) {
-                m_arm = armSubsystem;
+        public AutoBaseCmd(SwerveSubsystem s_Swerve, String trajAPath, String trajBPath) {
+   
 
                 // Get paths to trajectory files
                 Path trajectoryPathA = Filesystem.getDeployDirectory().toPath().resolve(trajAPath);
@@ -95,9 +90,6 @@ public class AutoBaseCmd extends SequentialCommandGroup {
 
                 // Add commands to be run
                 addCommands(
-                                // Start homing the arm
-                                new InstantCommand(() -> m_arm.startHoming()),
-
                                 // Reset the swerve heading and pose
                                 new InstantCommand(() -> s_Swerve.resetHeadingAndPose()),
 
