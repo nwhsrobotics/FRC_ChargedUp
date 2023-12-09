@@ -164,6 +164,10 @@ public class SwerveSubsystem extends SubsystemBase {
     public void periodic() {
         // Log whether the robot is field-relative or not
         SmartDashboard.putBoolean("FIELD RELATIVE?", isFR);
+        SmartDashboard.putNumber("FL abs", frontLeft.getAbsoluteEncoderRadRaw());
+        SmartDashboard.putNumber("FR ABS", frontRight.getAbsoluteEncoderRadRaw());
+        SmartDashboard.putNumber("BL ABS", backLeft.getAbsoluteEncoderRadRaw());
+        SmartDashboard.putNumber("BR ABS", backRight.getAbsoluteEncoderRadRaw());
 
         // Update the robot's odometer
         odometer.update(Rotation2d.fromDegrees(getHeading()), getModulePositions());
