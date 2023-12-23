@@ -22,19 +22,7 @@ public class RobotContainer {
     //object for presenting selection of options in shuffleboard/ smartdashboard
     SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
-    public final Joystick m_driver = new Joystick(0);
-
-    //controller buttons intialized
-    public final XboxController m_operator = new XboxController(1);
-    public final JoystickButton m_joyA = new JoystickButton(m_operator, 1); // button A
-    public final JoystickButton m_joyB = new JoystickButton(m_operator, 2); // button B
-    public final JoystickButton m_joyX = new JoystickButton(m_operator, 3); // button X
-    public final JoystickButton m_joyY = new JoystickButton(m_operator, 4); // button Y
-    public final JoystickButton m_joyLB = new JoystickButton(m_operator, 5); // Left bumper
-    public final JoystickButton m_joyRB = new JoystickButton(m_operator, 6); // Right bumper
-    public final JoystickButton m_joyBK = new JoystickButton(m_operator, 7); // Back Button
-    public final JoystickButton m_joyST = new JoystickButton(m_operator, 8); // Start Button
-
+    public final Joystick m_driver = new Joystick(2);
 
     public final SwerveAuto autoCmd = new SwerveAuto(swerveSubsystem);
 
@@ -95,8 +83,8 @@ public class RobotContainer {
         new JoystickButton(m_driver, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
         new JoystickButton(m_driver, 2).onTrue(new InstantCommand(() -> swerveSubsystem.switchFR()));
         new JoystickButton(m_driver, 4).onTrue(new InstantCommand(() -> swerveSubsystem.resetHeadingAndPose()));
-        // new JoystickButton(m_driver, 11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
-        // new JoystickButton(m_driver, 5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
+        new JoystickButton(m_driver, 11).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
+        new JoystickButton(m_driver, 5).onTrue(new InstantCommand(() -> swerveSubsystem.brake()));
     }
 
     public Command getAutonomousCommand() {
