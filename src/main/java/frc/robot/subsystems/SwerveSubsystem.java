@@ -203,17 +203,29 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.setDesiredState(desiredStates[3]);
     }
 
+    public boolean isClover(){
+        return frontLeft.getTurningPositionWrapped() > Math.PI/4 - Math.toRadians(1.0) && frontLeft.getTurningPositionWrapped() < Math.PI/4 + Math.toRadians(1.0)
+        && frontLeft.getTurningPositionWrapped() > Math.PI/4 - Math.toRadians(1.0) && frontLeft.getTurningPositionWrapped() < Math.PI/4 + Math.toRadians(1.0)
+        && frontRight.getTurningPositionWrapped() > -Math.PI/4 - Math.toRadians(1.0) && frontRight.getTurningPositionWrapped() < -Math.PI/4 + Math.toRadians(1.0)
+        && backLeft.getTurningPositionWrapped() > -Math.PI/4 - Math.toRadians(1.0) && backLeft.getTurningPositionWrapped() < -Math.PI/4 + Math.toRadians(1.0)
+        && backRight.getTurningPositionWrapped() > Math.PI/4 - Math.toRadians(1.0) && backRight.getTurningPositionWrapped() < Math.PI/4 + Math.toRadians(1.0);
+    }
+
     // Activates the robot's brakes
     public void brake() {
         // Stops all swerve modules
         for (SwerveModule sMod : swerveMods) {
             sMod.stop();
         }
-
+        System.out.println("======================");
+        System.out.println(frontLeft.getTurningPositionWrapped() + " " +  Math.PI/4);
+        System.out.println(frontRight.getTurningPositionWrapped() + " " +  -Math.PI/4);
+        System.out.println(backLeft.getTurningPositionWrapped() + " " +  -Math.PI/4);
+        System.out.println(backRight.getTurningPositionWrapped() + " " +  Math.PI/4);
         // Sets the turning motors to their braking positions
         frontLeft.turningMotor.set(frontLeft.turningPidController.calculate(frontLeft.getTurningPosition(), Math.PI / 4));
         frontRight.turningMotor.set(frontRight.turningPidController.calculate(frontRight.getTurningPosition(), -Math.PI / 4));
         backLeft.turningMotor.set(backLeft.turningPidController.calculate(backLeft.getTurningPosition(), -Math.PI / 4));
-        backRight.turningMotor.set(backRight.turningPidController.calculate(backLeft.getTurningPosition(), Math.PI / 4));
+        backRight.turningMotor.set(backRight.turningPidController.calculate(backRight.getTurningPosition(), Math.PI / 4));
     }
 }
