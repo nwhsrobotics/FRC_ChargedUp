@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+import java.lang.Math; 
 
 public class SwerveModule {
     public final CANSparkMax driveMotor;
@@ -90,6 +91,21 @@ public class SwerveModule {
     // Get the position of the turning encoder in radians
     public double getTurningPosition() {
         return turningEncoder.getPosition();
+    }
+
+    public double getTurningPositionWrapped() {
+        double angle = Math.toDegrees(getTurningPosition()) % 360.0;
+        // reduce the angle  
+        angle =  angle % 360.0; 
+
+        // force it to be the positive remainder, so that 0 <= angle < 360  
+        angle = (angle + 360.0) % 360.0;  
+
+        // force into the minimum absolute value residue class, so that -180 < angle <= 180  
+        if (angle > 180.0)  
+            angle -= 360.0; 
+        
+        return Math.toRadians(angle);
     }
 
     // Get the velocity of the drive encoder in meters per second
